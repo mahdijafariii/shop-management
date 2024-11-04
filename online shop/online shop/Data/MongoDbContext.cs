@@ -9,8 +9,8 @@ public class MongoDbContext
     public MongoDbContext(IConfiguration configuration)
     {
         var client = new MongoClient(configuration.GetConnectionString("MongoDB"));
-        _database = client.GetDatabase("OnlineShop");
-    }i
+        _database = client.GetDatabase("shop");
+    }
 
     // public IMongoCollection<User> Users => _database.GetCollection<User>("Users");
 }
