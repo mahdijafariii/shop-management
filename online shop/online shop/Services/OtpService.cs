@@ -37,4 +37,12 @@ public class OtpService : IOtpService
     
             return new OtpDetails(true, "00:00");
         }
+        
+        public string GenerateOtp(string phone)
+        {
+            return "123456";
+        }
+        
+        
+        
 }
