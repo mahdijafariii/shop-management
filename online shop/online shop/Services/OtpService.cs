@@ -1,3 +1,4 @@
+using System.Text;
 using online_shop.DTO;
 using StackExchange.Redis;
 
@@ -38,11 +39,21 @@ public class OtpService : IOtpService
             return new OtpDetails(true, "00:00");
         }
         
-        public string GenerateOtp(string phone)
+        public async Task<string> GenerateOtp(string phone, int length = 4, int expireTime = 1)
         {
-            return "123456";
+            var random = new Random();
+            var otp = new StringBuilder();
+
+            for (int i = 0; i < length; i++)
+            {
+                otp.Append(random.Next(0, 10)); 
+            }
+
+            string hashedOtp = BCrypt.Net.BCrypt.HashPassword(otp.ToString(), workFactor: 12);
+
+            await _redis.StringSetAsync(GetOtpRedisPattern(phone), hashedOtp, TimeSpan.FromMinutes(expireTime));
+
+            return otp.ToString();        
         }
-        
-        
         
 }
