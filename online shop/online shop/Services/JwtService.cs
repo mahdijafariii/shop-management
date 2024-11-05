@@ -5,7 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace online_shop.Services;
 
-public class JwtService
+public class JwtService : IJwtService
 {
     private readonly IConfiguration _configuration;
 
@@ -14,7 +14,7 @@ public class JwtService
         _configuration = configuration;
     }
 
-    public string GenerateToken(string userId, string phone)
+    public string GenerateToken(string userId, string phone) 
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

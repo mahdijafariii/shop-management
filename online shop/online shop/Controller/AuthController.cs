@@ -5,13 +5,13 @@ using online_shop.Services;
 namespace online_shop.Controller;
 [ApiController]
 [Route("api/[controller]")]
-public class OtpController : ControllerBase
+public class AuthController : ControllerBase
 {
     private readonly IBanService _banService;
     private readonly IOtpService _otpService;
     private readonly ISmsService _smsService;
 
-    public OtpController(IBanService banService, IOtpService otpService, ISmsService smsService)
+    public AuthController(IBanService banService, IOtpService otpService, ISmsService smsService)
     {
         _banService = banService;
         _otpService = otpService;
