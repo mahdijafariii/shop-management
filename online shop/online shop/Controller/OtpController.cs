@@ -23,13 +23,11 @@ public class OtpController : ControllerBase
     {
         var phone = request.Phone;
 
-        // بررسی اینکه آیا شماره تلفن در لیست ممنوعه است
         if (await _banService.IsBannedAsync(phone))
         {
             return StatusCode(403, new { message = "This phone number has been banned" });
         }
 
-        // بررسی جزئیات OTP برای تعیین اعتبار آن
         var otpDetails = await _otpService.GetOtpDetailsAsync(phone);
 
         if (!otpDetails.Expired)
@@ -39,7 +37,7 @@ public class OtpController : ControllerBase
 
         // تولید و ارسال OTP
         var otp = _otpService.GenerateOtp(phone);
-        await _smsService.SendSmsAsync(phone, otp);
+        await _smsService.SendOtpSmsAsync(phone, otp);
 
         return Ok(new { message = "OTP sent successfully :))" });
     }
