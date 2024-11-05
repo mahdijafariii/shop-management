@@ -36,7 +36,7 @@ public class OtpController : ControllerBase
         }
 
         // تولید و ارسال OTP
-        var otp = _otpService.GenerateOtp(phone);
+        var otp = await _otpService.GenerateOtp(phone);
         await _smsService.SendOtpSmsAsync(phone, otp);
 
         return Ok(new { message = "OTP sent successfully :))" });
