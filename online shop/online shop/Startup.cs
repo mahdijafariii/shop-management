@@ -57,10 +57,12 @@ public class Startup
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
+        app.UseMiddleware<JwtAuthenticationMiddleware>();
+ 
         app.UseHttpsRedirection();
         app.UseMiddleware<ExceptionHandlingMiddleware>();
-        app.UseAuthorization();
+        app.UseAuthentication();
+        app.UseAuthorization();       
 
         app.UseRouting(); 
 

@@ -21,7 +21,7 @@ public class JwtService : IJwtService
 
         var claims = new List<Claim>
         {
-            new Claim("id", userId),
+            new Claim("userId", userId),
             new Claim("Phone", phone) 
         };
 

@@ -12,12 +12,14 @@ public class OtpService : IOtpService
     private readonly IDatabase _redis;
     private readonly IUserRepository _userRepository;
     private readonly IJwtService _jwtService;
+    private readonly ICookieService _cookieService;
 
-    public OtpService(IDatabase redis, IUserRepository userRepository, IJwtService jwtService)
+    public OtpService(IDatabase redis, IUserRepository userRepository, IJwtService jwtService, ICookieService cookieService)
     {
         _redis = redis;
         _userRepository = userRepository;
         _jwtService = jwtService;
+        _cookieService = cookieService;
     }
 
     private string GetOtpRedisPattern(string phone)
@@ -82,6 +84,7 @@ public class OtpService : IOtpService
         if (userExist is not null)
         {
             var token = _jwtService.GenerateToken(userExist.Id.ToString(), userExist.Phone);
+            _cookieService.SetCookie("Access-cookie",token);
             return new VerifyUserDto(userExist, token);
         }
         var user = new User
@@ -92,6 +95,7 @@ public class OtpService : IOtpService
         };
         await _userRepository.AddUserAsync(user);
         var newToken = _jwtService.GenerateToken(user.Id.ToString(), user.Phone);
+        _cookieService.SetCookie("Access-cookie",newToken);
         return new VerifyUserDto(user, newToken);
     }
 }
