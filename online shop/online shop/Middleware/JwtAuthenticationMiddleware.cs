@@ -27,11 +27,17 @@ public class JwtAuthenticationMiddleware
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var jwtToken = tokenHandler.ReadJwtToken(token);
                 
+                var userId = jwtToken.Claims.FirstOrDefault(c => c.Type == "userId")?.Value;
                 var phone = jwtToken.Claims.FirstOrDefault(c => c.Type == "phone")?.Value;
                 
-                var user = await userRepository.GetUserByPhoneAsync(phone);
-                context.Items["User"] = user;
-
+                if (userId != null)
+                {
+                    context.Items["UserId"] = userId;
+                }
+                if (phone != null)
+                {
+                    context.Items["Phone"] = phone;
+                }
             }
             catch (System.Exception ex)
             {

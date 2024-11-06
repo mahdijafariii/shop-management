@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using online_shop.DTO;
 using online_shop.Exception;
 using online_shop.Model;
@@ -6,7 +7,7 @@ using StackExchange.Redis;
 
 namespace online_shop.Services;
 
-public class AuthService
+public class AuthService : IAuthService
 {
     private readonly IDatabase _redis;
     private readonly IUserRepository _userRepository;
@@ -57,5 +58,11 @@ public class AuthService
         var newToken = _jwtService.GenerateToken(user.Id.ToString(), user.Phone);
         _cookieService.SetCookie("Access-cookie",newToken);
         return new VerifyUserDto(user, newToken);
+    }
+
+    public GetMeDto GetMe(ClaimsPrincipal claimsPrincipal)
+    {
+        var id = claimsPrincipal.FindFirstValue("userId");
+        return new GetMeDto(user);
     }
 }

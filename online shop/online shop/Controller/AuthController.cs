@@ -50,5 +50,14 @@ public class AuthController : ControllerBase
         return Ok(result);
     }
     
+    [HttpGet("get-me")]
+
+    public async Task<IActionResult> GetMe()
+    {
+        var user = User;
+        var result = _authService.GetMe(user);
+        return Ok(result);
+    }
+    
     
 }
