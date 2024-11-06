@@ -1,4 +1,5 @@
 using online_shop.Data;
+using online_shop.Middleware;
 using online_shop.Repositories;
 using online_shop.Services;
 using StackExchange.Redis;
@@ -35,6 +36,7 @@ public class Startup
         
         
         services.AddScoped<IBanUsersRepository, BanUsersRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
         
         
         
@@ -57,6 +59,7 @@ public class Startup
         }
 
         app.UseHttpsRedirection();
+        app.UseMiddleware<ExceptionHandlingMiddleware>();
         app.UseAuthorization();
 
         app.UseRouting(); 

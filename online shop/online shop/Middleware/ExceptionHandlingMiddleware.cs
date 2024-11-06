@@ -1,5 +1,6 @@
 using FluentValidation;
 using Microsoft.IdentityModel.Tokens;
+using online_shop.Exception;
 
 namespace online_shop.Middleware;
 
@@ -17,6 +18,10 @@ public class ExceptionHandlingMiddleware
         try
         {
             await _next(httpContext);
+        }
+        catch (ServiceException ex)
+        {
+            await HandleExceptionAsync(httpContext, ex, ex.StatusCode);
         }
         catch (AggregateException aggEx)
         {

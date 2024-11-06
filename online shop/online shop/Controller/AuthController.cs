@@ -40,11 +40,13 @@ public class AuthController : ControllerBase
         return Ok(new { message = "OTP sent successfully :))" });
     }
     
-    // public async Task<IActionResult> Verify()
-    // {
-    //     
-    //     
-    // }
+    [HttpPost("verify")]
+
+    public async Task<IActionResult> Verify([FromBody] OtpVerificationRequestDto request)
+    {
+        var result =await _otpService.VerifyOtpAndAuthUser(request.Phone, request.Otp, request.IsSeller);
+        return Ok(result);
+    }
     
     
 }

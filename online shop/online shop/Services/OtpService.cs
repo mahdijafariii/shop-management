@@ -63,7 +63,7 @@ public class OtpService : IOtpService
         return otp.ToString();
     }
 
-    public async Task<VerifyUserDto> VerifyOtp(string phone, string otp ,bool isSeller)
+    public async Task<VerifyUserDto> VerifyOtpAndAuthUser(string phone, string otp ,bool isSeller)
     {
         var otpResult = await _redis.StringGetAsync(GetOtpRedisPattern(phone));
         if (otpResult.IsNullOrEmpty)
