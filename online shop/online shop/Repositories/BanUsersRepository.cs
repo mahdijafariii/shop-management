@@ -4,7 +4,7 @@ using online_shop.Model;
 
 namespace online_shop.Repositories;
 
-public class BanUsersRepository
+public class BanUsersRepository : IBanUsersRepository
 {
     private readonly MongoDbContext _dbContext;
 

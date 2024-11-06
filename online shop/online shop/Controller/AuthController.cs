@@ -37,7 +37,14 @@ public class AuthController : ControllerBase
 
         var otp = await _otpService.GenerateOtp(phone);
         _smsService.SendOtpSmsAsync(phone, otp);
-
         return Ok(new { message = "OTP sent successfully :))" });
     }
+    
+    // public async Task<IActionResult> Verify()
+    // {
+    //     
+    //     
+    // }
+    
+    
 }

@@ -39,7 +39,7 @@ public class OtpService : IOtpService
             return new OtpDetails(true, "00:00");
         }
         
-        public async Task<string> GenerateOtp(string phone, int length = 4, int expireTime = 1)
+        public async Task<string> GenerateOtp(string phone, int length = 4, int expireTime = 2)
         {
             var random = new Random();
             var otp = new StringBuilder();
