@@ -55,7 +55,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> GetMe()
     {
         var user = User;
-        var result = _authService.GetMe(user);
+        var result =await _authService.GetMe(user);
         return Ok(result);
     }
     

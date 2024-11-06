@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using online_shop.Repositories;
 
 namespace online_shop.Middleware;
@@ -6,20 +7,16 @@ namespace online_shop.Middleware;
 public class JwtAuthenticationMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly IServiceScopeFactory _scopeFactory;
     
     
-    public JwtAuthenticationMiddleware(RequestDelegate next, IServiceScopeFactory scopeFactory)
+    public JwtAuthenticationMiddleware(RequestDelegate next)
     {
         _next = next;
-        _scopeFactory = scopeFactory;
     }
 
     public async Task InvokeAsync(HttpContext context)
     {
         var token = context.Request.Cookies["Access-cookie"];
-        var scope = _scopeFactory.CreateScope();
-        var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
         if (!string.IsNullOrEmpty(token))
         {
             try
@@ -29,14 +26,24 @@ public class JwtAuthenticationMiddleware
                 
                 var userId = jwtToken.Claims.FirstOrDefault(c => c.Type == "userId")?.Value;
                 var phone = jwtToken.Claims.FirstOrDefault(c => c.Type == "phone")?.Value;
-                
+                var claims = new List<Claim>();
+            
                 if (userId != null)
                 {
-                    context.Items["UserId"] = userId;
+                    claims.Add(new Claim("userId", userId));
                 }
+
                 if (phone != null)
                 {
-                    context.Items["Phone"] = phone;
+                    claims.Add(new Claim("phone", phone));
+                }
+
+                if (claims.Any()) 
+                {
+                    var identity = new ClaimsIdentity(claims);
+                    var principal = new ClaimsPrincipal(identity);
+                    context.User = principal;
+                    
                 }
             }
             catch (System.Exception ex)
