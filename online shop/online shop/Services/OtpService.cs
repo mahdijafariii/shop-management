@@ -56,4 +56,15 @@ public class OtpService : IOtpService
             return otp.ToString();        
         }
         
+        // public async Task<string> VerifyOtp(string phone)
+        // {
+        //     var otpResult = await _redis.StringGetAsync(GetOtpRedisPattern(phone));
+        //     if (otpResult is null)
+        //     {
+        //         return 
+        //         
+        //     }
+        //     return otp.ToString();        
+        // }
+        
 }
