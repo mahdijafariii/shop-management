@@ -10,7 +10,10 @@ public class User
 
     [BsonRequired]
     public string Phone { get; set; }
-
+    
+    [BsonRequired]
+    public string Username { get; set; }
+    
     [BsonElement("roles")] 
     public List<string> Roles { get; set; } = new List<string> { "USER" }; 
 
