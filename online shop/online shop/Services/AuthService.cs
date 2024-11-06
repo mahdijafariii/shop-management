@@ -60,9 +60,10 @@ public class AuthService : IAuthService
         return new VerifyUserDto(user, newToken);
     }
 
-    public GetMeDto GetMe(ClaimsPrincipal claimsPrincipal)
+    public async Task<GetMeDto> GetMe(ClaimsPrincipal claimsPrincipal)
     {
         var id = claimsPrincipal.FindFirstValue("userId");
+        var user = await _userRepository.GetUserByIdAsync(id);
         return new GetMeDto(user);
     }
 }

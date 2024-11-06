@@ -7,6 +7,6 @@ namespace online_shop.Services;
 public interface IAuthService
 {
     Task<VerifyUserDto> VerifyOtpAndAuthUser(string phone, string otp, bool isSeller);
-    GetMeDto GetMe(ClaimsPrincipal claimsPrincipal);
+    Task<GetMeDto> GetMe(ClaimsPrincipal claimsPrincipal);
 
 }

@@ -1,3 +1,4 @@
+using MongoDB.Bson;
 using MongoDB.Driver;
 using online_shop.Data;
 using online_shop.Model;
@@ -21,6 +22,12 @@ public class UserRepository : IUserRepository
     public async Task<User> GetUserByPhoneAsync(string phone)
     {
         return await _dbContext.Users.Find(u=>u.Phone == phone).FirstOrDefaultAsync();
+    }
+    
+    public async Task<User> GetUserByIdAsync(string id)
+    {
+        ObjectId.TryParse(id,out var objectId);
+        return await _dbContext.Users.Find(u=>u.Id == objectId).FirstOrDefaultAsync();
     }
     
     public async Task<string> AddUserAsync(User user)
