@@ -35,9 +35,8 @@ public class AuthController : ControllerBase
             return Ok(new { message = $"OTP already sent, Please try again after {otpDetails.RemainingTime}" });
         }
 
-        // تولید و ارسال OTP
         var otp = await _otpService.GenerateOtp(phone);
-        await _smsService.SendOtpSmsAsync(phone, otp);
+        _smsService.SendOtpSmsAsync(phone, otp);
 
         return Ok(new { message = "OTP sent successfully :))" });
     }
