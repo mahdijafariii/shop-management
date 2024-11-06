@@ -8,14 +8,16 @@ namespace online_shop.Controller;
 public class AuthController : ControllerBase
 {
     private readonly IBanService _banService;
-    private readonly IOtpService _otpService;
+    private readonly IAuthService _authService;
     private readonly ISmsService _smsService;
+    private readonly IOtpService _otpService;
 
-    public AuthController(IBanService banService, IOtpService otpService, ISmsService smsService)
+    public AuthController(IBanService banService, IAuthService authService, ISmsService smsService, IOtpService otpService)
     {
         _banService = banService;
-        _otpService = otpService;
+        _authService = authService;
         _smsService = smsService;
+        _otpService = otpService;
     }
 
     [HttpPost("send")]
@@ -44,7 +46,7 @@ public class AuthController : ControllerBase
 
     public async Task<IActionResult> Verify([FromBody] OtpVerificationRequestDto request)
     {
-        var result =await _otpService.VerifyOtpAndAuthUser(request.Phone, request.Otp, request.IsSeller);
+        var result =await _authService.VerifyOtpAndAuthUser(request.Phone, request.Otp, request.IsSeller);
         return Ok(result);
     }
     

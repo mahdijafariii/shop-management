@@ -22,7 +22,7 @@ public class OtpService : IOtpService
         _cookieService = cookieService;
     }
 
-    private string GetOtpRedisPattern(string phone)
+    public string GetOtpRedisPattern(string phone)
     {
         return $"otp:{phone}";
     }
@@ -64,38 +64,5 @@ public class OtpService : IOtpService
 
         return otp.ToString();
     }
-
-    public async Task<VerifyUserDto> VerifyOtpAndAuthUser(string phone, string otp ,bool isSeller)
-    {
-        var otpResult = await _redis.StringGetAsync(GetOtpRedisPattern(phone));
-        if (otpResult.IsNullOrEmpty)
-        {
-            throw new OtpInvalidException();
-        }
-
-        var correctOtp = BCrypt.Net.BCrypt.Verify(otp, otpResult);
-
-        if (!correctOtp)
-        {
-            throw new OtpInvalidException();
-        }
-
-        var userExist = await _userRepository.GetUserByPhoneAsync(phone);
-        if (userExist is not null)
-        {
-            var token = _jwtService.GenerateToken(userExist.Id.ToString(), userExist.Phone);
-            _cookieService.SetCookie("Access-cookie",token);
-            return new VerifyUserDto(userExist, token);
-        }
-        var user = new User
-        {
-            Phone = phone,
-            Username = phone,
-            Roles = isSeller ? new List<string> { "USER", "SELLER" } : new List<string> { "USER" }
-        };
-        await _userRepository.AddUserAsync(user);
-        var newToken = _jwtService.GenerateToken(user.Id.ToString(), user.Phone);
-        _cookieService.SetCookie("Access-cookie",newToken);
-        return new VerifyUserDto(user, newToken);
-    }
+    
 }
