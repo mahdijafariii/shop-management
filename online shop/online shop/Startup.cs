@@ -45,6 +45,7 @@ public class Startup
         services.AddScoped<IJwtService,JwtService>();
         services.AddScoped<IOtpService,OtpService>();
         services.AddScoped<ISmsService,SmsService>();
+        services.AddScoped<ICookieService,CookieService>();
 
 
 
