@@ -1,10 +1,12 @@
 using System.Text;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using online_shop.Data;
 using online_shop.Middleware;
 using online_shop.Repositories;
 using online_shop.Services;
+using online_shop.Validator;
 using StackExchange.Redis;
 
 namespace online_shop;
@@ -56,12 +58,15 @@ public class Startup
             options.Configuration = Configuration.GetConnectionString("RedisConnection");
         });
         var redisConnection = Configuration.GetConnectionString("RedisConnection");
-        Console.WriteLine(redisConnection);
         services.AddScoped<MongoDbContext>();
         services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConnection));
         services.AddScoped<IDatabase>(sp => sp.GetRequiredService<IConnectionMultiplexer>().GetDatabase());
 
  
+        
+        services.AddControllers()
+            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AddAddressValidator>());
+        
         
         services.AddScoped<IBanUsersRepository, BanUsersRepository>();
         services.AddScoped<IUserRepository, UserRepository>();

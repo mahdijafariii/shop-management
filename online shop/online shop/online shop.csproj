@@ -10,10 +10,12 @@
     <ItemGroup>
         <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
         <PackageReference Include="FluentValidation" Version="11.10.0" />
+        <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.7" />
         <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.10" />
         <PackageReference Include="MongoDB.Driver" Version="3.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="StackExchange.Redis" Version="2.8.16" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
