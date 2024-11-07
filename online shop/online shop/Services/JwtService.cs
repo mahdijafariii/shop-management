@@ -22,7 +22,7 @@ public class JwtService : IJwtService
         var claims = new List<Claim>
         {
             new Claim("userId", userId),
-            new Claim("Phone", phone) 
+            new Claim("phone", phone) 
         };
         
         foreach (var role in roles)

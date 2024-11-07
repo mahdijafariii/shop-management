@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using online_shop.DTO;
 using online_shop.Services;
@@ -19,7 +20,7 @@ public class AuthController : ControllerBase
         _smsService = smsService;
         _otpService = otpService;
     }
-
+    [AllowAnonymous]
     [HttpPost("send")]
     public async Task<IActionResult> SendOtpAsync([FromBody] OtpRequestDto request)
     {
@@ -41,7 +42,7 @@ public class AuthController : ControllerBase
         _smsService.SendOtpSmsAsync(phone, otp);
         return Ok(new { message = "OTP sent successfully :))" });
     }
-    
+    [AllowAnonymous]
     [HttpPost("verify")]
 
     public async Task<IActionResult> Verify([FromBody] OtpVerificationRequestDto request)
@@ -51,7 +52,6 @@ public class AuthController : ControllerBase
     }
     
     [HttpGet("get-me")]
-
     public async Task<IActionResult> GetMe()
     {
         var user = User;

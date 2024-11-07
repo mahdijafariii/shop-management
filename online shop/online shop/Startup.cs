@@ -1,3 +1,6 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using online_shop.Data;
 using online_shop.Middleware;
 using online_shop.Repositories;
@@ -20,7 +23,32 @@ public class Startup
         services.AddControllers(); 
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Jwt:Key"])),
+                    ClockSkew = TimeSpan.Zero 
+                };
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var token = context.Request.Cookies["Access-cookie"];
+                        if (!string.IsNullOrEmpty(token))
+                        {
+                            context.Token = token;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
+            });
+        
+        
 
         // redis configuration
         services.AddStackExchangeRedisCache(options =>
@@ -33,7 +61,7 @@ public class Startup
         services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConnection));
         services.AddScoped<IDatabase>(sp => sp.GetRequiredService<IConnectionMultiplexer>().GetDatabase());
 
-        services.AddScoped<RoleAuthorizeAttribute>();
+ 
         
         services.AddScoped<IBanUsersRepository, BanUsersRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
@@ -47,6 +75,7 @@ public class Startup
         services.AddScoped<ISmsService,SmsService>();
         services.AddScoped<ICookieService,CookieService>();
         services.AddScoped<IAuthService,AuthService>();
+        services.AddScoped<IAdminService,AdminService>();
 
 
 
@@ -59,14 +88,11 @@ public class Startup
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-        app.UseMiddleware<JwtAuthenticationMiddleware>();
- 
+
         app.UseHttpsRedirection();
-        app.UseMiddleware<ExceptionHandlingMiddleware>();
+        app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();       
-
-        app.UseRouting(); 
 
         app.UseEndpoints(endpoints =>
         {

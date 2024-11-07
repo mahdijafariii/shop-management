@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using online_shop.DTO;
+using online_shop.Middleware;
 using online_shop.Services;
 
 namespace online_shop.Controller;
@@ -16,7 +18,8 @@ public class AdminController : ControllerBase
     }
 
     [HttpPost("ban-user")]
-    public async Task<IActionResult> SendOtpAsync([FromBody] BanUserDto request)
+    [Authorize(Roles = "SELLER")]
+    public async Task<IActionResult> BanUserAsync([FromBody] BanUserDto request)
     {
         await _adminService.BanUser(request.Phone);
         return Ok("User banned successfully !");
