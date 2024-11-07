@@ -7,17 +7,19 @@ namespace online_shop.Controller;
 [Route("api/[controller]")]
 public class AdminController : ControllerBase
 {
+    private readonly IAdminService _adminService;
 
 
-    public AdminController()
+    public AdminController(IAdminService adminService)
     {
-        
+        _adminService = adminService;
     }
 
     [HttpPost("ban-user")]
-    public async Task<IActionResult> SendOtpAsync([FromBody] OtpRequestDto request)
+    public async Task<IActionResult> SendOtpAsync([FromBody] BanUserDto request)
     {
-        
+        await _adminService.BanUser(request.Phone);
+        return Ok("User banned successfully !");
     }
     
 }

@@ -18,7 +18,7 @@ public class BanUsersRepository : IBanUsersRepository
         return await _dbContext.BanUsers.Find(u => u.Phone == phone).AnyAsync();
     }
     
-    public async void AddToBanedUsersAsync(string phone)
+    public async Task AddToBanedUsersAsync(string phone)
     {
         var banUser = new BanUser() { Phone = phone };
         await _dbContext.BanUsers.InsertOneAsync(banUser);

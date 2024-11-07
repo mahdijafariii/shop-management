@@ -1,3 +1,3 @@
 namespace online_shop.DTO;
 
-public record BanUserDto();
+public record BanUserDto(string Phone);
