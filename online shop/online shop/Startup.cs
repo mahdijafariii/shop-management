@@ -33,7 +33,7 @@ public class Startup
         services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConnection));
         services.AddScoped<IDatabase>(sp => sp.GetRequiredService<IConnectionMultiplexer>().GetDatabase());
 
-        
+        services.AddScoped<RoleAuthorizeAttribute>();
         
         services.AddScoped<IBanUsersRepository, BanUsersRepository>();
         services.AddScoped<IUserRepository, UserRepository>();

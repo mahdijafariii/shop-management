@@ -46,7 +46,7 @@ public class AuthService : IAuthService
         var userExist = await _userRepository.GetUserByPhoneAsync(phone);
         if (userExist is not null)
         {
-            var token = _jwtService.GenerateToken(userExist.Id.ToString(), userExist.Phone);
+            var token = _jwtService.GenerateToken(userExist.Id.ToString(), userExist.Phone,userExist.Roles);
             _cookieService.SetCookie("Access-cookie", token);
             return new VerifyUserDto(userExist, token);
         }
@@ -58,7 +58,7 @@ public class AuthService : IAuthService
             Roles = isSeller ? new List<string> { "USER", "SELLER" } : new List<string> { "USER" }
         };
         await _userRepository.AddUserAsync(user);
-        var newToken = _jwtService.GenerateToken(user.Id.ToString(), user.Phone);
+        var newToken = _jwtService.GenerateToken(user.Id.ToString(), user.Phone,user.Roles);
         _cookieService.SetCookie("Access-cookie", newToken);
         return new VerifyUserDto(user, newToken);
     }
