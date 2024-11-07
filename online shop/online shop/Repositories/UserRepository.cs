@@ -1,6 +1,7 @@
 using MongoDB.Bson;
 using MongoDB.Driver;
 using online_shop.Data;
+using online_shop.DTO;
 using online_shop.Model;
 
 namespace online_shop.Repositories;
@@ -34,6 +35,14 @@ public class UserRepository : IUserRepository
     {
         await _dbContext.Users.InsertOneAsync(user);
         return user.Id.ToString();
+    }
+    
+    public async Task<AddressDto> AddUserAddressAsync(Address address,User user)
+    {
+        var updateDefinition = Builders<User>.Update.Push(u => u.Addresses, address); 
+        await _dbContext.Users.FindOneAndUpdateAsync(u => u.Id == user.Id, updateDefinition);
+        
+        return new AddressDto(user.Addresses);
     }
     
 }

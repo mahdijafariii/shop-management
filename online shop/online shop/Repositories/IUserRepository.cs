@@ -1,3 +1,4 @@
+using online_shop.DTO;
 using online_shop.Model;
 
 namespace online_shop.Repositories;
@@ -8,4 +9,5 @@ public interface IUserRepository
     Task<User> GetUserByIdAsync(string id);
     Task<User> GetUserByPhoneAsync(string phone);
     Task<string> AddUserAsync(User user);
+    Task<AddressDto> AddUserAddressAsync(Address address, User user);
 }
