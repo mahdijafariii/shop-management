@@ -37,12 +37,10 @@ public class UserRepository : IUserRepository
         return user.Id.ToString();
     }
     
-    public async Task<AddressDto> AddUserAddressAsync(Address address,User user)
+    public async Task AddUserAddressAsync(Address address,ObjectId id)
     {
         var updateDefinition = Builders<User>.Update.Push(u => u.Addresses, address); 
-        await _dbContext.Users.FindOneAndUpdateAsync(u => u.Id == user.Id, updateDefinition);
-        
-        return new AddressDto(user.Addresses);
+        await _dbContext.Users.FindOneAndUpdateAsync(u => u.Id == id, updateDefinition);
     }
     
 }

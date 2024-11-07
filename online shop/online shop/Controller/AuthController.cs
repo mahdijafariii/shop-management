@@ -52,6 +52,7 @@ public class AuthController : ControllerBase
     }
     
     [HttpGet("get-me")]
+    [Authorize]
     public async Task<IActionResult> GetMe()
     {
         var user = User;

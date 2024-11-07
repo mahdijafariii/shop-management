@@ -1,3 +1,4 @@
+using MongoDB.Bson;
 using online_shop.DTO;
 using online_shop.Model;
 
@@ -9,5 +10,5 @@ public interface IUserRepository
     Task<User> GetUserByIdAsync(string id);
     Task<User> GetUserByPhoneAsync(string phone);
     Task<string> AddUserAsync(User user);
-    Task<AddressDto> AddUserAddressAsync(Address address, User user);
+    Task AddUserAddressAsync(Address address, ObjectId id);
 }

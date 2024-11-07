@@ -76,6 +76,7 @@ public class Startup
         services.AddScoped<ICookieService,CookieService>();
         services.AddScoped<IAuthService,AuthService>();
         services.AddScoped<IAdminService,AdminService>();
+        services.AddScoped<IUserService,UserService>();
 
 
 
@@ -88,7 +89,7 @@ public class Startup
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
+        app.UseMiddleware<ExceptionHandlingMiddleware>();
         app.UseHttpsRedirection();
         app.UseRouting();
         app.UseAuthentication();
