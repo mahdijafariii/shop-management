@@ -43,4 +43,10 @@ public class UserRepository : IUserRepository
         await _dbContext.Users.FindOneAndUpdateAsync(u => u.Id == id, updateDefinition);
     }
     
+    
+    public async Task DeleteUserAddressAsync(ObjectId userId,ObjectId addressId)
+    {
+        var updateDefinition = Builders<User>.Update.PullFilter(u => u.Addresses,a=>a.Id == addressId); 
+        await _dbContext.Users.UpdateOneAsync(u => u.Id == userId, updateDefinition);
+    }
 }

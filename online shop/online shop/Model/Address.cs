@@ -1,9 +1,14 @@
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace online_shop.Model;
 
 public class Address
 {
+    [BsonId] 
+    [BsonRepresentation(BsonType.ObjectId)]
+    public ObjectId Id { get; set; }
+    
     [BsonRequired]
     public string Name { get; set; }
 
