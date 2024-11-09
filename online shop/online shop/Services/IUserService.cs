@@ -6,5 +6,6 @@ namespace online_shop.Services;
 
 public interface IUserService
 {
-    Task AddAddressAsync(AddressDto addressDto, ObjectId id);
+    Task AddAddressAsync(AddAddressDto addAddressDto, ObjectId id);
+    Task DeleteAddressAddressAsync(ObjectId addressId, ObjectId userId);
 }

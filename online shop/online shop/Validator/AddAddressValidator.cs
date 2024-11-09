@@ -6,7 +6,7 @@ using JsonConvert = Newtonsoft.Json.JsonConvert;
 
 namespace online_shop.Validator;
 
-public class AddAddressValidator : AbstractValidator<AddressDto>
+public class AddAddressValidator : AbstractValidator<AddAddressDto>
 {
     public AddAddressValidator()
     {

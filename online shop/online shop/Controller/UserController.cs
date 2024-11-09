@@ -21,13 +21,24 @@ public class UserController : ControllerBase
 
     [HttpPost("add-address")]
     [Authorize]
-    public async Task<IActionResult> BanUserAsync([FromBody] AddressDto request)
+    public async Task<IActionResult> BanUserAsync([FromBody] AddAddressDto request)
     {
         var user = User;
         var id = user.FindFirstValue("userId");
         var objId =ObjectId.Parse(id);
         await _userService.AddAddressAsync(request,objId);
         return Ok("Address added successfully!");
+    }
+    
+    [HttpDelete("delete-address")]
+    [Authorize]
+    public async Task<IActionResult> DeleteAddressAsync([FromBody] DeleteAddressDto request)
+    {
+        var user = User;
+        var id = user.FindFirstValue("userId");
+        var objId =ObjectId.Parse(id);
+        await _userService.DeleteAddressAddressAsync(request.Id,objId);
+        return Ok("Address Deleted successfully!");
     }
     
 }

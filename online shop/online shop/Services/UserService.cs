@@ -14,13 +14,18 @@ public class UserService : IUserService
         _userRepository = userRepository;
     }
 
-    public async Task AddAddressAsync(AddressDto addressDto, ObjectId id)
+    public async Task AddAddressAsync(AddAddressDto addAddressDto, ObjectId id)
     {
         Address address = new Address()
         {
-            AddressLine = addressDto.AddressLine, Lat = addressDto.Lat, Lng = addressDto.Lng, Name = addressDto.Name,
-            CityId = addressDto.CityId, PostalCode = addressDto.PostalCode
+            Id = ObjectId.GenerateNewId(),AddressLine = addAddressDto.AddressLine, Lat = addAddressDto.Lat, Lng = addAddressDto.Lng, Name = addAddressDto.Name,
+            CityId = addAddressDto.CityId, PostalCode = addAddressDto.PostalCode
         };
         await _userRepository.AddUserAddressAsync(address,id);
+    }
+    
+    public async Task DeleteAddressAddressAsync(ObjectId addressId, ObjectId userId)
+    {
+        await _userRepository.DeleteUserAddressAsync(userId,addressId);
     }
 }
