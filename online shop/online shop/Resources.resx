@@ -27,4 +27,7 @@
     <data name="UpdateAddressException" xml:space="preserve">
         <value>UpdateAddressWasn`t successfull !!</value>
     </data>
+    <data name="AddSellerException" xml:space="preserve">
+        <value>You can just have one Seller !!</value>
+    </data>
 </root>

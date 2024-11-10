@@ -1,3 +1,5 @@
+using MongoDB.Bson;
+using MongoDB.Driver;
 using online_shop.Data;
 using online_shop.Model;
 
@@ -15,5 +17,11 @@ public class SellerRepository : ISellerRepository
     {
         await _dbContext.Sellers.InsertOneAsync(seller);
         return seller.Id.ToString();
+    }
+
+    public async Task<bool> CheckUserSeller(ObjectId user)
+    {
+        var seller = await _dbContext.Sellers.Find(s => s.User == user).FirstOrDefaultAsync();
+        return seller != null;
     }
 }

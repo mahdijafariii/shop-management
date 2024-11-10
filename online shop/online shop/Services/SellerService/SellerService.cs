@@ -1,5 +1,6 @@
 using MongoDB.Bson;
 using online_shop.DTO;
+using online_shop.Exception;
 using online_shop.Model;
 using online_shop.Repositories.SellerRepository;
 
@@ -25,7 +26,13 @@ public class SellerService : ISellerService
             UpdatedAt = DateTime.UtcNow,
             User = user,
         };
+        var checkUserSeller = await _sellerRepository.CheckUserSeller(user);
+        if (checkUserSeller)
+        {
+            throw new AddSellerException();
+        }
         var result = await _sellerRepository.AddSellerAsync(seller);
         return result;
     }
+    
 }

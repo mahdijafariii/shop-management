@@ -22,12 +22,16 @@ public class SellerController : ControllerBase
 
     [HttpPost("add-seller")]
     [Authorize(Roles = "SELLER")]
-    public async Task<IActionResult> BanUserAsync([FromBody] AddSellerDto request)
+    public async Task<IActionResult> AddSellerAsync([FromBody] AddSellerDto request)
     {
         var user = User;
         var id = user.FindFirstValue("userId");
         var objId =ObjectId.Parse(id);
-        await _sellerService.AddSellerAsync(objId,request);
-        return Ok("Seller added successfully!");
+        var sellerId = await _sellerService.AddSellerAsync(objId,request);
+        return Ok(new
+        {
+            Message = "Seller added successfully!",
+            SellerId = sellerId
+        });
     }
 }

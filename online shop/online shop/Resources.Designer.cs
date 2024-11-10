@@ -60,6 +60,15 @@ namespace online_shop {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You can just have one Seller !!.
+        /// </summary>
+        internal static string AddSellerException {
+            get {
+                return ResourceManager.GetString("AddSellerException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete wasn`t successfull !!.
         /// </summary>
         internal static string DeleteAddressException {
