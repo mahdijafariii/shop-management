@@ -25,9 +25,12 @@
         <value>Delete wasn`t successfull !!</value>
     </data>
     <data name="UpdateAddressException" xml:space="preserve">
-        <value>UpdateAddressWasn`t successfull !!</value>
+        <value>Update address wasn`t successfull !!</value>
     </data>
     <data name="AddSellerException" xml:space="preserve">
         <value>You can just have one Seller !!</value>
+    </data>
+    <data name="UpdateSellerException" xml:space="preserve">
+        <value>Update Seller wasn`t successfull !!</value>
     </data>
 </root>

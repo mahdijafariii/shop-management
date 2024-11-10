@@ -87,11 +87,20 @@ namespace online_shop {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to UpdateAddressWasn`t successfull !!.
+        ///   Looks up a localized string similar to Update address wasn`t successfull !!.
         /// </summary>
         internal static string UpdateAddressException {
             get {
                 return ResourceManager.GetString("UpdateAddressException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Seller wasn`t successfull !!.
+        /// </summary>
+        internal static string UpdateSellerException {
+            get {
+                return ResourceManager.GetString("UpdateSellerException", resourceCulture);
             }
         }
     }

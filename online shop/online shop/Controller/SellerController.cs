@@ -34,4 +34,16 @@ public class SellerController : ControllerBase
             SellerId = sellerId
         });
     }
+    
+    [HttpPatch("update-seller")]
+    [Authorize(Roles = "SELLER")]
+    public async Task<IActionResult> UpdateSellerAsync([FromQuery] string addressId,[FromBody] AddSellerDto request)
+    {
+        var objId = ObjectId.Parse(addressId);
+        await _sellerService.UpdateSellerAsync(objId,request);
+        return Ok(new
+        {
+            Message = "Seller Updated successfully!",
+        });
+    }
 }

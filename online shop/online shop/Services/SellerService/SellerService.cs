@@ -35,4 +35,12 @@ public class SellerService : ISellerService
         return result;
     }
     
+    public async Task UpdateSellerAsync(ObjectId addressId ,AddSellerDto addSellerDto)
+    { 
+        var result = await _sellerRepository.UpdateSellerAsync(addressId,addSellerDto);
+        if (!result)
+        {
+            throw new UpdateAddressException();
+        }
+    }
 }
