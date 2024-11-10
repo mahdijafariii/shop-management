@@ -26,6 +26,12 @@ public class SellerRepository : ISellerRepository
         return seller != null;
     }
     
+    public async Task<bool> CheckStoreHasSeller(ObjectId seller)
+    {
+        var result = await _dbContext.Sellers.Find(s => s.Id == seller).FirstOrDefaultAsync();
+        return result != null;
+    }
+    
     public async Task<bool> UpdateSellerAsync(ObjectId sellerId, AddSellerDto addSellerDto)
     {
         var filter = Builders<Seller>.Filter.Eq(s => s.Id, sellerId);

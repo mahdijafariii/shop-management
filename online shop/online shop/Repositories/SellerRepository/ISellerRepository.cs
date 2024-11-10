@@ -9,6 +9,7 @@ public interface ISellerRepository
     Task<string> AddSellerAsync(Seller seller);
     Task<bool> CheckUserSeller(ObjectId user);
     Task<bool> UpdateSellerAsync(ObjectId sellerId, AddSellerDto addSellerDto);
+    Task<bool> CheckStoreHasSeller(ObjectId seller);
 
 
 }

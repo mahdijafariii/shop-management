@@ -35,9 +35,14 @@ public class SellerService : ISellerService
         return result;
     }
     
-    public async Task UpdateSellerAsync(ObjectId addressId ,AddSellerDto addSellerDto)
-    { 
-        var result = await _sellerRepository.UpdateSellerAsync(addressId,addSellerDto);
+    public async Task UpdateSellerAsync(ObjectId sellerId ,AddSellerDto addSellerDto)
+    {
+        var hasSeller = await _sellerRepository.CheckStoreHasSeller(sellerId);
+        if (!hasSeller)
+        {
+            throw new NotFoundException("Seller");
+        }
+        var result = await _sellerRepository.UpdateSellerAsync(sellerId,addSellerDto);
         if (!result)
         {
             throw new UpdateAddressException();
