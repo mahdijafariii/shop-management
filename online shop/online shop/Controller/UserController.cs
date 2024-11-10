@@ -37,8 +37,19 @@ public class UserController : ControllerBase
         var user = User;
         var id = user.FindFirstValue("userId");
         var objId =ObjectId.Parse(id);
-        await _userService.DeleteAddressAddressAsync(ObjectId.Parse(request.Id),objId);
+        await _userService.DeleteAddressAsync(ObjectId.Parse(request.Id),objId);
         return Ok("Address Deleted successfully!");
+    }
+    
+    [HttpPatch("update-address")]
+    [Authorize]
+    public async Task<IActionResult> UpdateAddressAsync([FromBody] UpdateAddressDto request)
+    {
+        var user = User;
+        var id = user.FindFirstValue("userId");
+        var objId =ObjectId.Parse(id);
+        await _userService.UpdateAddressAsync(ObjectId.Parse(request.AddressId),objId,request);
+        return Ok("Address Updated successfully!");
     }
     
 }

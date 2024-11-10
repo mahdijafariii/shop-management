@@ -12,4 +12,5 @@ public interface IUserRepository
     Task<string> AddUserAsync(User user);
     Task AddUserAddressAsync(Address address, ObjectId id);
     Task<bool> DeleteUserAddressAsync(ObjectId userId, ObjectId addressId);
+    Task<bool> UpdateAddressAsync(ObjectId userId, ObjectId addressId, UpdateAddressDto updateAddressDto);
 }

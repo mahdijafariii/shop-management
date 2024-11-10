@@ -76,5 +76,14 @@ namespace online_shop {
                 return ResourceManager.GetString("OtpInvalidException", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UpdateAddressWasn`t successfull !!.
+        /// </summary>
+        internal static string UpdateAddressException {
+            get {
+                return ResourceManager.GetString("UpdateAddressException", resourceCulture);
+            }
+        }
     }
 }

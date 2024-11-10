@@ -25,12 +25,21 @@ public class UserService : IUserService
         await _userRepository.AddUserAddressAsync(address,id);
     }
     
-    public async Task DeleteAddressAddressAsync(ObjectId addressId, ObjectId userId)
+    public async Task DeleteAddressAsync(ObjectId addressId, ObjectId userId)
     { 
         var result = await _userRepository.DeleteUserAddressAsync(userId,addressId);
         if (!result)
         {
             throw new DeleteAddressException();
+        }
+    }
+    
+    public async Task UpdateAddressAsync(ObjectId addressId, ObjectId userId,UpdateAddressDto updateAddressDto)
+    { 
+        var result = await _userRepository.UpdateAddressAsync(userId,addressId,updateAddressDto);
+        if (!result)
+        {
+            throw new UpdateAddressException();
         }
     }
 }

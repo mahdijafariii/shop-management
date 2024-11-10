@@ -24,4 +24,7 @@
     <data name="DeleteAddressException" xml:space="preserve">
         <value>Delete wasn`t successfull !!</value>
     </data>
+    <data name="UpdateAddressException" xml:space="preserve">
+        <value>UpdateAddressWasn`t successfull !!</value>
+    </data>
 </root>

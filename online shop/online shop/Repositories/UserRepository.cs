@@ -59,7 +59,7 @@ public class UserRepository : IUserRepository
         }
     }
 
-    public async Task UpdateAddressAsync(ObjectId userId, ObjectId addressId, UpdateAddressDto updateAddressDto)
+    public async Task<bool> UpdateAddressAsync(ObjectId userId, ObjectId addressId, UpdateAddressDto updateAddressDto)
     {
         var filter = Builders<User>.Filter.And(
             Builders<User>.Filter.Eq(u => u.Id, userId),
@@ -90,7 +90,18 @@ public class UserRepository : IUserRepository
         if (updateDefinition.Any())
         {
             var combinedUpdate = update.Combine(updateDefinition);
-            await _dbContext.Users.UpdateOneAsync(filter, combinedUpdate);
+            var result = await _dbContext.Users.UpdateOneAsync(filter, combinedUpdate);
+
+            if (result.ModifiedCount > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
+
+        return true;
     }
 }
