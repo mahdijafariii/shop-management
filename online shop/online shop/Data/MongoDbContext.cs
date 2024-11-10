@@ -17,6 +17,7 @@ public class MongoDbContext
     public IMongoCollection<BanUser> BanUsers => _database.GetCollection<BanUser>("BanUsers");
     public IMongoCollection<Address> Addresses => _database.GetCollection<Address>("Addresses");
     public IMongoCollection<Seller> Sellers => _database.GetCollection<Seller>("Sellers");
-
-
+    public IMongoCollection<Category> Categories => _database.GetCollection<Category>("Categories");
+    public IMongoCollection<SubCategory> SubCategories => _database.GetCollection<SubCategory>("SubCategories");
+    
 }

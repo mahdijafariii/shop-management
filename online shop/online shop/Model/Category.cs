@@ -19,16 +19,16 @@ public class Category
 
     [BsonRepresentation(BsonType.ObjectId)]
     [BsonElement("parent")]
-    public string ParentId { get; set; } // ObjectId برای ارجاع به دسته‌بندی والد
+    public string ParentId { get; set; } 
 
     [BsonElement("description")]
     public string Description { get; set; }
 
     [BsonElement("icon")]
-    public Icon Icon { get; set; } // کلاس Icon برای ذخیره اطلاعات آیکون
+    public Icon Icon { get; set; } 
 
     [BsonElement("filters")]
-    public List<Filter> Filters { get; set; } // لیستی از فیلترها
+    public List<Filter> Filters { get; set; }
 }
 
 public class Icon

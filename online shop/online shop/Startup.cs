@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using online_shop.Data;
 using online_shop.Middleware;
 using online_shop.Repositories;
+using online_shop.Repositories.CategoryRepository;
 using online_shop.Repositories.SellerRepository;
 using online_shop.Services;
 using online_shop.Services.SellerService;
@@ -73,6 +74,7 @@ public class Startup
         services.AddScoped<IBanUsersRepository, BanUsersRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ISellerRepository, SellerRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
         
         
         
