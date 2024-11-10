@@ -1,5 +1,6 @@
 using MongoDB.Bson;
 using online_shop.DTO;
+using online_shop.Exception;
 using online_shop.Model;
 using online_shop.Repositories;
 
@@ -25,7 +26,11 @@ public class UserService : IUserService
     }
     
     public async Task DeleteAddressAddressAsync(ObjectId addressId, ObjectId userId)
-    {
-        await _userRepository.DeleteUserAddressAsync(userId,addressId);
+    { 
+        var result = await _userRepository.DeleteUserAddressAsync(userId,addressId);
+        if (!result)
+        {
+            throw new DeleteAddressException();
+        }
     }
 }

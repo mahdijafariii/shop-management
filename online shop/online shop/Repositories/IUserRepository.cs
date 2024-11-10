@@ -11,5 +11,5 @@ public interface IUserRepository
     Task<User> GetUserByPhoneAsync(string phone);
     Task<string> AddUserAsync(User user);
     Task AddUserAddressAsync(Address address, ObjectId id);
-    Task DeleteUserAddressAsync(ObjectId userId, ObjectId addressId);
+    Task<bool> DeleteUserAddressAsync(ObjectId userId, ObjectId addressId);
 }

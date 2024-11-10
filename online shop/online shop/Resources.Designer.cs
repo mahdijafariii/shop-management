@@ -60,6 +60,15 @@ namespace online_shop {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete wasn`t successfull !!.
+        /// </summary>
+        internal static string DeleteAddressException {
+            get {
+                return ResourceManager.GetString("DeleteAddressException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Otp code is not valid !.
         /// </summary>
         internal static string OtpInvalidException {

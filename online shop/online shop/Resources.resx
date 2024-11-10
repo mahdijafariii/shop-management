@@ -21,4 +21,7 @@
     <data name="OtpInvalidException" xml:space="preserve">
         <value>Otp code is not valid !</value>
     </data>
+    <data name="DeleteAddressException" xml:space="preserve">
+        <value>Delete wasn`t successfull !!</value>
+    </data>
 </root>
