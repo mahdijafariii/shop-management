@@ -11,7 +11,7 @@ public class SellerRepository : ISellerRepository
     {
         _dbContext = dbContext;
     }
-    public async Task<string> AddUserAsync(Seller seller)
+    public async Task<string> AddSellerAsync(Seller seller)
     {
         await _dbContext.Sellers.InsertOneAsync(seller);
         return seller.Id.ToString();

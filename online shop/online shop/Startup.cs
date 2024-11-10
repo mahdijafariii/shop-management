@@ -5,7 +5,9 @@ using Microsoft.IdentityModel.Tokens;
 using online_shop.Data;
 using online_shop.Middleware;
 using online_shop.Repositories;
+using online_shop.Repositories.SellerRepository;
 using online_shop.Services;
+using online_shop.Services.SellerService;
 using online_shop.Validator;
 using StackExchange.Redis;
 
@@ -70,6 +72,7 @@ public class Startup
         
         services.AddScoped<IBanUsersRepository, BanUsersRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ISellerRepository, SellerRepository>();
         
         
         
@@ -82,6 +85,7 @@ public class Startup
         services.AddScoped<IAuthService,AuthService>();
         services.AddScoped<IAdminService,AdminService>();
         services.AddScoped<IUserService,UserService>();
+        services.AddScoped<ISellerService,SellerService>();
 
 
 

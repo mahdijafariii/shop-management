@@ -4,6 +4,6 @@ namespace online_shop.Repositories.SellerRepository;
 
 public interface ISellerRepository
 {
-    Task<string> AddUserAsync(Seller seller);
+    Task<string> AddSellerAsync(Seller seller);
 
 }
