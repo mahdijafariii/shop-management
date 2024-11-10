@@ -42,4 +42,11 @@ public class UserService : IUserService
             throw new UpdateAddressException();
         }
     }
+    
+    public async Task<(List<User> Users, PaginationDynamicDto)> GetAllUsersAsync(int page = 1, int limit = 10)
+    { 
+        var result = await _userRepository.GetAllUsersAsync(page,limit);
+        PaginationDynamicDto paginationDynamicDto = new PaginationDynamicDto(page = 1, limit = 10 , result.TotalCount);
+        return (result.Users,paginationDynamicDto);
+    }
 }

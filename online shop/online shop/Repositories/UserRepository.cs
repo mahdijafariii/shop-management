@@ -58,6 +58,19 @@ public class UserRepository : IUserRepository
             return false;
         }
     }
+    public async Task<(List<User> Users, long TotalCount)> GetAllUsersAsync(int page , int limit)
+    {
+        var skip = (page - 1) * limit;
+
+        var totalCount = await _dbContext.Users.CountDocumentsAsync(FilterDefinition<User>.Empty);
+
+        var users = await _dbContext.Users
+            .Find(FilterDefinition<User>.Empty)
+            .Skip(skip)
+            .Limit(limit)
+            .ToListAsync();
+        return (users, totalCount);
+    }
 
     public async Task<bool> UpdateAddressAsync(ObjectId userId, ObjectId addressId, UpdateAddressDto updateAddressDto)
     {

@@ -9,4 +9,5 @@ public interface IUserService
     Task AddAddressAsync(AddAddressDto addAddressDto, ObjectId id);
     Task DeleteAddressAsync(ObjectId addressId, ObjectId userId);
     Task UpdateAddressAsync(ObjectId addressId, ObjectId userId, UpdateAddressDto updateAddressDto);
+    Task<(List<User> Users, PaginationDynamicDto)> GetAllUsersAsync(int page = 1, int limit = 10);
 }

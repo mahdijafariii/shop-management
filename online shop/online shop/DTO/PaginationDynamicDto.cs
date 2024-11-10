@@ -1,13 +1,13 @@
 namespace online_shop.DTO;
 
-public class PaginationDto
+public class PaginationDynamicDto
 {
     public int Page { get; set; }
     public int Limit { get; set; }
     public int TotalPage { get; set; }
-    public int TotalResourceCount { get; set; }
+    public long TotalResourceCount { get; set; }
 
-    public PaginationDto(int page, int limit, int totalCount)
+    public PaginationDynamicDto(int page, int limit, long totalCount)
     {
         Page = page;
         Limit = limit;

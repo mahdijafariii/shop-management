@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using online_shop.DTO;
 using online_shop.Middleware;
+using online_shop.Model;
 using online_shop.Services;
 
 namespace online_shop.Controller;
@@ -51,5 +52,7 @@ public class UserController : ControllerBase
         await _userService.UpdateAddressAsync(ObjectId.Parse(request.AddressId),objId,request);
         return Ok("Address Updated successfully!");
     }
+    
+    
     
 }
