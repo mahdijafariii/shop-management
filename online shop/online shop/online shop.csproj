@@ -35,8 +35,4 @@
       </Compile>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Repositories\SellerRepository\" />
-    </ItemGroup>
-
 </Project>
