@@ -35,4 +35,8 @@
       </Compile>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Public\images\Categories\" />
+    </ItemGroup>
+
 </Project>

@@ -8,6 +8,7 @@ using online_shop.Repositories;
 using online_shop.Repositories.CategoryRepository;
 using online_shop.Repositories.SellerRepository;
 using online_shop.Services;
+using online_shop.Services.CategoryService;
 using online_shop.Services.SellerService;
 using online_shop.Validator;
 using StackExchange.Redis;
@@ -88,6 +89,7 @@ public class Startup
         services.AddScoped<IAdminService,AdminService>();
         services.AddScoped<IUserService,UserService>();
         services.AddScoped<ISellerService,SellerService>();
+        services.AddScoped<ICategoryService,CategoryService>();
 
 
 

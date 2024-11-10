@@ -19,13 +19,13 @@ public class Category
 
     [BsonRepresentation(BsonType.ObjectId)]
     [BsonElement("parent")]
-    public string ParentId { get; set; } 
+    public ObjectId? ParentId { get; set; } 
 
     [BsonElement("description")]
     public string Description { get; set; }
 
     [BsonElement("icon")]
-    public Icon Icon { get; set; } 
+    public Icon? Icon { get; set; } 
 
     [BsonElement("filters")]
     public List<Filter> Filters { get; set; }
