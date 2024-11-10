@@ -20,7 +20,7 @@ public class SellerService : ISellerService
         Seller seller = new Seller()
         {
             Name =addSellerDto.Name,
-            CityId = addSellerDto.CityId,
+            CityId = int.Parse(addSellerDto.CityId),
             ContactDetails = new ContactDetails(){Phone = addSellerDto.phone},
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
