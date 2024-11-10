@@ -25,7 +25,7 @@ public class AddSellerValidator : AbstractValidator<AddSellerDto>
     {
         var filePath = Path.Combine(Directory.GetCurrentDirectory(), "../online shop/cities/provinces.json");
         var jsonContent = File.ReadAllText(filePath);
-        var cities = JsonConvert.DeserializeObject<List<City>>(jsonContent);
+        var cities = JsonConvert.DeserializeObject<List<Provinces>>(jsonContent);
         return cities.Any(city => city.id == cityId);
     }
 }

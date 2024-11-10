@@ -36,14 +36,22 @@ public class AddAddressValidator : AbstractValidator<AddAddressDto>
     {
         var filePath = Path.Combine(Directory.GetCurrentDirectory(), "../online shop/cities/provinces.json");
         var jsonContent = File.ReadAllText(filePath);
-        var cities = JsonConvert.DeserializeObject<List<City>>(jsonContent);
+        var cities = JsonConvert.DeserializeObject<List<Provinces>>(jsonContent);
         return cities.Any(city => city.id == cityId);
     }
 }
-public class City
+public class Provinces
 {
     public int id { get; set; }
     public string name { get; set; }
     public string slug { get; set; }
+}
 
+public class Cities
+{
+    public int id { get; set; }
+    public string name { get; set; }
+    public string slug { get; set; }
+    public bool popular { get; set; }
+    public int province_id { get; set; }
 }
