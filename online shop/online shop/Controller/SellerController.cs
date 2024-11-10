@@ -56,5 +56,16 @@ public class SellerController : ControllerBase
         {
             Message = "Seller deleted successfully!",
         });
+        
+        // ! delete products and users cart
+    }
+    
+    [HttpGet("get-seller")]
+    [Authorize(Roles = "SELLER")]
+    public async Task<IActionResult> GetSellerAsync([FromQuery] string sellerId)
+    {
+        var objId = ObjectId.Parse(sellerId);
+        var result = await _sellerService.GetSellerAsync(objId);
+        return Ok(result);
     }
 }

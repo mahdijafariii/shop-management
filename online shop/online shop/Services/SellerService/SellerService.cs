@@ -57,4 +57,14 @@ public class SellerService : ISellerService
             throw new OperationFailedException();
         }
     }
+
+    public async Task<GetSellerDto> GetSellerAsync(ObjectId seller)
+    {
+        var result = await _sellerRepository.GetSellerAsync(seller);
+        if (!result.Item2)
+        {
+            throw new NotFoundException("Seller");
+        }
+        return result.Item1;
+    }
 }

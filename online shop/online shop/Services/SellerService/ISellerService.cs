@@ -8,4 +8,5 @@ public interface ISellerService
     Task<string> AddSellerAsync(ObjectId user,AddSellerDto addSeller);
     Task UpdateSellerAsync(ObjectId sellerId, AddSellerDto addSellerDto);
     Task DeleteSellerAsync(ObjectId seller);
+    Task<GetSellerDto> GetSellerAsync(ObjectId seller);
 }

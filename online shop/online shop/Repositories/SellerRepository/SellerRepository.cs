@@ -37,7 +37,21 @@ public class SellerRepository : ISellerRepository
         var result = await _dbContext.Sellers.DeleteOneAsync(s => s.Id == seller);
         return result.DeletedCount > 0;
     }
-    
+
+    public async Task<(GetSellerDto, bool)> GetSellerAsync(ObjectId sellerId)
+    {
+        var result = await _dbContext.Sellers.Find(seller => seller.Id == sellerId).FirstOrDefaultAsync();
+        GetSellerDto getSellerDto;
+        if (result is null)
+        {
+            getSellerDto = new GetSellerDto(null,null,null);
+            return (getSellerDto, false);
+        }
+
+        getSellerDto = new GetSellerDto(result.Name, result.CityId.ToString(), result.ContactDetails.Phone);
+        return (getSellerDto, true);
+    }
+
     public async Task<bool> UpdateSellerAsync(ObjectId sellerId, AddSellerDto addSellerDto)
     {
         var filter = Builders<Seller>.Filter.Eq(s => s.Id, sellerId);

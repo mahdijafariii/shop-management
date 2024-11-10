@@ -11,6 +11,6 @@ public interface ISellerRepository
     Task<bool> UpdateSellerAsync(ObjectId sellerId, AddSellerDto addSellerDto);
     Task<bool> CheckStoreHasSeller(ObjectId seller);
     Task<bool> DeleteSellerAsync(ObjectId seller);
-
+    Task<(GetSellerDto, bool)> GetSellerAsync(ObjectId sellerId);
 
 }

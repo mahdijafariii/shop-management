@@ -15,7 +15,7 @@ public class AddSellerValidator : AbstractValidator<AddSellerDto>
         RuleFor(x => x.phone)
             .NotEmpty().WithMessage("Phone is required.");
 
-        RuleFor(x => x.CityId)
+        RuleFor(x => int.Parse(x.CityId))
             .GreaterThan(0).WithMessage("CityId must be a positive integer.")
             .Must(BeAValidCityId).WithMessage("CityId does not exist.");
     }
