@@ -48,4 +48,13 @@ public class SellerService : ISellerService
             throw new UpdateAddressException();
         }
     }
+
+    public async Task DeleteSellerAsync(ObjectId seller)
+    {
+        var result = await _sellerRepository.DeleteSellerAsync(seller);
+        if (!result)
+        {
+            throw new OperationFailedException();
+        }
+    }
 }

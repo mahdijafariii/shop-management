@@ -37,13 +37,24 @@ public class SellerController : ControllerBase
     
     [HttpPatch("update-seller")]
     [Authorize(Roles = "SELLER")]
-    public async Task<IActionResult> UpdateSellerAsync([FromQuery] string addressId,[FromBody] AddSellerDto request)
+    public async Task<IActionResult> UpdateSellerAsync([FromQuery] string sellerId,[FromBody] AddSellerDto request)
     {
-        var objId = ObjectId.Parse(addressId);
+        var objId = ObjectId.Parse(sellerId);
         await _sellerService.UpdateSellerAsync(objId,request);
         return Ok(new
         {
             Message = "Seller Updated successfully!",
+        });
+    }
+    [HttpDelete("delete-seller")]
+    [Authorize(Roles = "SELLER")]
+    public async Task<IActionResult> DeleteSellerAsync([FromQuery] string sellerId)
+    {
+        var objId = ObjectId.Parse(sellerId);
+        await _sellerService.DeleteSellerAsync(objId);
+        return Ok(new
+        {
+            Message = "Seller deleted successfully!",
         });
     }
 }

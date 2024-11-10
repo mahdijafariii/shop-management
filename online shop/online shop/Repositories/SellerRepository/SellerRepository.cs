@@ -32,6 +32,12 @@ public class SellerRepository : ISellerRepository
         return result != null;
     }
     
+    public async Task<bool> DeleteSellerAsync(ObjectId seller)
+    {
+        var result = await _dbContext.Sellers.DeleteOneAsync(s => s.Id == seller);
+        return result.DeletedCount > 0;
+    }
+    
     public async Task<bool> UpdateSellerAsync(ObjectId sellerId, AddSellerDto addSellerDto)
     {
         var filter = Builders<Seller>.Filter.Eq(s => s.Id, sellerId);

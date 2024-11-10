@@ -33,4 +33,7 @@
     <data name="UpdateSellerException" xml:space="preserve">
         <value>Update Seller wasn`t successfull !!</value>
     </data>
+    <data name="OperationFiledException" xml:space="preserve">
+        <value>Operation was not successfull !!</value>
+    </data>
 </root>

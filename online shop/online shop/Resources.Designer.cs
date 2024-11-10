@@ -78,6 +78,15 @@ namespace online_shop {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Operation was not successfull !!.
+        /// </summary>
+        internal static string OperationFiledException {
+            get {
+                return ResourceManager.GetString("OperationFiledException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Otp code is not valid !.
         /// </summary>
         internal static string OtpInvalidException {
