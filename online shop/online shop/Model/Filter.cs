@@ -16,7 +16,6 @@ public class Filter
 
     [BsonElement("type")]
     [Required(ErrorMessage = "Filter type is required.")]
-    [EnumDataType(typeof(FilterType))]
     public FilterType Type { get; set; }
 
     [BsonElement("options")]

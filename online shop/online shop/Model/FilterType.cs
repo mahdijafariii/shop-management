@@ -1,5 +1,5 @@
 public enum FilterType
 {
-    Radio,
-    Selectbox
+    Radio = 1,
+    Selectbox = 0
 }
