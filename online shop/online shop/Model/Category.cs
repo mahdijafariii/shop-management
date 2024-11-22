@@ -2,6 +2,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 public class Category
 {
@@ -18,7 +19,7 @@ public class Category
     public string Slug { get; set; }
 
     [BsonRepresentation(BsonType.ObjectId)]
-    [BsonElement("parent")]
+    [JsonPropertyName("parent")]
     public ObjectId? ParentId { get; set; } 
 
     [BsonElement("description")]

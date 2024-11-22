@@ -7,31 +7,38 @@ public class DtoFormBuilder : IModelBinder
 {
     public Task BindModelAsync(ModelBindingContext bindingContext)
     {
-        var modelName = bindingContext.ModelName;
-        var valueProviderResult = bindingContext.ValueProvider.GetValue(modelName);
+        var valueProviderResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
         if (valueProviderResult == ValueProviderResult.None)
         {
+            bindingContext.Result = ModelBindingResult.Success(new List<Filter>()); // Return empty list
             return Task.CompletedTask;
         }
-        var objRepresentation = valueProviderResult.FirstValue;
-        
-        if (string.IsNullOrEmpty(objRepresentation))
+
+        var json = valueProviderResult.Values;
+        if (string.IsNullOrEmpty(json))
         {
+            bindingContext.Result = ModelBindingResult.Success(new List<Filter>()); // Return empty list
             return Task.CompletedTask;
         }
-        
+
         try
         {
-            var result = JsonSerializer.Deserialize(
-                objRepresentation,
-                bindingContext.ModelType,
-                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
-            );
+            if (json.ToString().StartsWith("{"))
+            {
+                json = $"[{json}]";
+            }
+            
+            var filters = JsonSerializer.Deserialize<List<Filter>>(json, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
 
-            bindingContext.Result = ModelBindingResult.Success(result);
+            bindingContext.Result = ModelBindingResult.Success(filters);
         }
-        catch (System.Exception)
+        catch (System.Exception exception)
         {
+            Console.WriteLine(exception);
+            bindingContext.ModelState.AddModelError(bindingContext.ModelName, "Invalid Filters format.");
             bindingContext.Result = ModelBindingResult.Failed();
         }
 

@@ -21,7 +21,6 @@ public class CategoryController : ControllerBase
     [Authorize(Roles = "SELLER")]
     public async Task<IActionResult> AddCategoryAsync([FromForm] CreateCategoryDto request)
     {
-        Console.WriteLine(request.Filters.Count);
         var result = await _categoryService.CreateCategoryAsync(request);
         return Ok(result);
     }

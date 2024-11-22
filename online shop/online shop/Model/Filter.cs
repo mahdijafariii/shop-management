@@ -14,9 +14,9 @@ public class Filter
     [BsonElement("description")]
     public string Description { get; set; }
 
-    [BsonElement("type")]
-    [Required(ErrorMessage = "Filter type is required.")]
-    public FilterType Type { get; set; }
+    // [BsonElement("type")]
+    // [Required(ErrorMessage = "Filter type is required.")]
+    // public FilterType Type { get; set; }
 
     [BsonElement("options")]
     public List<string> Options { get; set; }
