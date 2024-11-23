@@ -5,4 +5,7 @@ namespace online_shop.Services.CategoryService;
 public interface ICategoryService
 {
     Task<Category> CreateCategoryAsync(CreateCategoryDto createCategoryDto);
+    Task DeleteCategoryAsync(string objectId);
+
+    
 }

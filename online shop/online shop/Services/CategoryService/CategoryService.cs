@@ -1,3 +1,4 @@
+using MongoDB.Bson;
 using online_shop.DTO;
 using online_shop.Exception;
 using online_shop.Repositories.CategoryRepository;
@@ -37,6 +38,19 @@ public class CategoryService : ICategoryService
         };
 
         return await _categoryRepository.CreateCategoryAsync(category);
+    }
+
+    public async Task DeleteCategoryAsync(string objectId)
+    {
+        if (!ObjectId.TryParse(objectId, out var categoryId))
+        {
+            throw new ArgumentException("Invalid category ID format.");
+        }
+        var result = await _categoryRepository.DeleteCategoryAsync(objectId);
+        if (result)
+        {
+            throw new NotFoundException("Category");
+        }
     }
 
     private bool IsSupportedImageFormat(string contentType)
