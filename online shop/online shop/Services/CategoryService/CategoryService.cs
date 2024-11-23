@@ -48,11 +48,19 @@ public class CategoryService : ICategoryService
     private (string filePath,string name) SaveIconFile(IFormFile iconFile)
     {
         string uuid = Guid.NewGuid().ToString();
-        var fileName = Path.GetFileName(uuid);
-        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "../../Public/Images/Categories");
-        using (var stream = new FileStream(filePath, FileMode.Create))
+        var fileName = $"{uuid}{Path.GetExtension(iconFile.FileName)}";
+        var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "../../online shop/online shop/Public/images/Categories");
+        var filePath = Path.Combine(directoryPath, fileName);
+        try
         {
-            iconFile.CopyTo(stream);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                iconFile.CopyTo(stream);
+            }
+        }
+        catch (System.Exception ex)
+        {
+            throw new System.Exception("An error occurred while saving the file.", ex);
         }
 
         return (filePath,fileName);
