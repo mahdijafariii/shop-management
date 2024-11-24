@@ -33,4 +33,12 @@ public class CategoryController : ControllerBase
         return Ok("Category deleted successfully");
     }
     
+    [HttpPatch("update-{categoryId}-category")]
+    [Authorize(Roles = "SELLER")]
+    public async Task<IActionResult> UpdateCategoryAsync([FromRoute] string categoryId,[FromForm] UpdateCategoryDto request)
+    {
+        await _categoryService.UpdateCategoryAsync(categoryId,request);
+        return Ok("Updated successfully !");
+    }
+    
 }

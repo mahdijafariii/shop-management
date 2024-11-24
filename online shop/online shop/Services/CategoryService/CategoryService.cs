@@ -40,6 +40,26 @@ public class CategoryService : ICategoryService
         return await _categoryRepository.CreateCategoryAsync(category);
     }
 
+    public async Task UpdateCategoryAsync(string categoryId ,UpdateCategoryDto createCategoryDto)
+    {
+        (string, string) icon = (null, null);
+        if (createCategoryDto.IconFile != null)
+        {
+            if (!IsSupportedImageFormat(createCategoryDto.IconFile.ContentType))
+            {
+                throw new InvalidRequestException("Unsupported image format !!!" , StatusCodes.Status400BadRequest);
+            }
+
+            icon = SaveIconFile(createCategoryDto.IconFile);
+        }
+
+        var result = await _categoryRepository.UpdateCategoryAsync(categoryId,createCategoryDto);
+        if (!result)
+        {
+            throw new InvalidCastException("Dose not updated successfully !!");
+        }
+    }
+
     public async Task DeleteCategoryAsync(string objectId)
     {
         if (!ObjectId.TryParse(objectId, out var categoryId))
