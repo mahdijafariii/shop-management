@@ -15,4 +15,6 @@ public interface ICategoryRepository
     Task<List<SubCategory>> GetALlSubCategories();
     
     Task<List<SubCategory>> GetSubCategories(string categoryId);
+    Task<bool> DeleteSubCategories(string categoryId);
+
 }

@@ -60,9 +60,17 @@ public class CategoryController : ControllerBase
     
     [HttpGet("get-{categoryId}-sub-category")]
     [Authorize(Roles = "SELLER")]
-    public async Task<IActionResult> GetAllSubCategoryAsync([FromRoute] string categoryId)
+    public async Task<IActionResult> GetSubCategoriesAsync([FromRoute] string categoryId)
     {
         var result = await _categoryService.GetSubCategories(categoryId);
         return Ok(result);
+    }
+    
+    [HttpDelete("delete-{categoryId}-sub-category")]
+    [Authorize(Roles = "SELLER")]
+    public async Task<IActionResult> DeleteSubCategoryAsync([FromRoute] string categoryId)
+    {
+        await _categoryService.DeleteSubCategories(categoryId);
+        return Ok("sub category deleted successfully!!");
     }
 }

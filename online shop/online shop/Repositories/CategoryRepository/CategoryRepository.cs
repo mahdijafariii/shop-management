@@ -46,6 +46,13 @@ public class CategoryRepository : ICategoryRepository
         return result.ToList();
     }
 
+    public async Task<bool> DeleteSubCategories(string categoryId)
+    {
+        var filter = Builders<SubCategory>.Filter.Eq(c => c.Id, categoryId);
+        var result = await _dbContext.SubCategories.DeleteOneAsync(filter);
+        return result.DeletedCount > 0;
+    }
+
 
     public async Task<bool> DeleteCategoryAsync(string categoryId)
     {

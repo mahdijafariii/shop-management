@@ -13,8 +13,9 @@ public interface ICategoryService
     Task<List<SubCategory>> GetALlSubCategories();
     
     Task<List<SubCategory>> GetSubCategories(string categoryId);
+    Task DeleteSubCategories(string categoryId);
 
 
 
-    
+
 }

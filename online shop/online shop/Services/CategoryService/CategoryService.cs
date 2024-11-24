@@ -105,6 +105,15 @@ public class CategoryService : ICategoryService
         return result;
     }
 
+    public async Task DeleteSubCategories(string categoryId)
+    {
+        var result = await _categoryRepository.DeleteSubCategories(categoryId);
+        if (result)
+        {
+            throw new NotFoundException("Category");
+        }
+    }
+
     private bool IsSupportedImageFormat(string contentType)
     {
         var supportedFormats = new[] { "image/jpeg", "image/png", "image/gif" };
