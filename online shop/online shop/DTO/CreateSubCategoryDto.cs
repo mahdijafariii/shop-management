@@ -3,4 +3,4 @@ using MongoDB.Bson;
 
 namespace online_shop.DTO;
 
-public record CreateSubCategoryDto(string Title , string Slug , ObjectId? Parent ,string Description , [ModelBinder(BinderType = typeof(DtoFormBuilder))] List<Filter> Filters);
+public record CreateSubCategoryDto(string Title , string Slug , string Parent ,string Description , [ModelBinder(BinderType = typeof(DtoFormBuilder))] List<Filter> Filters);

@@ -6,6 +6,9 @@ namespace online_shop.Repositories.CategoryRepository;
 public interface ICategoryRepository
 {
     Task<Category> CreateCategoryAsync(Category category);
+    Task<SubCategory> CreateSubCategoryAsync(SubCategory subCategory);
+
     Task<bool> DeleteCategoryAsync(string categoryId);
     Task<bool> UpdateCategoryAsync(string categoryId, UpdateCategoryDto updateCategoryDto);
+    Task<bool> CheckParentIdValidator(string parentId);
 }

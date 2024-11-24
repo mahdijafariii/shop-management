@@ -40,6 +40,26 @@ public class CategoryService : ICategoryService
         return await _categoryRepository.CreateCategoryAsync(category);
     }
 
+    public async Task<SubCategory> CreateSubCategoryAsync(CreateSubCategoryDto createSubCategoryDto)
+    {
+        var checkParent = await _categoryRepository.CheckParentIdValidator(createSubCategoryDto.Parent);
+        if (!checkParent)
+        {
+            throw new NotFoundException("Parent category");
+        }
+        var category = new SubCategory()
+        {
+            Title = createSubCategoryDto.Title,
+            Slug = createSubCategoryDto.Slug,
+            ParentId = createSubCategoryDto.Parent.ToString(),
+            Description = createSubCategoryDto.Description,
+            Filters = createSubCategoryDto.Filters
+        };
+
+        return await _categoryRepository.CreateSubCategoryAsync(category);
+        
+    }
+
     public async Task UpdateCategoryAsync(string categoryId ,UpdateCategoryDto createCategoryDto)
     {
         (string, string) icon = (null, null);

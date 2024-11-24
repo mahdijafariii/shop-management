@@ -20,6 +20,20 @@ public class CategoryRepository : ICategoryRepository
         return category;
     }
 
+    public async Task<SubCategory> CreateSubCategoryAsync(SubCategory subCategory)
+    {
+        await _dbContext.SubCategories.InsertOneAsync(subCategory);
+        return subCategory;
+    }
+
+    public async Task<bool> CheckParentIdValidator(string parentId)
+    {
+        var filter = Builders<Category>.Filter.Eq(u => u.Id, parentId);
+        var result = await _dbContext.Categories.FindAsync(filter);
+        return result.Any();
+    }
+
+
     public async Task<bool> DeleteCategoryAsync(string categoryId)
     {
         var filter = Builders<Category>.Filter.Eq(c => c.Id, categoryId);
@@ -34,7 +48,6 @@ public class CategoryRepository : ICategoryRepository
         var update = Builders<Category>.Update;
         var updateDefinition = new List<UpdateDefinition<Category>>();
 
-        // بررسی و اضافه کردن تغییرات به آپدیت
         if (!string.IsNullOrEmpty(updateCategoryDto.Title))
             updateDefinition.Add(update.Set(c => c.Title, updateCategoryDto.Title));
 
@@ -94,4 +107,5 @@ public class CategoryRepository : ICategoryRepository
 
         return (filePath,fileName);
     }
+    
 }

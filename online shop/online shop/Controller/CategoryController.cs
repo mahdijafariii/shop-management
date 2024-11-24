@@ -44,9 +44,9 @@ public class CategoryController : ControllerBase
     
     [HttpPost("create-sub-category")]
     [Authorize(Roles = "SELLER")]
-    public async Task<IActionResult> AddSubCategoryAsync([FromForm] CreateCategoryDto request)
+    public async Task<IActionResult> AddSubCategoryAsync([FromForm] CreateSubCategoryDto request)
     {
-        var result = await _categoryService.CreateCategoryAsync(request);
+        var result = await _categoryService.CreateSubCategoryAsync(request);
         return Ok(result);
     }
     
