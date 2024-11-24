@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-
+[BsonIgnoreExtraElements]
 public class Category
 {
     [BsonId]
@@ -20,6 +20,7 @@ public class Category
 
     [BsonRepresentation(BsonType.ObjectId)]
     [JsonPropertyName("parent")]
+    [BsonElement("parent")]  
     public ObjectId? ParentId { get; set; } 
 
     [BsonElement("description")]
@@ -30,6 +31,9 @@ public class Category
 
     [BsonElement("filters")]
     public List<Filter> Filters { get; set; }
+    
+    public List<SubCategory> SubCategories { get; set; } = new List<SubCategory>();
+
 }
 
 public class Icon

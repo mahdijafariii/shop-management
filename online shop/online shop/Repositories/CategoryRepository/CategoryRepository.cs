@@ -1,3 +1,4 @@
+using Microsoft.IdentityModel.Tokens;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using online_shop.Data;
@@ -76,6 +77,18 @@ public class CategoryRepository : ICategoryRepository
     {
         var filter = Builders<SubCategory>.Filter.Eq(u => u.ParentId , categoryId);
         var result = await _dbContext.SubCategories.FindAsync(filter);
+        return result.ToList();
+    }
+
+    public async Task<List<Category>> GetCategoriesSub(ObjectId? categoryId)
+    {
+        if (categoryId == null) 
+        {
+            var mainCategories = await _dbContext.Categories.Find(u => u.ParentId.Equals(null)).ToListAsync();
+            return mainCategories;
+        }
+        var filter = Builders<Category>.Filter.Eq(u => u.ParentId , categoryId);
+        var result = await _dbContext.Categories.FindAsync(filter);
         return result.ToList();
     }
 

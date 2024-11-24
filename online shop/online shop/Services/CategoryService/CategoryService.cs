@@ -150,4 +150,50 @@ public class CategoryService : ICategoryService
         return (filePath,fileName);
     }
     
+    
+    public async Task<List<Category>> FetchAllCategoriesAsync()
+    {
+        try
+        {
+            var categories = await FetchCategoriesRecursivelyAsync(null);
+            return categories;
+        }
+        catch (System.Exception ex)
+        {
+            throw new System.Exception("Error fetching categories", ex);
+        }
+    }
+
+    private async Task<List<Category>> FetchCategoriesRecursivelyAsync(string parentId)
+    {
+        ObjectId? parentObjectId = string.IsNullOrEmpty(parentId) ? null : ObjectId.Parse(parentId);
+
+        var parentCategories = await _categoryRepository.GetCategoriesSub(parentObjectId); // level 1 categories
+
+        var fetchedCategories = new List<Category>();
+
+        foreach (var category in parentCategories)
+        {
+            category.SubCategories = await FetchSubCategoriesForCategoryAsync(category.Id); // level 2 categories
+
+            fetchedCategories.Add(category);
+        }
+
+        return fetchedCategories;
+    }
+
+    private async Task<List<SubCategory>> FetchSubCategoriesForCategoryAsync(string parentId)
+    {
+        var subCategories = await _categoryRepository.GetSubCategories(parentId);
+
+        var fetchedSubCategories = new List<SubCategory>();
+
+        foreach (var subCategory in subCategories)
+        {
+            fetchedSubCategories.Add(subCategory); // level 3 categories
+        }
+
+        return fetchedSubCategories;
+    }
+    
 }

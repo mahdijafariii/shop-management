@@ -17,6 +17,14 @@ public class CategoryController : ControllerBase
         _categoryService = categoryService;
     }
 
+    [HttpGet("fetch-all-category")]
+    [Authorize(Roles = "SELLER")]
+    public async Task<IActionResult> FetchAllCategories()
+    {
+        var result = await _categoryService.FetchAllCategoriesAsync();
+        return Ok(result);
+    }
+    
     [HttpPost("create-category")]
     [Authorize(Roles = "SELLER")]
     public async Task<IActionResult> AddCategoryAsync([FromForm] CreateCategoryDto request)
