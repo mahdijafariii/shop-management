@@ -14,6 +14,7 @@ public interface ICategoryService
     
     Task<List<SubCategory>> GetSubCategories(string categoryId);
     Task DeleteSubCategories(string categoryId);
+    Task UpdateSubCategoryAsync(string subCategoryId, UpdateSubCategoryDto updateSubCategoryDto);
 
 
 

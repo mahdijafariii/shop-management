@@ -60,20 +60,20 @@ public class CategoryService : ICategoryService
         
     }
 
-    public async Task UpdateCategoryAsync(string categoryId ,UpdateCategoryDto createCategoryDto)
+    public async Task UpdateCategoryAsync(string categoryId ,UpdateCategoryDto updateCategoryDto)
     {
         (string, string) icon = (null, null);
-        if (createCategoryDto.IconFile != null)
+        if (updateCategoryDto.IconFile != null)
         {
-            if (!IsSupportedImageFormat(createCategoryDto.IconFile.ContentType))
+            if (!IsSupportedImageFormat(updateCategoryDto.IconFile.ContentType))
             {
                 throw new InvalidRequestException("Unsupported image format !!!" , StatusCodes.Status400BadRequest);
             }
 
-            icon = SaveIconFile(createCategoryDto.IconFile);
+            icon = SaveIconFile(updateCategoryDto.IconFile);
         }
 
-        var result = await _categoryRepository.UpdateCategoryAsync(categoryId,createCategoryDto);
+        var result = await _categoryRepository.UpdateCategoryAsync(categoryId,updateCategoryDto);
         if (!result)
         {
             throw new InvalidCastException("Dose not updated successfully !!");
@@ -111,6 +111,15 @@ public class CategoryService : ICategoryService
         if (result)
         {
             throw new NotFoundException("Category");
+        }
+    }
+
+    public async Task UpdateSubCategoryAsync(string subCategoryId, UpdateSubCategoryDto updateSubCategoryDto)
+    {
+        var result = await _categoryRepository.UpdateSubCategoryAsync(subCategoryId, updateSubCategoryDto);
+        if (!result)
+        {
+            throw new InvalidRequestException("reqeust was not succesffull",400);
         }
     }
 

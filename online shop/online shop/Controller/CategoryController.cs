@@ -73,4 +73,11 @@ public class CategoryController : ControllerBase
         await _categoryService.DeleteSubCategories(categoryId);
         return Ok("sub category deleted successfully!!");
     }
+    [HttpPatch("update-{subCategoryId}-sub-category")]
+    [Authorize(Roles = "SELLER")]
+    public async Task<IActionResult> UpdateSubCategoryAsync([FromRoute] string subCategoryId,[FromForm] UpdateSubCategoryDto request)
+    {
+        await _categoryService.UpdateSubCategoryAsync(subCategoryId,request);
+        return Ok("Updated successfully !");
+    }
 }

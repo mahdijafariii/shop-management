@@ -26,6 +26,39 @@ public class CategoryRepository : ICategoryRepository
         return subCategory;
     }
 
+    public async Task<bool> UpdateSubCategoryAsync(string subCategoryId, UpdateSubCategoryDto updateSubCategoryDto)
+    {
+        var filter = Builders<SubCategory>.Filter.Eq(c => c.Id, subCategoryId);
+
+        var update = Builders<SubCategory>.Update;
+        var updateDefinition = new List<UpdateDefinition<SubCategory>>();
+
+        if (!string.IsNullOrEmpty(updateSubCategoryDto.Title))
+            updateDefinition.Add(update.Set(c => c.Title, updateSubCategoryDto.Title));
+
+        if (!string.IsNullOrEmpty(updateSubCategoryDto.Slug))
+            updateDefinition.Add(update.Set(c => c.Slug, updateSubCategoryDto.Slug));
+
+        if (!string.IsNullOrEmpty(updateSubCategoryDto.Parent))
+            updateDefinition.Add(update.Set(c => c.ParentId, updateSubCategoryDto.Parent));
+
+        if (!string.IsNullOrEmpty(updateSubCategoryDto.Description))
+            updateDefinition.Add(update.Set(c => c.Description, updateSubCategoryDto.Description));
+
+        if (updateSubCategoryDto.Filters != null && updateSubCategoryDto.Filters.Any())
+            updateDefinition.Add(update.Set(c => c.Filters, updateSubCategoryDto.Filters));
+
+        if (updateDefinition.Any())
+        {
+            var combinedUpdate = update.Combine(updateDefinition);
+            var result = await _dbContext.SubCategories.UpdateOneAsync(filter, combinedUpdate);
+
+            return result.ModifiedCount > 0;
+        }
+
+        return false;
+    }
+
     public async Task<bool> CheckParentIdValidator(string parentId)
     {
         var filter = Builders<Category>.Filter.Eq(u => u.Id, parentId);
