@@ -20,7 +20,7 @@ public class SubCategory
     [BsonRepresentation(BsonType.ObjectId)]
     [BsonElement("parent")]
     [Required(ErrorMessage = "ParentId is required.")]
-    public string ParentId { get; set; } // ObjectId برای ارجاع به دسته‌بندی والد
+    public string ParentId { get; set; } 
 
     [BsonElement("description")]
     public string Description { get; set; }
