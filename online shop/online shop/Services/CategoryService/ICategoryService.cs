@@ -9,6 +9,12 @@ public interface ICategoryService
     Task UpdateCategoryAsync(string categoryId,UpdateCategoryDto createCategoryDto);
 
     Task DeleteCategoryAsync(string objectId);
+    
+    Task<List<SubCategory>> GetALlSubCategories();
+    
+    Task<List<SubCategory>> GetSubCategories(string categoryId);
+
+
 
     
 }

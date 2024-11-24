@@ -93,6 +93,17 @@ public class CategoryService : ICategoryService
         }
     }
 
+    public async Task<List<SubCategory>> GetALlSubCategories()
+    {
+        var result = await _categoryRepository.GetALlSubCategories();
+        return result;
+    }
+
+    public Task<List<SubCategory>> GetSubCategories(string categoryId)
+    {
+        throw new NotImplementedException();
+    }
+
     private bool IsSupportedImageFormat(string contentType)
     {
         var supportedFormats = new[] { "image/jpeg", "image/png", "image/gif" };

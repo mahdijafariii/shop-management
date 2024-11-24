@@ -11,4 +11,8 @@ public interface ICategoryRepository
     Task<bool> DeleteCategoryAsync(string categoryId);
     Task<bool> UpdateCategoryAsync(string categoryId, UpdateCategoryDto updateCategoryDto);
     Task<bool> CheckParentIdValidator(string parentId);
+    
+    Task<List<SubCategory>> GetALlSubCategories();
+    
+    Task<List<SubCategory>> GetSubCategories(string categoryId);
 }

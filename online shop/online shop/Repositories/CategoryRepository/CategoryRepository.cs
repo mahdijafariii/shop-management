@@ -33,6 +33,17 @@ public class CategoryRepository : ICategoryRepository
         return result.Any();
     }
 
+    public async Task<List<SubCategory>> GetALlSubCategories()
+    {
+        var result = await _dbContext.SubCategories.FindAsync(FilterDefinition<SubCategory>.Empty);
+        return result.ToList();
+    }
+
+    public Task<List<SubCategory>> GetSubCategories(string categoryId)
+    {
+        throw new NotImplementedException();
+    }
+
 
     public async Task<bool> DeleteCategoryAsync(string categoryId)
     {

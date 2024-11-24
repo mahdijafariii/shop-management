@@ -50,4 +50,19 @@ public class CategoryController : ControllerBase
         return Ok(result);
     }
     
+    [HttpGet("get-all-sub-category")]
+    [Authorize(Roles = "SELLER")]
+    public async Task<IActionResult> GetAllSubCategoryAsync()
+    {
+        var result = await _categoryService.GetALlSubCategories();
+        return Ok(result);
+    }
+    
+    [HttpGet("get-{categoryId}-sub-category")]
+    [Authorize(Roles = "SELLER")]
+    public async Task<IActionResult> GetAllSubCategoryAsync([FromRoute] string categoryId)
+    {
+        var result = await _categoryService.GetSubCategories(categoryId);
+        return Ok(result);
+    }
 }
