@@ -101,7 +101,8 @@ public class CategoryService : ICategoryService
 
     public Task<List<SubCategory>> GetSubCategories(string categoryId)
     {
-        throw new NotImplementedException();
+        var result = _categoryRepository.GetSubCategories(categoryId);
+        return result;
     }
 
     private bool IsSupportedImageFormat(string contentType)

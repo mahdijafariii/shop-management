@@ -39,9 +39,11 @@ public class CategoryRepository : ICategoryRepository
         return result.ToList();
     }
 
-    public Task<List<SubCategory>> GetSubCategories(string categoryId)
+    public async Task<List<SubCategory>> GetSubCategories(string categoryId)
     {
-        throw new NotImplementedException();
+        var filter = Builders<SubCategory>.Filter.Eq(u => u.ParentId , categoryId);
+        var result = await _dbContext.SubCategories.FindAsync(filter);
+        return result.ToList();
     }
 
 
