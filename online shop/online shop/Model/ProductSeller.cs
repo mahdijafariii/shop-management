@@ -16,5 +16,4 @@ public class ProductSeller
 
     [BsonRequired]
     public int Stock { get; set; }
-    
 }
