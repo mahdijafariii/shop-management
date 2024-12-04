@@ -1,12 +1,17 @@
 using online_shop.DTO;
 using online_shop.Exception;
 using online_shop.Model;
+using online_shop.Repositories.ProductRepository;
 
 namespace online_shop.Services.ProductService;
 
 public class ProductService
 {
-    
+    private readonly IProductRepository _productRepository;
+    public ProductService(IProductRepository productRepository)
+    {
+        _productRepository = productRepository;
+    }
     public async Task CreateProductAsync(CreateProductDto model)
     {
         if (!Guid.TryParse(model.SubCategory, out _))
@@ -60,4 +65,5 @@ public class ProductService
         "image/gif"
     };
 
+    
 }

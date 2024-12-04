@@ -26,19 +26,19 @@ public class SellerRepository : ISellerRepository
         return seller != null;
     }
     
-    public async Task<bool> CheckStoreHasSeller(ObjectId seller)
+    public async Task<bool> CheckStoreHasSeller(string seller)
     {
         var result = await _dbContext.Sellers.Find(s => s.Id == seller).FirstOrDefaultAsync();
         return result != null;
     }
     
-    public async Task<bool> DeleteSellerAsync(ObjectId seller)
+    public async Task<bool> DeleteSellerAsync(string seller)
     {
         var result = await _dbContext.Sellers.DeleteOneAsync(s => s.Id == seller);
         return result.DeletedCount > 0;
     }
 
-    public async Task<(GetSellerDto, bool)> GetSellerAsync(ObjectId sellerId)
+    public async Task<(GetSellerDto, bool)> GetSellerAsync(string sellerId)
     {
         var result = await _dbContext.Sellers.Find(seller => seller.Id == sellerId).FirstOrDefaultAsync();
         GetSellerDto getSellerDto;
@@ -52,7 +52,7 @@ public class SellerRepository : ISellerRepository
         return (getSellerDto, true);
     }
 
-    public async Task<bool> UpdateSellerAsync(ObjectId sellerId, AddSellerDto addSellerDto)
+    public async Task<bool> UpdateSellerAsync(string sellerId, AddSellerDto addSellerDto)
     {
         var filter = Builders<Seller>.Filter.Eq(s => s.Id, sellerId);
 

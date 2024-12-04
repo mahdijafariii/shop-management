@@ -6,7 +6,7 @@ namespace online_shop.Model;
 public class Seller
 {
     [BsonId]
-    public ObjectId Id { get; set; } 
+    public string Id { get; set; } 
 
     [BsonRequired]
     [BsonElement("name")]

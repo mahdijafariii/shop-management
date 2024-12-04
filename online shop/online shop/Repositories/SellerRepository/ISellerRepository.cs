@@ -8,9 +8,9 @@ public interface ISellerRepository
 {
     Task<string> AddSellerAsync(Seller seller);
     Task<bool> CheckUserSeller(ObjectId user);
-    Task<bool> UpdateSellerAsync(ObjectId sellerId, AddSellerDto addSellerDto);
-    Task<bool> CheckStoreHasSeller(ObjectId seller);
-    Task<bool> DeleteSellerAsync(ObjectId seller);
-    Task<(GetSellerDto, bool)> GetSellerAsync(ObjectId sellerId);
+    Task<bool> UpdateSellerAsync(string sellerId, AddSellerDto addSellerDto);
+    Task<bool> CheckStoreHasSeller(string seller);
+    Task<bool> DeleteSellerAsync(string seller);
+    Task<(GetSellerDto, bool)> GetSellerAsync(string sellerId);
 
 }
