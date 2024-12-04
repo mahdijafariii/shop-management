@@ -19,7 +19,7 @@ public class MongoDbContext
     public IMongoCollection<Seller> Sellers => _database.GetCollection<Seller>("Sellers");
     public IMongoCollection<Category> Categories => _database.GetCollection<Category>("Categories");
     public IMongoCollection<SubCategory> SubCategories => _database.GetCollection<SubCategory>("SubCategories");
-    public IMongoCollection<SubCategory> Product => _database.GetCollection<SubCategory>("Product");
+    public IMongoCollection<Product> Product => _database.GetCollection<Product>("Product");
 
     
 }

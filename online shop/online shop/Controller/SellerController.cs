@@ -39,8 +39,7 @@ public class SellerController : ControllerBase
     [Authorize(Roles = "SELLER")]
     public async Task<IActionResult> UpdateSellerAsync([FromQuery] string sellerId,[FromBody] AddSellerDto request)
     {
-        var objId = ObjectId.Parse(sellerId);
-        await _sellerService.UpdateSellerAsync(objId,request);
+        await _sellerService.UpdateSellerAsync(sellerId,request);
         return Ok(new
         {
             Message = "Seller Updated successfully!",
@@ -50,8 +49,7 @@ public class SellerController : ControllerBase
     [Authorize(Roles = "SELLER")]
     public async Task<IActionResult> DeleteSellerAsync([FromQuery] string sellerId)
     {
-        var objId = ObjectId.Parse(sellerId);
-        await _sellerService.DeleteSellerAsync(objId);
+        await _sellerService.DeleteSellerAsync(sellerId);
         return Ok(new
         {
             Message = "Seller deleted successfully!",
@@ -64,8 +62,7 @@ public class SellerController : ControllerBase
     [Authorize(Roles = "SELLER")]
     public async Task<IActionResult> GetSellerAsync([FromQuery] string sellerId)
     {
-        var objId = ObjectId.Parse(sellerId);
-        var result = await _sellerService.GetSellerAsync(objId);
+        var result = await _sellerService.GetSellerAsync(sellerId);
         return Ok(result);
     }
 }

@@ -6,7 +6,7 @@ namespace online_shop.Services.SellerService;
 public interface ISellerService
 {
     Task<string> AddSellerAsync(ObjectId user,AddSellerDto addSeller);
-    Task UpdateSellerAsync(ObjectId sellerId, AddSellerDto addSellerDto);
-    Task DeleteSellerAsync(ObjectId seller);
-    Task<GetSellerDto> GetSellerAsync(ObjectId seller);
+    Task UpdateSellerAsync(string sellerId, AddSellerDto addSellerDto);
+    Task DeleteSellerAsync(string seller);
+    Task<GetSellerDto> GetSellerAsync(string seller);
 }

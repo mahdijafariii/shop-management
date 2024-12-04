@@ -18,4 +18,10 @@ public class ProductRepository : IProductRepository
         var product = await _dbContext.Sellers.Find(filter).FirstOrDefaultAsync();
         return product != null;
     }
+
+    public async Task<Product> AddProductAsync(Product product)
+    {
+        await _dbContext.Product.InsertOneAsync(product);
+        return product;
+    }
 }

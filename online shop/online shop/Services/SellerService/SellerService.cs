@@ -35,7 +35,7 @@ public class SellerService : ISellerService
         return result;
     }
     
-    public async Task UpdateSellerAsync(ObjectId sellerId ,AddSellerDto addSellerDto)
+    public async Task UpdateSellerAsync(string sellerId ,AddSellerDto addSellerDto)
     {
         var hasSeller = await _sellerRepository.CheckStoreHasSeller(sellerId);
         if (!hasSeller)
@@ -49,7 +49,7 @@ public class SellerService : ISellerService
         }
     }
 
-    public async Task DeleteSellerAsync(ObjectId seller)
+    public async Task DeleteSellerAsync(string seller)
     {
         var result = await _sellerRepository.DeleteSellerAsync(seller);
         if (!result)
@@ -58,7 +58,7 @@ public class SellerService : ISellerService
         }
     }
 
-    public async Task<GetSellerDto> GetSellerAsync(ObjectId seller)
+    public async Task<GetSellerDto> GetSellerAsync(string seller)
     {
         var result = await _sellerRepository.GetSellerAsync(seller);
         if (!result.Item2)
