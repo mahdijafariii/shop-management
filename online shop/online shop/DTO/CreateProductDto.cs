@@ -5,6 +5,6 @@ public record CreateProductDto(string Name,
     string Description,
     string SubCategory,
     List<string> Sellers,
-    Dictionary<string,object> FilterValues,
-    Dictionary<string,string> CustomFilters
+    string FilterValues,
+    string CustomFilters
     , List<IFormFile> Files);

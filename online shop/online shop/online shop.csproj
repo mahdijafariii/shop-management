@@ -37,6 +37,7 @@
 
     <ItemGroup>
       <Folder Include="Public\images\Categories\" />
+      <Folder Include="Public\images\Product\" />
     </ItemGroup>
 
 </Project>

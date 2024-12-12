@@ -6,9 +6,11 @@ using online_shop.Data;
 using online_shop.Middleware;
 using online_shop.Repositories;
 using online_shop.Repositories.CategoryRepository;
+using online_shop.Repositories.ProductRepository;
 using online_shop.Repositories.SellerRepository;
 using online_shop.Services;
 using online_shop.Services.CategoryService;
+using online_shop.Services.ProductService;
 using online_shop.Services.SellerService;
 using online_shop.Validator;
 using StackExchange.Redis;
@@ -76,6 +78,9 @@ public class Startup
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ISellerRepository, SellerRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IProductRepository, ProductRepository>();
+
+        
         
         
         
@@ -90,6 +95,8 @@ public class Startup
         services.AddScoped<IUserService,UserService>();
         services.AddScoped<ISellerService,SellerService>();
         services.AddScoped<ICategoryService,CategoryService>();
+        services.AddScoped<IProductService,ProductService>();
+
 
 
 
