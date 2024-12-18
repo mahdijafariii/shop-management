@@ -59,7 +59,9 @@ public class ProductService : IProductService
             Sellers = model.Sellers,
             FilterValues = filtersFromJson,
             CustomFilters = customFiltersFromJson,
-            ShortIdentifier = shortIdentifier
+            ShortIdentifier = shortIdentifier,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow,
         };
 
         await _productRepository.AddProductAsync(newProduct);
@@ -95,7 +97,7 @@ public class ProductService : IProductService
 
     public async Task<Product> GetProduct(string productId)
     {
-        var product = await _productRepository.DeleteProductAsync(productId);
+        var product = await _productRepository.GetProductAsync(productId);
         if (product is null)
         {
             throw new OperationFailedException();

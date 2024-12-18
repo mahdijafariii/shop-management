@@ -27,8 +27,8 @@ public class ProductController : ControllerBase
     [HttpPost("get-product")]
     public async Task<IActionResult> GetProductAsync([FromQuery] string productId)
     {
-        await _productService.GetProduct(productId);
-        return Ok("added successfully");
+        var product = await _productService.GetProduct(productId);
+        return Ok(product);
     }
     
     [HttpDelete("delete-product")]

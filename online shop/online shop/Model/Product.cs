@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
@@ -41,8 +42,10 @@ public class Product
     public string ShortIdentifier { get; set; }
 
     [BsonElement("createdAt")]
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
     public DateTime CreatedAt { get; set; }
 
     [BsonElement("updatedAt")]
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
     public DateTime UpdatedAt { get; set; }
 }
