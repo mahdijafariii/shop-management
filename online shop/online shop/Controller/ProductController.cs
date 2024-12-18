@@ -22,4 +22,11 @@ public class ProductController : ControllerBase
         await _productService.CreateProduct(request);
         return Ok();
     }
+    
+    [HttpPost("delete-product")]
+    public async Task<IActionResult> DeleteProductAsync([FromQuery] string request)
+    {
+        await _productService.DeletesProduct(request);
+        return Ok();
+    }
 }

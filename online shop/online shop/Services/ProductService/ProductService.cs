@@ -65,7 +65,16 @@ public class ProductService : IProductService
         await _productRepository.AddProductAsync(newProduct);
 
     }
-    
+
+    public async Task DeletesProduct(string request)
+    {
+        var check = await _productRepository.DeleteProductAsync(request);
+        if (!check)
+        {
+            throw new OperationFailedException();
+        }
+    }
+
     private static readonly string[] SupportedFormats = 
     {
         "image/jpeg",
