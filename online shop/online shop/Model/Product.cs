@@ -23,7 +23,10 @@ public class Product
 
     [BsonRequired]
     [BsonRepresentation(BsonType.ObjectId)]
-    public string SubCategory { get; set; }
+    public string SubCategoryId { get; set; }
+    
+    public SubCategory SubCategory { get; set; }
+
 
     [BsonRequired]
     public List<string> Images { get; set; }

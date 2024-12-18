@@ -39,8 +39,14 @@ public class ProductRepository : IProductRepository
     {
         var filter = Builders<Product>.Filter.Eq(c => c.Id, productId);
         var product = await _dbContext.Product.Find(filter).FirstOrDefaultAsync();
+        if (product != null)
+        {
+            var subCategory = await _dbContext.SubCategories
+                .Find(s => s.Id == product.SubCategoryId)
+                .FirstOrDefaultAsync();
+            product.SubCategory = subCategory;
+        }
         return product != null ? product : null;
-
     }
 
     public async Task<Product> AddProductAsync(Product product)

@@ -54,7 +54,7 @@ public class ProductService : IProductService
             Name = model.Name,
             Slug = model.Slug,
             Description = model.Description,
-            SubCategory = model.SubCategory,
+            SubCategoryId = model.SubCategory,
             Images = images,
             Sellers = model.Sellers,
             FilterValues = filtersFromJson,
