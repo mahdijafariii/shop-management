@@ -23,6 +23,14 @@ public class ProductController : ControllerBase
         return Ok("added successfully");
     }
     
+    
+    [HttpPost("get-product")]
+    public async Task<IActionResult> GetProductAsync([FromQuery] string productId)
+    {
+        await _productService.GetProduct(productId);
+        return Ok("added successfully");
+    }
+    
     [HttpDelete("delete-product")]
     public async Task<IActionResult> DeleteProductAsync([FromQuery] string request)
     {

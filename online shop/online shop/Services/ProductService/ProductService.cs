@@ -93,6 +93,17 @@ public class ProductService : IProductService
         
     }
 
+    public async Task<Product> GetProduct(string productId)
+    {
+        var product = await _productRepository.DeleteProductAsync(productId);
+        if (product is null)
+        {
+            throw new OperationFailedException();
+        }
+
+        return product;
+    }
+
     private static readonly string[] SupportedFormats = 
     {
         "image/jpeg",

@@ -35,6 +35,14 @@ public class ProductRepository : IProductRepository
         return null;
     }
 
+    public async Task<Product> GetProductAsync(string productId)
+    {
+        var filter = Builders<Product>.Filter.Eq(c => c.Id, productId);
+        var product = await _dbContext.Product.Find(filter).FirstOrDefaultAsync();
+        return product != null ? product : null;
+
+    }
+
     public async Task<Product> AddProductAsync(Product product)
     {
         await _dbContext.Product.InsertOneAsync(product);
