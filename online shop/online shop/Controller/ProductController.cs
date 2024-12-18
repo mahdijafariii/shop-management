@@ -20,13 +20,13 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> AddProductAsync([FromForm] CreateProductDto request)
     {
         await _productService.CreateProduct(request);
-        return Ok();
+        return Ok("added successfully");
     }
     
-    [HttpPost("delete-product")]
+    [HttpDelete("delete-product")]
     public async Task<IActionResult> DeleteProductAsync([FromQuery] string request)
     {
         await _productService.DeletesProduct(request);
-        return Ok();
+        return Ok("deleted successfully");
     }
 }

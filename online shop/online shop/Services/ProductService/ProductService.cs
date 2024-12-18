@@ -68,11 +68,29 @@ public class ProductService : IProductService
 
     public async Task DeletesProduct(string request)
     {
-        var check = await _productRepository.DeleteProductAsync(request);
-        if (!check)
+        var product = await _productRepository.DeleteProductAsync(request);
+        if (product is null)
         {
             throw new OperationFailedException();
         }
+        if (product.Images != null && product.Images.Any())
+        {
+            foreach (var imagePath in product.Images)
+            {
+                try
+                {
+                    if (File.Exists(imagePath))
+                    {
+                        File.Delete(imagePath);
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    Console.WriteLine($"can`t delete image {ex}");
+                }
+            }
+        }
+        
     }
 
     private static readonly string[] SupportedFormats = 

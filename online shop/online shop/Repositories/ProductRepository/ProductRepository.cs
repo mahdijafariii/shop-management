@@ -18,12 +18,21 @@ public class ProductRepository : IProductRepository
         var product = await _dbContext.Sellers.Find(filter).FirstOrDefaultAsync();
         return product != null;
     }
-    public async Task<bool> DeleteProductAsync(string productId)
+    public async Task<Product> DeleteProductAsync(string productId)
     {
-        var filter = Builders<Product>.Filter.Eq(c => c.Id, productId
-        );
-        var result = await _dbContext.Product.DeleteOneAsync(filter);
-        return result.DeletedCount > 0;
+        var filter = Builders<Product>.Filter.Eq(c => c.Id, productId);
+        var product = await _dbContext.Product.Find(filter).FirstOrDefaultAsync();
+
+        if (product != null)
+        {
+            var result = await _dbContext.Product.DeleteOneAsync(filter);
+            if (result.DeletedCount > 0)
+            {
+                return product; 
+            }
+        }
+    
+        return null;
     }
 
     public async Task<Product> AddProductAsync(Product product)
