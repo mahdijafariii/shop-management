@@ -21,6 +21,7 @@ public class MongoDbContext
     public IMongoCollection<SubCategory> SubCategories => _database.GetCollection<SubCategory>("SubCategories");
     public IMongoCollection<Product> Product => _database.GetCollection<Product>("Product");
     public IMongoCollection<Note> Note => _database.GetCollection<Note>("Note");
+    public IMongoCollection<SellerRequest> SellerRequest => _database.GetCollection<SellerRequest>("SellerRequest");
 
     
 }

@@ -10,10 +10,10 @@ public class SellerRequest
     public string Id { get; set; }
 
     [BsonRepresentation(BsonType.ObjectId)] 
-    public string Seller { get; set; }
+    public string SellerId { get; set; }
 
     [BsonRepresentation(BsonType.ObjectId)] 
-    public string Product { get; set; }
+    public string ProductId { get; set; }
 
     public double Price { get; set; }
 
