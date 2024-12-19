@@ -60,6 +60,17 @@ public class ProductRepository : IProductRepository
         return result;
     }
 
+    public async Task<Product> GetProductWithIdentifier(string shortIdentifier)
+    {
+        var result = await _dbContext.Product.Find(p => p.ShortIdentifier == shortIdentifier).FirstOrDefaultAsync();
+        if (result is null)
+        {
+            return null;
+        }
+
+        return result;
+    }
+
     public async Task<Product> AddProductAsync(Product product)
     {
         await _dbContext.Product.InsertOneAsync(product);

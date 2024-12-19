@@ -11,25 +11,28 @@ namespace online_shop.Services.ProductService;
 public class ProductService : IProductService
 {
     private readonly IProductRepository _productRepository;
+
     public ProductService(IProductRepository productRepository)
     {
         _productRepository = productRepository;
     }
+
     public async Task CreateProduct(CreateProductDto model)
     {
         if (!ObjectId.TryParse(model.SubCategory, out _))
-            throw new InvalidRequestException("SubCategory ID is not correct!",404);
+            throw new InvalidRequestException("SubCategory ID is not correct!", 404);
 
 
         var images = new List<string>();
         foreach (var file in model.Files)
         {
             if (!SupportedFormats.Contains(file.ContentType))
-                throw new InvalidRequestException("Unsupported image format!",404);
+                throw new InvalidRequestException("Unsupported image format!", 404);
 
             string uuid = Guid.NewGuid().ToString();
             var fileName = $"{uuid}{Path.GetExtension(file.FileName)}";
-            var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "../../online shop/online shop/Public/images/Product");
+            var directoryPath = Path.Combine(Directory.GetCurrentDirectory(),
+                "../../online shop/online shop/Public/images/Product");
             var filePath = Path.Combine(directoryPath, fileName);
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
@@ -65,7 +68,6 @@ public class ProductService : IProductService
         };
 
         await _productRepository.AddProductAsync(newProduct);
-
     }
 
     public async Task DeletesProduct(string request)
@@ -75,6 +77,7 @@ public class ProductService : IProductService
         {
             throw new OperationFailedException();
         }
+
         if (product.Images != null && product.Images.Any())
         {
             foreach (var imagePath in product.Images)
@@ -92,7 +95,6 @@ public class ProductService : IProductService
                 }
             }
         }
-        
     }
 
     public async Task<Product> GetProduct(string productId)
@@ -106,7 +108,18 @@ public class ProductService : IProductService
         return product;
     }
 
-    private static readonly string[] SupportedFormats = 
+    public async Task<Product> GetProductWithIdentifier(string shortIdentifier)
+    {
+        var product = await _productRepository.GetProductWithIdentifier(shortIdentifier);
+        if (product is null)
+        {
+            throw new NotFoundException("product");
+        }
+
+        return product;
+    }
+
+    private static readonly string[] SupportedFormats =
     {
         "image/jpeg",
         "image/png",
@@ -115,7 +128,7 @@ public class ProductService : IProductService
         "image/gif"
     };
 
-    public Dictionary<string,object> SetFiltersFromJson(string json)
+    public Dictionary<string, object> SetFiltersFromJson(string json)
     {
         Dictionary<string, object> filterValues = new Dictionary<string, object>();
         var jobject = JObject.Parse(json);
@@ -131,9 +144,4 @@ public class ProductService : IProductService
         var dictionary = jobject.ToObject<Dictionary<string, string>>();
         return dictionary ?? customFilters;
     }
-    
-    
-    
-    
-    
 }

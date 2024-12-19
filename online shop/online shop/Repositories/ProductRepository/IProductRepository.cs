@@ -9,5 +9,6 @@ public interface IProductRepository
     Task<Product> DeleteProductAsync(string productId);
     Task<Product> GetProductAsync(string productId);
     Task<Product> IsProductExist(string productId);
+    Task<Product> GetProductWithIdentifier(string shortIdentifier);
 
 }

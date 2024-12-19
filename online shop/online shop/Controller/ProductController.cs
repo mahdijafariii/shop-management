@@ -30,6 +30,12 @@ public class ProductController : ControllerBase
         var product = await _productService.GetProduct(productId);
         return Ok(product);
     }
+    [HttpGetg("get-product-shortIdentifier")]
+    public async Task<IActionResult> GetProductShortIdentifierAsync([FromQuery] string shortIdentifier)
+    {
+        var product = await _productService.GetProductWithIdentifier(shortIdentifier);
+        return Ok(product);
+    }
     
     [HttpDelete("delete-product")]
     public async Task<IActionResult> DeleteProductAsync([FromQuery] string request)

@@ -8,6 +8,5 @@ public interface IProductService
     Task CreateProduct(CreateProductDto model);
     Task DeletesProduct(string request);
     Task<Product> GetProduct(string productId);
-
-
+    Task<Product> GetProductWithIdentifier(string shortIdentifier);
 }
