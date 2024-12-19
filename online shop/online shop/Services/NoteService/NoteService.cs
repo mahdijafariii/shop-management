@@ -40,4 +40,20 @@ public class NoteService : INoteService
         var noteResult = await _noteRepository.AddNoteAsync(note);
         return noteResult;
     }
+
+    public async Task<Note> GetNote(string noteId, string userId)
+    {
+        var note = await _noteRepository.GetNoteAsync(noteId, userId);
+        if (note is null)
+        {
+            throw new InvalidRequestException("We dose not have note with this id or we can not send it to you",400);
+        }
+
+        var product = await _productRepository.IsProductExist(note.ProductId);
+        if (product is null)
+        {
+            throw new NotFoundException("Product");
+        }
+        return note;
+    }
 }

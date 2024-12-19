@@ -28,8 +28,13 @@ public class NoteRepository : INoteRepository
         throw new NotImplementedException();
     }
 
-    public Task GetNoteAsync()
+    public async Task<Note> GetNoteAsync(string noteId, string userId)
     {
-        throw new NotImplementedException();
+        var result = await _dbContext.Note.Find(p => p.Id == noteId && p.UserId == userId).FirstOrDefaultAsync();
+        if(result is null)
+        {
+            return null;
+        }
+        return result;
     }
 }

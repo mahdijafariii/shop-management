@@ -7,5 +7,6 @@ public interface INoteRepository
     Task<Note> AddNoteAsync(Note note);
     Task<bool> NoteExistAsync(string userId , string productId);
     Task DeleteNoteAsync();
-    Task GetNoteAsync();
+    Task<Note> GetNoteAsync(string noteId, string userId);
+
 }

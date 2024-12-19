@@ -30,4 +30,13 @@ public class NoteController : ControllerBase
             note = result
         });
     }    
+    
+    [HttpGet("get-note")]
+    public async Task<IActionResult> GetNoteAsync([FromQuery] string noteId)
+    {
+        var user = User;
+        var userId = user.FindFirstValue("userId");
+        var result = await _noteService.GetNote(noteId,userId);
+        return Ok(result);
+    }    
 }
