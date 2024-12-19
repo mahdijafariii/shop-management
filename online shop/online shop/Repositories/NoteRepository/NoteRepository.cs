@@ -54,4 +54,19 @@ public class NoteRepository : INoteRepository
         }
         return result;
     }
+    
+    public async Task<bool> DeleteNoteAsync(string noteId)
+    {
+        var filter = Builders<Note>.Filter.Eq(c => c.Id, noteId);
+        var result = await _dbContext.Note.FindOneAndDeleteAsync(filter);
+        return result != null;
+    }
+    
+    public async Task<int> NoteTotalCount()
+    {
+        var totalCount = await _dbContext.Users.CountDocumentsAsync(FilterDefinition<User>.Empty);
+        return (int)totalCount;
+    }
+    
+
 }

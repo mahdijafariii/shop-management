@@ -59,7 +59,7 @@ public class NoteService : INoteService
 
         return note;
     }
-    public async Task<List<NoteWithProduct>> GetAllNotes(string userId, int page = 1, int limit = 10)
+    public async Task<(List<NoteWithProduct>, int totalCount)> GetAllNotes(string userId, int page = 1, int limit = 10)
     {
         var notes = await _noteRepository.GetAllNote(userId, page, limit);
         if (!notes.Any())
@@ -78,10 +78,10 @@ public class NoteService : INoteService
             }
             else
             {
-                // delete note
+                await _noteRepository.DeleteNoteAsync(note.Id);
             }
         }
-
-        return allNotes;
+        var totalCount = await _noteRepository.
+        return (allNotes,100);
     }
 }

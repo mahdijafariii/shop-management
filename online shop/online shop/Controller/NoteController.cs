@@ -44,7 +44,7 @@ public class NoteController : ControllerBase
     {
         var user = User;
         var userId = user.FindFirstValue("userId");
-        var result = await _noteService.GetAllNotes(userId);
+        var result = await _noteService.GetAllNotes(userId,request.Page,request.Limit);
         return Ok(result);
     }    
 }
