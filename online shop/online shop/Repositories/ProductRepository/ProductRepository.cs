@@ -1,5 +1,8 @@
 using MongoDB.Driver;
+using Newtonsoft.Json.Linq;
 using online_shop.Data;
+using online_shop.DTO;
+using online_shop.Exception;
 using online_shop.Model;
 
 namespace online_shop.Repositories.ProductRepository;
@@ -7,6 +10,7 @@ namespace online_shop.Repositories.ProductRepository;
 public class ProductRepository : IProductRepository
 {
     private readonly MongoDbContext _dbContext;
+    
 
     public ProductRepository(MongoDbContext dbContext)
     {
@@ -71,9 +75,96 @@ public class ProductRepository : IProductRepository
         return result;
     }
 
+    public async Task<bool> UpdateProductAsync(UpdateProduct request)
+    {
+        var filter = Builders<Product>.Filter.Eq(s => s.Id, request.ProductId);
+
+        var updateDefinition = new List<UpdateDefinition<Product>>();
+
+        if (!string.IsNullOrEmpty(request.Name))
+            updateDefinition.Add(Builders<Product>.Update.Set(s => s.Name, request.Name));
+
+        if (!string.IsNullOrEmpty(request.SubCategory))
+            updateDefinition.Add(Builders<Product>.Update.Set(s => s.SubCategoryId,request.SubCategory));
+
+        if (!string.IsNullOrEmpty(request.Description))
+        {
+            updateDefinition.Add(Builders<Product>.Update.Set(s => s.Description, request.Description));
+        }
+        if (!string.IsNullOrEmpty(request.CustomFilters))
+        {
+            var customFilter = SetCustomFiltersFromJson(request.CustomFilters);
+            updateDefinition.Add(Builders<Product>.Update.Set(s => s.CustomFilters, customFilter));
+        }
+        if (!string.IsNullOrEmpty(request.FilterValues))
+        {
+            var mainFilter = SetFiltersFromJson(request.FilterValues);
+            updateDefinition.Add(Builders<Product>.Update.Set(s => s.FilterValues,mainFilter));
+        }
+        if (!string.IsNullOrEmpty(request.Slug))
+        {
+            updateDefinition.Add(Builders<Product>.Update.Set(s => s.Slug, request.Slug));
+        }
+        if (request.Files != null && request.Files.Any())
+        {
+            var images = new List<string>();
+            foreach (var file in request.Files)
+            {
+                if (!SupportedFormats.Contains(file.ContentType))
+                    throw new InvalidRequestException("Unsupported image format!", 404);
+
+                string uuid = Guid.NewGuid().ToString();
+                var fileName = $"{uuid}{Path.GetExtension(file.FileName)}";
+                var directoryPath = Path.Combine(Directory.GetCurrentDirectory(),
+                    "../../online shop/online shop/Public/images/Product");
+                var filePath = Path.Combine(directoryPath, fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                images.Add(filePath);
+            }
+            updateDefinition.Add(Builders<Product>.Update.Set(s => s.Slug, request.Slug));
+        }
+        if (updateDefinition.Any())
+        {
+            var combinedUpdate = Builders<Product>.Update.Combine(updateDefinition);
+            var result = await _dbContext.Product.UpdateOneAsync(filter, combinedUpdate);
+            return result.ModifiedCount > 0;
+        }
+
+        return false;
+    }
+
     public async Task<Product> AddProductAsync(Product product)
     {
         await _dbContext.Product.InsertOneAsync(product);
         return product;
     }
+    
+    public Dictionary<string, string> SetCustomFiltersFromJson(string json)
+    {
+        Dictionary<string, string> customFilters = new Dictionary<string, string>();
+        var jobject = JObject.Parse(json);
+        var dictionary = jobject.ToObject<Dictionary<string, string>>();
+        return dictionary ?? customFilters;
+    }
+    
+    public Dictionary<string, object> SetFiltersFromJson(string json)
+    {
+        Dictionary<string, object> filterValues = new Dictionary<string, object>();
+        var jobject = JObject.Parse(json);
+        var dictionary = jobject.ToObject<Dictionary<string, object>>();
+
+        return dictionary ?? filterValues;
+    }
+    private static readonly string[] SupportedFormats =
+    {
+        "image/jpeg",
+        "image/png",
+        "image/svg+xml",
+        "image/webp",
+        "image/gif"
+    };
 }

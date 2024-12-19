@@ -119,6 +119,21 @@ public class ProductService : IProductService
         return product;
     }
 
+    public async Task UpdateProduct(UpdateProduct request)
+    {
+        var product = await _productRepository.GetProductAsync(request.ProductId);
+        if (product is null)
+        {
+            throw new NotFoundException("product");
+        }
+
+        var check = await _productRepository.UpdateProductAsync(request);
+        if (!check)
+        {
+            throw new InvalidRequestException("update was not successful",400);
+        }
+    }
+
     private static readonly string[] SupportedFormats =
     {
         "image/jpeg",

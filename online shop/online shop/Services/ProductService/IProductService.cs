@@ -9,4 +9,5 @@ public interface IProductService
     Task DeletesProduct(string request);
     Task<Product> GetProduct(string productId);
     Task<Product> GetProductWithIdentifier(string shortIdentifier);
+    Task UpdateProduct(UpdateProduct request);
 }

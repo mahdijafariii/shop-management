@@ -43,4 +43,11 @@ public class ProductController : ControllerBase
         await _productService.DeletesProduct(request);
         return Ok("deleted successfully");
     }
+    
+    [HttpPatch("update-product")]
+    public async Task<IActionResult> UpdateProductAsync([FromForm]UpdateProduct request)
+    {
+        await _productService.UpdateProduct(request);
+        return Ok("updated successfully");
+    }
 }

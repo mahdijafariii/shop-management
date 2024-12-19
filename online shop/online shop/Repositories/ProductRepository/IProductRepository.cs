@@ -1,3 +1,4 @@
+using online_shop.DTO;
 using online_shop.Model;
 
 namespace online_shop.Repositories.ProductRepository;
@@ -10,5 +11,5 @@ public interface IProductRepository
     Task<Product> GetProductAsync(string productId);
     Task<Product> IsProductExist(string productId);
     Task<Product> GetProductWithIdentifier(string shortIdentifier);
-
+    Task<bool> UpdateProductAsync(UpdateProduct request);
 }
