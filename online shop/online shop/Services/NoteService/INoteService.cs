@@ -9,5 +9,5 @@ public interface INoteService
     Task<Note> GetNote(string noteId, string userId);
     Task<(List<NoteWithProduct>, int totalCount)> GetAllNotes(string userId, int page , int limit);
     Task<bool> DeleteNote(string userId, string noteId);
-
+    Task<bool> UpdateNote(string userId, string noteId, string content);
 }

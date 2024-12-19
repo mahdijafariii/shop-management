@@ -30,7 +30,7 @@ public class ProductController : ControllerBase
         var product = await _productService.GetProduct(productId);
         return Ok(product);
     }
-    [HttpGetg("get-product-shortIdentifier")]
+    [HttpGet("get-product-shortIdentifier")]
     public async Task<IActionResult> GetProductShortIdentifierAsync([FromQuery] string shortIdentifier)
     {
         var product = await _productService.GetProductWithIdentifier(shortIdentifier);

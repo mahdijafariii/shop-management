@@ -63,4 +63,13 @@ public class NoteController : ControllerBase
         await _noteService.DeleteNote(userId, noteId);
         return Ok("note deleted successfully");
     }   
+    
+    [HttpPatch("update-note")]
+    public async Task<IActionResult> UpdateNoteAsync([FromQuery] string noteId ,string content)
+    {
+        var user = User;
+        var userId = user.FindFirstValue("userId");
+        await _noteService.UpdateNote(userId, noteId, content);
+        return Ok("note updated successfully");
+    }  
 }

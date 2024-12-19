@@ -103,4 +103,15 @@ public class NoteService : INoteService
 
         return check;
     }
+
+    public async Task<bool> UpdateNote(string userId, string noteId, string content)
+    {
+        var result = await _noteRepository.UpdateNoteAsync(userId,noteId,content);
+        if (!result)
+        {
+            throw new InvalidRequestException("Note dose not updated successfully", 400);
+        }
+
+        return true;
+    }
 }

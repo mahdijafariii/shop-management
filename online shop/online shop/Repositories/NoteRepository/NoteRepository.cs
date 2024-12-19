@@ -68,5 +68,26 @@ public class NoteRepository : INoteRepository
         return (int)totalCount;
     }
     
+    public async Task<bool> UpdateNoteAsync(string userId,string noteId, string content)
+    {
+        var filter = Builders<Note>.Filter.And(
+            Builders<Note>.Filter.Eq(s => s.Id, noteId),
+            Builders<Note>.Filter.Eq(s => s.UserId, userId)
+        );
+        var updateDefinition = new List<UpdateDefinition<Note>>();
+
+        if (!string.IsNullOrEmpty(content))
+            updateDefinition.Add(Builders<Note>.Update.Set(s => s.Content, content));
+        
+        if (updateDefinition.Any())
+        {
+            var combinedUpdate = Builders<Note>.Update.Combine(updateDefinition);
+            var result = await _dbContext.Note.UpdateOneAsync(filter, combinedUpdate);
+            return result.ModifiedCount > 0;
+        }
+
+        return false;
+    }
+    
 
 }
