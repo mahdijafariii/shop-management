@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using online_shop.DTO;
@@ -20,7 +21,9 @@ public class NoteController : ControllerBase
     [HttpPost("add-note")]
     public async Task<IActionResult> AddNoteAsync([FromBody] AddNote request)
     {
-        var result = await _noteService.AddNote(request);
+        var user = User;
+        var userId = user.FindFirstValue("userId");
+        var result = await _noteService.AddNote(request,userId);
         return Ok(new
         {
             Massage = "Added successfully",

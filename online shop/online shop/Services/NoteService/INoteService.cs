@@ -5,6 +5,6 @@ namespace online_shop.Services;
 
 public interface INoteService
 {
-    Task<Note> AddNote(AddNote request);
+    Task<Note> AddNote(AddNote request, string userId);
 
 }

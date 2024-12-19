@@ -1,3 +1,4 @@
+using MongoDB.Driver;
 using online_shop.Data;
 using online_shop.Model;
 
@@ -15,6 +16,11 @@ public class NoteRepository : INoteRepository
     {
         await _dbContext.Note.InsertOneAsync(note);
         return note;
+    }
+    public async Task<bool> NoteExistAsync(string userId , string productId)
+    {
+        var result = await _dbContext.Note.Find(p => p.ProductId == productId && p.UserId == userId).FirstOrDefaultAsync();
+        return result != null;
     }
 
     public Task DeleteNoteAsync()

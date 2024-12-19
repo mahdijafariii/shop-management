@@ -8,5 +8,6 @@ public interface IProductRepository
     Task<Product> AddProductAsync(Product product);
     Task<Product> DeleteProductAsync(string productId);
     Task<Product> GetProductAsync(string productId);
+    Task<Product> IsProductExist(string productId);
 
 }

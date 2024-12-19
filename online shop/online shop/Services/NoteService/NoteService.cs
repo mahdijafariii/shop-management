@@ -1,23 +1,39 @@
 using online_shop.DTO;
+using online_shop.Exception;
 using online_shop.Model;
 using online_shop.Repositories.NoteRepository;
+using online_shop.Repositories.ProductRepository;
 
 namespace online_shop.Services;
 
 public class NoteService : INoteService
 {
     private INoteRepository _noteRepository;
+    private IProductRepository _productRepository;
 
-    public NoteService(INoteRepository noteRepository)
+
+    public NoteService(INoteRepository noteRepository, IProductRepository productRepository)
     {
         _noteRepository = noteRepository;
+        _productRepository = productRepository;
     }
 
-    public async Task<Note> AddNote(AddNote request)
+    public async Task<Note> AddNote(AddNote request, string userId)
     {
+        var result = await _noteRepository.NoteExistAsync(userId, request.ProductId);
+        if (result)
+        {
+            throw new InvalidRequestException("Note exist before for this product!", 400);
+        }
+
+        var product = await _productRepository.IsProductExist(request.ProductId);
+        if (product is null)
+        {
+            throw new NotFoundException("Product");
+        }
         var note = new Note
         {
-            UserId = request.UserId,
+            UserId = userId,
             Content = request.Content,
             ProductId = request.ProductId
         };

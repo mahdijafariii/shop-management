@@ -49,6 +49,17 @@ public class ProductRepository : IProductRepository
         return product != null ? product : null;
     }
 
+    public async Task<Product> IsProductExist(string productId)
+    {
+        var result = await _dbContext.Product.Find(p => p.Id == productId).FirstOrDefaultAsync();
+        if (result is null)
+        {
+            return null;
+        }
+
+        return result;
+    }
+
     public async Task<Product> AddProductAsync(Product product)
     {
         await _dbContext.Product.InsertOneAsync(product);
