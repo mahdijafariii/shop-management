@@ -12,14 +12,17 @@ public class NoteRepository : INoteRepository
     {
         _dbContext = dbContext;
     }
+
     public async Task<Note> AddNoteAsync(Note note)
     {
         await _dbContext.Note.InsertOneAsync(note);
         return note;
     }
-    public async Task<bool> NoteExistAsync(string userId , string productId)
+
+    public async Task<bool> NoteExistAsync(string userId, string productId)
     {
-        var result = await _dbContext.Note.Find(p => p.ProductId == productId && p.UserId == userId).FirstOrDefaultAsync();
+        var result = await _dbContext.Note.Find(p => p.ProductId == productId && p.UserId == userId)
+            .FirstOrDefaultAsync();
         return result != null;
     }
 
@@ -31,7 +34,21 @@ public class NoteRepository : INoteRepository
     public async Task<Note> GetNoteAsync(string noteId, string userId)
     {
         var result = await _dbContext.Note.Find(p => p.Id == noteId && p.UserId == userId).FirstOrDefaultAsync();
-        if(result is null)
+        if (result is null)
+        {
+            return null;
+        }
+
+        return result;
+    }
+
+    public async Task<List<Note>> GetAllNote(string userId, int page, int limit)
+    {
+        var skip = (page - 1) * limit;
+
+        var result = await _dbContext.Note.Find(p => p.UserId == userId).Skip(skip)
+            .Limit(limit).ToListAsync();
+        if (result is null)
         {
             return null;
         }

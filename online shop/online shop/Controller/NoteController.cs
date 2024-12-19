@@ -39,4 +39,12 @@ public class NoteController : ControllerBase
         var result = await _noteService.GetNote(noteId,userId);
         return Ok(result);
     }    
+    [HttpGet("get-all-notes")]
+    public async Task<IActionResult> GetAllNotesAsync([FromQuery] PaginationInputDto request)
+    {
+        var user = User;
+        var userId = user.FindFirstValue("userId");
+        var result = await _noteService.GetAllNotes(userId);
+        return Ok(result);
+    }    
 }

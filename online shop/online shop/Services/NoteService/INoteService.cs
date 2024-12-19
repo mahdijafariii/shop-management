@@ -7,5 +7,6 @@ public interface INoteService
 {
     Task<Note> AddNote(AddNote request, string userId);
     Task<Note> GetNote(string noteId, string userId);
-    
+    Task<List<NoteWithProduct>> GetAllNotes(string userId, int page , int limit);
+
 }

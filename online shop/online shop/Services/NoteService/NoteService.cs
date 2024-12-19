@@ -31,6 +31,7 @@ public class NoteService : INoteService
         {
             throw new NotFoundException("Product");
         }
+
         var note = new Note
         {
             UserId = userId,
@@ -41,12 +42,13 @@ public class NoteService : INoteService
         return noteResult;
     }
 
+    
     public async Task<Note> GetNote(string noteId, string userId)
     {
         var note = await _noteRepository.GetNoteAsync(noteId, userId);
         if (note is null)
         {
-            throw new InvalidRequestException("We dose not have note with this id or we can not send it to you",400);
+            throw new InvalidRequestException("We dose not have note with this id or we can not send it to you", 400);
         }
 
         var product = await _productRepository.IsProductExist(note.ProductId);
@@ -54,6 +56,32 @@ public class NoteService : INoteService
         {
             throw new NotFoundException("Product");
         }
+
         return note;
+    }
+    public async Task<List<NoteWithProduct>> GetAllNotes(string userId, int page = 1, int limit = 10)
+    {
+        var notes = await _noteRepository.GetAllNote(userId, page, limit);
+        if (!notes.Any())
+        {
+            throw new NotFoundException("Note");
+        }
+
+        var allNotes = new List<NoteWithProduct>();
+        foreach (var note in notes)
+        {
+            var check = await _productRepository.IsProductExist(note.ProductId);
+            if (check != null)
+            {
+                var noteWithProduct = new NoteWithProduct(check, note.Content);
+                allNotes.Add(noteWithProduct);
+            }
+            else
+            {
+                // delete note
+            }
+        }
+
+        return allNotes;
     }
 }
