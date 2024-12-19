@@ -20,6 +20,7 @@ public class MongoDbContext
     public IMongoCollection<Category> Categories => _database.GetCollection<Category>("Categories");
     public IMongoCollection<SubCategory> SubCategories => _database.GetCollection<SubCategory>("SubCategories");
     public IMongoCollection<Product> Product => _database.GetCollection<Product>("Product");
+    public IMongoCollection<Note> Note => _database.GetCollection<Note>("Note");
 
     
 }

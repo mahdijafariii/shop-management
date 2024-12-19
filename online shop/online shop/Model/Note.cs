@@ -1,3 +1,4 @@
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace online_shop.Model;
@@ -5,6 +6,7 @@ namespace online_shop.Model;
 public class Note
 {
     [BsonId]
+    [BsonRepresentation(BsonType.ObjectId)]
     public string Id { get; set; } 
 
     [BsonRequired]
@@ -12,9 +14,9 @@ public class Note
     public string UserId { get; set; }
 
     [BsonElement("productId")]
-    public ContactDetails ProductId { get; set; }
+    public string ProductId { get; set; }
 
     [BsonElement("content")]
     [BsonRequired]
-    public int Content { get; set; }
+    public string Content { get; set; }
 }
