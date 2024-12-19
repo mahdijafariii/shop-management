@@ -11,4 +11,5 @@ public interface INoteRepository
     Task<List<Note>> GetAllNote(string userId, int page, int limit);
     Task<bool> DeleteNoteAsync(string noteId);
     Task<int> NoteTotalCount();
+
 }

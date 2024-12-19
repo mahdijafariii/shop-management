@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using online_shop.DTO;
+using online_shop.Exception;
 using online_shop.Services;
 
 namespace online_shop.Controller;
@@ -45,6 +46,21 @@ public class NoteController : ControllerBase
         var user = User;
         var userId = user.FindFirstValue("userId");
         var result = await _noteService.GetAllNotes(userId,request.Page,request.Limit);
-        return Ok(result);
+        return Ok(new
+        {
+            result.Item1,
+            total_count = result.totalCount,
+            page = request.Page,
+            limit = request.Limit
+        });
     }    
+    
+    [HttpDelete("delete-note")]
+    public async Task<IActionResult> DeleteNoteAsync([FromQuery] string noteId)
+    {
+        var user = User;
+        var userId = user.FindFirstValue("userId");
+        await _noteService.DeleteNote(userId, noteId);
+        return Ok("note deleted successfully");
+    }   
 }

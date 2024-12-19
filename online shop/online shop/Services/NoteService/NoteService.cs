@@ -42,7 +42,7 @@ public class NoteService : INoteService
         return noteResult;
     }
 
-    
+
     public async Task<Note> GetNote(string noteId, string userId)
     {
         var note = await _noteRepository.GetNoteAsync(noteId, userId);
@@ -59,6 +59,7 @@ public class NoteService : INoteService
 
         return note;
     }
+
     public async Task<(List<NoteWithProduct>, int totalCount)> GetAllNotes(string userId, int page = 1, int limit = 10)
     {
         var notes = await _noteRepository.GetAllNote(userId, page, limit);
@@ -81,7 +82,25 @@ public class NoteService : INoteService
                 await _noteRepository.DeleteNoteAsync(note.Id);
             }
         }
-        var totalCount = await _noteRepository.
-        return (allNotes,100);
+
+        var totalCount = await _noteRepository.NoteTotalCount();
+        return (allNotes, totalCount);
+    }
+
+    public async Task<bool> DeleteNote(string userId, string noteId)
+    {
+        var result = await _noteRepository.GetNoteAsync(noteId, userId);
+        if (result is null)
+        {
+            throw new InvalidRequestException("You can not delete this note", 400);
+        }
+
+        var check = await _noteRepository.DeleteNoteAsync(noteId);
+        if (!check)
+        {
+            throw new InvalidRequestException("request was not successful", 400);
+        }
+
+        return check;
     }
 }
