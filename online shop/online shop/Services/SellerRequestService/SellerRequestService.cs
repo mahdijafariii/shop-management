@@ -25,6 +25,12 @@ public class SellerRequestService : ISellerRequestService
         {
             throw new NotFoundException("Product");
         }
+
+        var requestExistBefore = await _sellerRequestRepository.IsRequestExistAsync(sellerId, request.ProductId);
+        if (requestExistBefore.Status == SellerRequestStatus.Pending.ToString())
+        {
+            throw new InvalidRequestException("You send request before please wait", 404);
+        }
         var sellerRequest = new SellerRequest()
         {
             ProductId = request.ProductId,
