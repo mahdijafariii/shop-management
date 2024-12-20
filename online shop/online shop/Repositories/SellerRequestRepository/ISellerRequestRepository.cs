@@ -6,6 +6,6 @@ public interface ISellerRequestRepository
 {
     Task<string> AddSellerRequestAsync(SellerRequest sellerRequest);
     Task<SellerRequest> IsRequestExistAsync(string sellerId, string productId);
-
-
+    Task<SellerRequest> GetNoteAsync(string noteId);
+    Task<bool> DeleteNoteAsync(string sellerRequestId);
 }

@@ -25,4 +25,18 @@ public class SellerRequestRepository : ISellerRequestRepository
             .FirstOrDefaultAsync();
         return result !=null ? result : null;
     }
+
+    public async Task<SellerRequest> GetNoteAsync(string noteId)
+    {
+        var result = await _dbContext.SellerRequest.Find(s => s.Id == noteId)
+            .FirstOrDefaultAsync();
+        return result !=null ? result : null;
+    }
+
+    public async Task<bool> DeleteNoteAsync(string sellerRequestId)
+    {
+        var filter = Builders<SellerRequest>.Filter.Eq(c => c.Id, sellerRequestId);
+        var result = await _dbContext.SellerRequest.FindOneAndDeleteAsync(filter);
+        return result != null;
+    }
 }

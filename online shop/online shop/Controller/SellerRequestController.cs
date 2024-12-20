@@ -27,6 +27,17 @@ public class SellerRequestController : ControllerBase
             Massage = "request added successfully",
             id = result
         });
+    }
+    [HttpDelete("delete-seller-request")]
+    public async Task<IActionResult> DeleteSellerRequestAsync([FromQuery] string requestId)
+    {
+        var user = User;
+        var userId = user.FindFirstValue("userId");
+        await _sellerRequestService.DeleteSellerRequest(requestId,userId);
+        return Ok(new
+        {
+            Massage = "request added successfully",
+        });
     }   
     
 }

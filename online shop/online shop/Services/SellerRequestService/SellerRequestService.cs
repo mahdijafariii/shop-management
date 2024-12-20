@@ -31,6 +31,7 @@ public class SellerRequestService : ISellerRequestService
         {
             throw new InvalidRequestException("You send request before please wait", 404);
         }
+
         var sellerRequest = new SellerRequest()
         {
             ProductId = request.ProductId,
@@ -38,7 +39,27 @@ public class SellerRequestService : ISellerRequestService
             Stock = request.Stock,
             Price = request.Price,
         };
-        var id= await _sellerRequestRepository.AddSellerRequestAsync(sellerRequest);
+        var id = await _sellerRequestRepository.AddSellerRequestAsync(sellerRequest);
         return id;
+    }
+
+    public async Task DeleteSellerRequest(string requestId, string userId)
+    {
+        var note = await _sellerRequestRepository.GetNoteAsync(requestId);
+        if (note is null)
+        {
+            throw new NotFoundException("Note");
+        }
+
+        if (note.Id != userId)
+        {
+            throw new InvalidRequestException("you dont access to delete this note", 400);
+        }
+
+        if (note.Status != SellerRequestStatus.Pending.ToString())
+        {
+            throw new InvalidRequestException("The status of request is pending and you can not delete it !", 400);
+        }
+        
     }
 }
