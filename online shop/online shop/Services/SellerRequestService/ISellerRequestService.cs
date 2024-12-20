@@ -7,6 +7,6 @@ public interface ISellerRequestService
 {
     Task<string> CreateRequest(string sellerId,CreateSellerRequest request);
     Task DeleteSellerRequest(string requestId, string userId);
-    Task<(List<SellerRequest>, int totalCount)> GetAllRequest(string userId, int page , int limit);
+    Task<(List<SellerRequest>, int totalCount)> GetAllRequest(string userId, int page , int limit,string status);
 
 }

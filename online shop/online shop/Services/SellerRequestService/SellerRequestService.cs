@@ -63,9 +63,10 @@ public class SellerRequestService : ISellerRequestService
         
     }
 
-    public async Task<(List<SellerRequest>, int totalCount)> GetAllRequest(string userId, int page = 1, int limit = 10)
+    public async Task<(List<SellerRequest>, int totalCount)> GetAllRequest(string userId, int page = 1, int limit = 10, string status = "Pending")
     {
-        var result = await _sellerRequestRepository.GetAllRequestAsync(userId, page, limit);
+        Console.WriteLine($"status{status}");
+        var result = await _sellerRequestRepository.GetAllRequestAsync(userId, page, limit,status);
         if (!result.Any())
         {
             throw new NotFoundException("Seller request");

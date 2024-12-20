@@ -40,11 +40,12 @@ public class SellerRequestRepository : ISellerRequestRepository
         return result != null;
     }
 
-    public async Task<List<SellerRequest>> GetAllRequestAsync(string userId, int page, int limit)
+    public async Task<List<SellerRequest>> GetAllRequestAsync(string userId, int page, int limit, string status)
     {
         var skip = (page - 1) * limit;
+        var statusLower = status.ToLower();
 
-        var result = await _dbContext.SellerRequest.Find(p => p.SellerId == userId).Skip(skip)
+        var result = await _dbContext.SellerRequest.Find(p => p.SellerId == userId && p.Status.ToLower() == statusLower).Skip(skip)
             .Limit(limit).ToListAsync();
         if (result is null)
         {
