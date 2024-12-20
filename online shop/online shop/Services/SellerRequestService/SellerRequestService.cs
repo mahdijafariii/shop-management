@@ -62,4 +62,16 @@ public class SellerRequestService : ISellerRequestService
         }
         
     }
+
+    public async Task<(List<SellerRequest>, int totalCount)> GetAllRequest(string userId, int page = 1, int limit = 10)
+    {
+        var result = await _sellerRequestRepository.GetAllRequestAsync(userId, page, limit);
+        if (!result.Any())
+        {
+            throw new NotFoundException("Seller request");
+        }
+        var totalCount = await _sellerRequestRepository.SellerRequestTotalCount();
+        return (result, totalCount);
+    }
+    
 }

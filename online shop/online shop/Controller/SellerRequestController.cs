@@ -40,4 +40,17 @@ public class SellerRequestController : ControllerBase
         });
     }   
     
+    [HttpGet("get-all-seller-request")]
+    public async Task<IActionResult> GetAllSellerRequestAsync([FromQuery] PaginationInputDto request)
+    {
+        var user = User;
+        var userId = user.FindFirstValue("userId");
+        var result = await _sellerRequestService.GetAllRequest(userId,request.Page,request.Limit);
+        return Ok(new
+        {
+            result.Item1,
+            totalCount = result.totalCount
+        });
+    }
+    
 }

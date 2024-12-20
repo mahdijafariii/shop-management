@@ -64,7 +64,7 @@ public class NoteRepository : INoteRepository
     
     public async Task<int> NoteTotalCount()
     {
-        var totalCount = await _dbContext.Users.CountDocumentsAsync(FilterDefinition<User>.Empty);
+        var totalCount = await _dbContext.Note.CountDocumentsAsync(FilterDefinition<Note>.Empty);
         return (int)totalCount;
     }
     

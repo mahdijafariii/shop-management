@@ -39,4 +39,24 @@ public class SellerRequestRepository : ISellerRequestRepository
         var result = await _dbContext.SellerRequest.FindOneAndDeleteAsync(filter);
         return result != null;
     }
+
+    public async Task<List<SellerRequest>> GetAllRequestAsync(string userId, int page, int limit)
+    {
+        var skip = (page - 1) * limit;
+
+        var result = await _dbContext.SellerRequest.Find(p => p.SellerId == userId).Skip(skip)
+            .Limit(limit).ToListAsync();
+        if (result is null)
+        {
+            return null;
+        }
+        return result;
+        
+    }
+
+    public async Task<int> SellerRequestTotalCount()
+    {
+        var total =(int) await _dbContext.SellerRequest.CountDocumentsAsync(FilterDefinition<SellerRequest>.Empty);
+        return total;
+    }
 }
