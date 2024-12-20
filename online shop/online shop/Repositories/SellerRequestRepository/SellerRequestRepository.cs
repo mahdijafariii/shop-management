@@ -47,7 +47,7 @@ public class SellerRequestRepository : ISellerRequestRepository
 
         var result = await _dbContext.SellerRequest.Find(p => p.SellerId == userId && p.Status.ToLower() == statusLower).Skip(skip)
             .Limit(limit).ToListAsync();
-        if (result is null)
+        if (result is null || !result.Any())
         {
             return null;
         }

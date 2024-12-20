@@ -67,7 +67,7 @@ public class SellerRequestService : ISellerRequestService
     {
         Console.WriteLine($"status{status}");
         var result = await _sellerRequestRepository.GetAllRequestAsync(userId, page, limit,status);
-        if (!result.Any())
+        if (!result.Any() || result is null)
         {
             throw new NotFoundException("Seller request");
         }
