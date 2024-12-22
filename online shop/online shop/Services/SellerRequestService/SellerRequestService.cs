@@ -74,5 +74,22 @@ public class SellerRequestService : ISellerRequestService
         var totalCount = await _sellerRequestRepository.SellerRequestTotalCount();
         return (result, totalCount);
     }
-    
+
+    public Task<Product> UpdateSellerRequest(UpdateSellerRequestDto requestDto)
+    {
+        if (requestDto.Status.ToLower() != "Approved" || requestDto.Status.ToLower() != "Rejected")
+        {
+            throw new InvalidRequestException("status should be Approved or Rejected", 400);
+        }
+
+        if (requestDto.Status == "Rejected")
+        {
+            
+            
+        }
+        else if (requestDto.Status == "Approved")
+        {
+            
+        }
+    }
 }
