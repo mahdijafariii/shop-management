@@ -34,6 +34,6 @@ public class SellerRequest
 public enum SellerRequestStatus
 {
     Pending,
-    Accepted,
+    Approved,
     Rejected
 }
