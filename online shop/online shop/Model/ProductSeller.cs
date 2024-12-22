@@ -5,15 +5,19 @@ namespace online_shop.Model;
 
 public class ProductSeller
 {
-    [BsonId]
-    public ObjectId Id { get; set; }
-
     [BsonRequired]
-    public ObjectId SellerId { get; set; }
+    public string SellerId { get; set; }
 
     [BsonRequired]
     public decimal Price { get; set; }
 
     [BsonRequired]
     public int Stock { get; set; }
+    public ProductSeller(string sellerId, decimal price, int stock)
+    {
+        SellerId = sellerId;
+        Price = price;
+        Stock = stock;
+    }
 }
+

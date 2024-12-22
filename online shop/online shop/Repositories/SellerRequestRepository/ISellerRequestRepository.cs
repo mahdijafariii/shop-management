@@ -11,6 +11,6 @@ public interface ISellerRequestRepository
     Task<bool> DeleteNoteAsync(string sellerRequestId);
     Task<List<SellerRequest>> GetAllRequestAsync(string userId, int page, int limit, string status);
     Task<int> SellerRequestTotalCount();
-    Task<bool> UpdateSellerRequestRejectedAsync(UpdateSellerRequestDto requestDto);
-
+    Task<bool> UpdateSellerRequestAsync(UpdateSellerRequestDto requestDto);
+    Task<bool> UpdateProductSellersAsync(string productId, List<ProductSeller> sellers);
 }

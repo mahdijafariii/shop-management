@@ -1,3 +1,5 @@
+using MongoDB.Bson;
+using Newtonsoft.Json;
 using online_shop.DTO;
 using online_shop.Exception;
 using online_shop.Model;
@@ -84,7 +86,7 @@ public class SellerRequestService : ISellerRequestService
 
         if (requestDto.Status == "Rejected")
         {
-            var check = await _sellerRequestRepository.UpdateSellerRequestRejectedAsync(requestDto);
+            var check = await _sellerRequestRepository.UpdateSellerRequestAsync(requestDto);
             if (!check)
             {
                 throw new InvalidRequestException("Error in update seller request", 400);
@@ -97,8 +99,30 @@ public class SellerRequestService : ISellerRequestService
             {
                 throw new NotFoundException("Seller Request");
             }
-            
 
+            var product = await _productRepository.GetProductAsync(sellerRequest.ProductId);
+            
+            if (product is null)
+            {
+                throw new NotFoundException("Product");
+            }
+            List<ProductSeller> sellers = JsonConvert.DeserializeObject<List<ProductSeller>>(product.Sellers.ToJson());
+            var findSeller = sellers.Find(p => p.SellerId.ToString() == sellerRequest.SellerId);
+            if (findSeller is not null)
+            {
+                requestDto.AdminComment = "you are the seller of this product";
+                throw new InvalidRequestException("We have seller with this id",400);
+            }
+            sellers.Add(new ProductSeller(sellerRequest.SellerId,(decimal)sellerRequest.Price,sellerRequest.Stock));
+            var updateRequest= await _sellerRequestRepository.UpdateSellerRequestAsync(requestDto);
+            var updateProduct = await _sellerRequestRepository.UpdateProductSellersAsync(sellerRequest.ProductId, sellers);
+            if (!updateProduct || !updateRequest)
+            {
+                throw new InvalidRequestException("Update failed", 400);
+            }
+
+            var updatedProduct = await _productRepository.GetProductAsync(sellerRequest.ProductId);
+            return updatedProduct;
         }
 
         return null;
