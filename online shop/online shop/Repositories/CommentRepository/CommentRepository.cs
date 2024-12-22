@@ -1,3 +1,4 @@
+using MongoDB.Driver;
 using online_shop.Data;
 using online_shop.Model;
 
@@ -16,5 +17,12 @@ public class CommentRepository : ICommentRepository
     {
         await _dbContext.Comment.InsertOneAsync(note);
         return note;
+    }
+
+    public async Task<bool> CommentExistAsync(string userId, string productId)
+    {
+        var result = await _dbContext.Comment.Find(p => p.ProductId == productId && p.UserId == userId)
+            .FirstOrDefaultAsync();
+        return result != null;
     }
 }
