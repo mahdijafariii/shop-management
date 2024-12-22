@@ -6,6 +6,7 @@ using online_shop.Data;
 using online_shop.Middleware;
 using online_shop.Repositories;
 using online_shop.Repositories.CategoryRepository;
+using online_shop.Repositories.CommentRepository;
 using online_shop.Repositories.NoteRepository;
 using online_shop.Repositories.ProductRepository;
 using online_shop.Repositories.SellerRepository;
@@ -83,6 +84,7 @@ public class Startup
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<INoteRepository, NoteRepository>();
         services.AddScoped<ISellerRequestRepository, SellerRequestRepository>();
+        services.AddScoped<ICommentRepository, CommentRepository>();
 
         
         
@@ -102,6 +104,7 @@ public class Startup
         services.AddScoped<IProductService,ProductService>();
         services.AddScoped<INoteService,NoteService>();
         services.AddScoped<ISellerRequestService,SellerRequestService>();
+        services.AddScoped<ICommentService,CommentService>();
 
     }
 
