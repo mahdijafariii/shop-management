@@ -20,7 +20,7 @@ public class NoteController : ControllerBase
     }
 
     [HttpPost("add-note")]
-    public async Task<IActionResult> AddNoteAsync([FromBody] AddNote request)
+    public async Task<IActionResult> AddNoteAsync([FromBody] AddNoteDto request)
     {
         var user = User;
         var userId = user.FindFirstValue("userId");

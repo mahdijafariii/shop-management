@@ -7,6 +7,7 @@ namespace online_shop.Model;
 public class Comment
 {
     [BsonId]
+    [BsonRepresentation(BsonType.ObjectId)]
     public string Id { get; set; }
 
     [BsonRepresentation(BsonType.ObjectId)]

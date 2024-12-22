@@ -18,7 +18,7 @@ public class NoteService : INoteService
         _productRepository = productRepository;
     }
 
-    public async Task<Note> AddNote(AddNote request, string userId)
+    public async Task<Note> AddNote(AddNoteDto request, string userId)
     {
         var result = await _noteRepository.NoteExistAsync(userId, request.ProductId);
         if (result)

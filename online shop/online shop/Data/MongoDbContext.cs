@@ -22,6 +22,7 @@ public class MongoDbContext
     public IMongoCollection<Product> Product => _database.GetCollection<Product>("Product");
     public IMongoCollection<Note> Note => _database.GetCollection<Note>("Note");
     public IMongoCollection<SellerRequest> SellerRequest => _database.GetCollection<SellerRequest>("SellerRequest");
+    public IMongoCollection<Comment> Comment => _database.GetCollection<Comment>("Comment");
 
     
 }
