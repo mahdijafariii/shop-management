@@ -79,7 +79,7 @@ public class SellerRequestService : ISellerRequestService
 
     public async Task<Product> UpdateSellerRequest(UpdateSellerRequestDto requestDto)
     {
-        if (requestDto.Status.ToLower() != "Approved" || requestDto.Status.ToLower() != "Rejected")
+        if (requestDto.Status != "Approved" && requestDto.Status != "Rejected")
         {
             throw new InvalidRequestException("Status should be Approved or Rejected", 400);
         }
@@ -106,14 +106,15 @@ public class SellerRequestService : ISellerRequestService
             {
                 throw new NotFoundException("Product");
             }
-            List<ProductSeller> sellers = JsonConvert.DeserializeObject<List<ProductSeller>>(product.Sellers.ToJson());
+            var sellersJson = string.Join(",", product.Sellers); 
+            List<ProductSeller> sellers = JsonConvert.DeserializeObject<List<ProductSeller>>("[" + sellersJson + "]");
             var findSeller = sellers.Find(p => p.SellerId.ToString() == sellerRequest.SellerId);
             if (findSeller is not null)
             {
                 requestDto.AdminComment = "you are the seller of this product";
                 throw new InvalidRequestException("We have seller with this id",400);
             }
-            sellers.Add(new ProductSeller(sellerRequest.SellerId,(decimal)sellerRequest.Price,sellerRequest.Stock));
+            sellers.Add(new ProductSeller(sellerRequest.SellerId,sellerRequest.Price,sellerRequest.Stock));
             var updateRequest= await _sellerRequestRepository.UpdateSellerRequestAsync(requestDto);
             var updateProduct = await _sellerRequestRepository.UpdateProductSellersAsync(sellerRequest.ProductId, sellers);
             if (!updateProduct || !updateRequest)

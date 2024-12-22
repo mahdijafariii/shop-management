@@ -56,11 +56,10 @@ public class SellerRequestController : ControllerBase
     [HttpPatch("update-seller-request")]
     public async Task<IActionResult> UpdateSellerRequestAsync(UpdateSellerRequestDto requestDto)
     {
-        var result = await _sellerRequestService.UpdateSellerRequset(requestDto);
+        var result = await _sellerRequestService.UpdateSellerRequest(requestDto);
         return Ok(new
         {
-            result.Item1,
-            totalCount = result.totalCount
+            result,
         });
     }
     

@@ -9,11 +9,11 @@ public class ProductSeller
     public string SellerId { get; set; }
 
     [BsonRequired]
-    public decimal Price { get; set; }
+    public double Price { get; set; }
 
     [BsonRequired]
     public int Stock { get; set; }
-    public ProductSeller(string sellerId, decimal price, int stock)
+    public ProductSeller(string sellerId, double price, int stock)
     {
         SellerId = sellerId;
         Price = price;
