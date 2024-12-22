@@ -1,5 +1,6 @@
 using MongoDB.Driver;
 using online_shop.Data;
+using online_shop.DTO;
 using online_shop.Model;
 
 namespace online_shop.Repositories.SellerRequestRepository;
@@ -26,7 +27,7 @@ public class SellerRequestRepository : ISellerRequestRepository
         return result !=null ? result : null;
     }
 
-    public async Task<SellerRequest> GetNoteAsync(string noteId)
+    public async Task<SellerRequest> GetSellerRequestAsync(string noteId)
     {
         var result = await _dbContext.SellerRequest.Find(s => s.Id == noteId)
             .FirstOrDefaultAsync();
@@ -60,4 +61,28 @@ public class SellerRequestRepository : ISellerRequestRepository
         var total =(int) await _dbContext.SellerRequest.CountDocumentsAsync(FilterDefinition<SellerRequest>.Empty);
         return total;
     }
+    
+    public async Task<bool> UpdateSellerRequestRejectedAsync(UpdateSellerRequestDto requestDto)
+    {
+        var filter = Builders<SellerRequest>.Filter.And(
+            Builders<SellerRequest>.Filter.Eq(s => s.Id, requestDto.RequestId)
+        );
+        var updateDefinition = new List<UpdateDefinition<SellerRequest>>();
+
+        if (!string.IsNullOrEmpty(requestDto.AdminComment))
+            updateDefinition.Add(Builders<SellerRequest>.Update.Set(s => s.AdminComment, requestDto.AdminComment));
+        
+        if (!string.IsNullOrEmpty(requestDto.Status))
+            updateDefinition.Add(Builders<SellerRequest>.Update.Set(s => s.Status, requestDto.Status));
+
+        if (updateDefinition.Any())
+        {
+            var combinedUpdate = Builders<SellerRequest>.Update.Combine(updateDefinition);
+            var result = await _dbContext.SellerRequest.UpdateOneAsync(filter, combinedUpdate);
+            return result.ModifiedCount > 0;
+        }
+
+        return false;
+    }
+
 }

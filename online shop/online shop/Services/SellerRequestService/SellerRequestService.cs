@@ -45,7 +45,7 @@ public class SellerRequestService : ISellerRequestService
 
     public async Task DeleteSellerRequest(string requestId, string userId)
     {
-        var note = await _sellerRequestRepository.GetNoteAsync(requestId);
+        var note = await _sellerRequestRepository.GetSellerRequestAsync(requestId);
         if (note is null)
         {
             throw new NotFoundException("Note");
@@ -75,21 +75,33 @@ public class SellerRequestService : ISellerRequestService
         return (result, totalCount);
     }
 
-    public Task<Product> UpdateSellerRequest(UpdateSellerRequestDto requestDto)
+    public async Task<Product> UpdateSellerRequest(UpdateSellerRequestDto requestDto)
     {
         if (requestDto.Status.ToLower() != "Approved" || requestDto.Status.ToLower() != "Rejected")
         {
-            throw new InvalidRequestException("status should be Approved or Rejected", 400);
+            throw new InvalidRequestException("Status should be Approved or Rejected", 400);
         }
 
         if (requestDto.Status == "Rejected")
         {
-            
-            
+            var check = await _sellerRequestRepository.UpdateSellerRequestRejectedAsync(requestDto);
+            if (!check)
+            {
+                throw new InvalidRequestException("Error in update seller request", 400);
+            }
         }
         else if (requestDto.Status == "Approved")
         {
+            var sellerRequest = await _sellerRequestRepository.GetSellerRequestAsync(requestDto.RequestId);
+            if (sellerRequest is null)
+            {
+                throw new NotFoundException("Seller Request");
+            }
             
+
         }
+
+        return null;
     }
+    
 }
