@@ -9,4 +9,6 @@ public interface ICommentService
     Task<bool> DeleteComment(string commentId);
     Task<List<Comment>> GetProductComments(string productId);
     Task<ReplyComment> AddReplyComment(AddReplyCommentDto request, string userId);
+    Task DeleteReplyComment(string replyCommentId, string commentId);
+    
 }

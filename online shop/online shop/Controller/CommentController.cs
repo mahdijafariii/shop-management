@@ -54,7 +54,11 @@ public class CommentController : ControllerBase
             ReplyComment = result
         });
     }
-
-    
+    [HttpDelete("delete-reply-comment")]
+    public async Task<IActionResult> DeleteReplyCommentAsync([FromQuery] string replyCommentId, string commentId)
+    {
+        await _commentService.DeleteReplyComment(replyCommentId,commentId);
+        return Ok("reply comment deleted successfully");
+    }   
     
 }

@@ -57,4 +57,31 @@ public class CommentRepository : ICommentRepository
         await _dbContext.Comment.UpdateOneAsync(filter, update);
         return replyComment;
     }
+
+    public async Task<bool> CheckReplyCommentExistAsync(string replyCommentId, string commentId)
+    {
+        var result = await _dbContext.Comment.Find(p => p.Id == commentId)
+            .FirstOrDefaultAsync();
+        if (result is null)
+        {
+            return false;
+        }
+        var check = result.Replies.Any(x => x.Id == replyCommentId);
+        return check;
+    }
+
+    public async Task<bool> DeleteReplyCommentAsync(string replyCommentId, string commentId)
+    {
+        var filter = Builders<Comment>.Filter.Eq(c => c.Id, commentId);
+        var result = await _dbContext.Comment.Find(filter).FirstOrDefaultAsync();
+        if (result.Replies == null)
+        {
+            return false;
+        }
+        var replyComment = result.Replies.FirstOrDefault(replyComment => replyComment.Id == replyCommentId);
+        result.Replies.Remove(replyComment);
+        var update = Builders<Comment>.Update.Set(c => c.Replies, result.Replies);
+        var updateResult = await _dbContext.Comment.UpdateOneAsync(filter, update);
+        return updateResult.ModifiedCount > 0;
+    }
 }

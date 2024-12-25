@@ -9,5 +9,8 @@ public interface ICommentRepository
     Task<bool> DeleteCommentAsync(string commentId);
     Task<List<Comment>> GetProductCommentsAsync(string productId);
     Task<ReplyComment> AddReplyCommentAsync(ReplyComment replyComment, string commentId);
+    Task<bool> CheckReplyCommentExistAsync(string replyCommentId, string commentId);
+    Task<bool> DeleteReplyCommentAsync(string replyCommentId, string commentId);
+
 
 }

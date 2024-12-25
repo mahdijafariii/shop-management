@@ -82,4 +82,20 @@ public class CommentService : ICommentService
         }
         return replyComment;
     }
+
+    public async Task DeleteReplyComment(string replyCommentId, string commentId)
+    {
+        var check = await _commentRepository.CheckReplyCommentExistAsync(replyCommentId, commentId);
+        if (!check)
+        {
+            throw new NotFoundException("Comment or ReplyComment");
+        }
+
+        var checkDeleted = await _commentRepository.DeleteReplyCommentAsync(replyCommentId, commentId);
+        if (!checkDeleted)
+        {
+            throw new InvalidRequestException("Reply comment Was not deleted successfully", 400);
+        }
+    }
+    
 }
