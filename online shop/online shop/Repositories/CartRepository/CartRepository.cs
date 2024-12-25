@@ -1,6 +1,6 @@
 namespace online_shop.Repositories;
 
-public class CartRepository
+public class CartRepository : ICartRepository
 {
     
 }

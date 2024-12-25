@@ -12,5 +12,6 @@ public interface ISellerRepository
     Task<bool> CheckStoreHasSeller(string seller);
     Task<bool> DeleteSellerAsync(string seller);
     Task<(GetSellerDto, bool)> GetSellerAsync(string sellerId);
+    Task<Seller> GetSellerWithOutDtoAsync(string sellerId);
 
 }

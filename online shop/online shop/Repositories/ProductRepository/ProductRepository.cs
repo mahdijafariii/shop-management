@@ -137,6 +137,11 @@ public class ProductRepository : IProductRepository
         return false;
     }
 
+    public Task<bool> IsProductSellerExist(string productId, string sellerId)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<Product> AddProductAsync(Product product)
     {
         await _dbContext.Product.InsertOneAsync(product);

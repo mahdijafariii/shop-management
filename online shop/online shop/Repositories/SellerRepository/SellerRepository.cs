@@ -51,6 +51,12 @@ public class SellerRepository : ISellerRepository
         getSellerDto = new GetSellerDto(result.Name, result.CityId.ToString(), result.ContactDetails.Phone);
         return (getSellerDto, true);
     }
+    
+    public async Task<Seller> GetSellerWithOutDtoAsync(string sellerId)
+    {
+        var result = await _dbContext.Sellers.Find(seller => seller.Id == sellerId).FirstOrDefaultAsync();
+        return result;
+    }
 
     public async Task<bool> UpdateSellerAsync(string sellerId, AddSellerDto addSellerDto)
     {

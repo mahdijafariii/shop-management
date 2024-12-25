@@ -12,4 +12,6 @@ public interface IProductRepository
     Task<Product> IsProductExist(string productId);
     Task<Product> GetProductWithIdentifier(string shortIdentifier);
     Task<bool> UpdateProductAsync(UpdateProduct request);
+    Task<bool> IsProductSellerExist(string productId,string sellerId);
+
 }
