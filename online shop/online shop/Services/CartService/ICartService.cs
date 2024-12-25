@@ -5,6 +5,6 @@ namespace online_shop.Services;
 
 public interface ICartService
 {
-    Task<Cart> AddToCart(AddToCartDto request, string userId);
+    Task<List<CartItem>> AddToCart(AddToCartDto request, string userId);
 
 }

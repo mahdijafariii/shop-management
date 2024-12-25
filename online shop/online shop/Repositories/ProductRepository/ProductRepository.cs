@@ -1,4 +1,5 @@
 using MongoDB.Driver;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using online_shop.Data;
 using online_shop.DTO;
@@ -137,9 +138,18 @@ public class ProductRepository : IProductRepository
         return false;
     }
 
-    public Task<bool> IsProductSellerExist(string productId, string sellerId)
+    public async Task<ProductSeller> IsProductSeller(string productId, string sellerId)
     {
-        throw new NotImplementedException();
+        var filter = Builders<Product>.Filter.Eq(c => c.Id, productId);
+        var product = await _dbContext.Product.Find(filter).FirstOrDefaultAsync();
+        var sellersJson = string.Join(",", product.Sellers); 
+        List<ProductSeller> sellers = JsonConvert.DeserializeObject<List<ProductSeller>>("[" + sellersJson + "]");
+        var check = sellers.FirstOrDefault(x => x.SellerId == sellerId);
+        if (check is null)
+        {
+            return null;
+        }
+        return check;
     }
 
     public async Task<Product> AddProductAsync(Product product)

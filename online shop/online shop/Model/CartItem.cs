@@ -14,5 +14,5 @@ public class CartItem
     public int Quantity { get; set; }
 
     [BsonElement("priceAtTimeOfAdding")]
-    public decimal PriceAtTimeOfAdding { get; set; }
+    public double PriceAtTimeOfAdding { get; set; }
 }

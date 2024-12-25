@@ -97,7 +97,7 @@ public class ProductService : IProductService
         }
     }
 
-    public async Task<Product>   GetProduct(string productId)
+    public async Task<Product> GetProduct(string productId)
     {
         var product = await _productRepository.GetProductAsync(productId);
         if (product is null)

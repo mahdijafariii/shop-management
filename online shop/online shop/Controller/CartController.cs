@@ -24,7 +24,7 @@ public class CartController : ControllerBase
         return Ok(new
         {
             Massage = "Added successfully",
-            prodcut = result
+            CartItems = result
         });
     }    
 }
