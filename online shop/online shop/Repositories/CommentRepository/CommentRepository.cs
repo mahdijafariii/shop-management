@@ -39,4 +39,22 @@ public class CommentRepository : ICommentRepository
         var result = await _dbContext.Comment.FindAsync(filter);
         return result.ToList();
     }
+
+    public async Task<ReplyComment> AddReplyCommentAsync(ReplyComment replyComment, string commentId)
+    {
+        var filter = Builders<Comment>.Filter.Eq(c => c.Id, commentId);
+        var result = await _dbContext.Comment.Find(filter).FirstOrDefaultAsync();
+        if (result is null)
+        {
+            return null;
+        }
+        if (result.Replies == null)
+        {
+            result.Replies = new List<ReplyComment>();
+        }
+        result.Replies.Add(replyComment);
+        var update = Builders<Comment>.Update.Set(c => c.Replies, result.Replies);
+        await _dbContext.Comment.UpdateOneAsync(filter, update);
+        return replyComment;
+    }
 }

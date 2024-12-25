@@ -41,5 +41,20 @@ public class CommentController : ControllerBase
     {
         var result = await _commentService.GetProductComments(productId);
         return Ok(result);
-    }    
+    } 
+    [HttpPost("add-reply-comment")]
+    public async Task<IActionResult> AddReplyCommentAsync([FromBody] AddReplyCommentDto request)
+    {
+        var user = User;
+        var userId = user.FindFirstValue("userId");
+        var result = await _commentService.AddReplyComment(request,userId);
+        return Ok(new
+        {
+            Massage = "Added successfully",
+            ReplyComment = result
+        });
+    }
+
+    
+    
 }

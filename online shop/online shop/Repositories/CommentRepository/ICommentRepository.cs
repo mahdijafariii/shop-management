@@ -8,5 +8,6 @@ public interface ICommentRepository
     Task<bool> CommentExistAsync(string userId , string productId);
     Task<bool> DeleteCommentAsync(string commentId);
     Task<List<Comment>> GetProductCommentsAsync(string productId);
+    Task<ReplyComment> AddReplyCommentAsync(ReplyComment replyComment, string commentId);
 
 }

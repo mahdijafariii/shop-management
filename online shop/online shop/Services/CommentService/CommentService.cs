@@ -1,3 +1,4 @@
+using MongoDB.Bson;
 using online_shop.DTO;
 using online_shop.Exception;
 using online_shop.Model;
@@ -62,5 +63,23 @@ public class CommentService : ICommentService
             throw new NotFoundException("Comment for product");
         }
         return result;
+    }
+
+    public async Task<ReplyComment> AddReplyComment(AddReplyCommentDto request, string userId)
+    {
+        ReplyComment replyComment = new ReplyComment()
+        {
+            Id = ObjectId.GenerateNewId().ToString(),
+            Content = request.Content,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow,
+            UserId = userId
+        };
+        var result = await _commentRepository.AddReplyCommentAsync(replyComment,request.CommentId);
+        if (result is null)
+        {
+            throw new NotFoundException("Comment");
+        }
+        return replyComment;
     }
 }
