@@ -35,4 +35,11 @@ public class CommentController : ControllerBase
         await _commentService.DeleteComment(commentId);
         return Ok("comment deleted successfully");
     }   
+    
+    [HttpGet("get-product-comments")]
+    public async Task<IActionResult> GetCommentOfProductAsync([FromQuery] string productId)
+    {
+        var result = await _commentService.GetProductComments(productId);
+        return Ok(result);
+    }    
 }

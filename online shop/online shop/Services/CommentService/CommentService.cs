@@ -53,4 +53,14 @@ public class CommentService : ICommentService
         }
         return check;
     }
+
+    public async Task<List<Comment>> GetProductComments(string productId)
+    {
+        var result = await _commentRepository.GetProductCommentsAsync(productId);
+        if (!result.Any())
+        {
+            throw new NotFoundException("Comment for product");
+        }
+        return result;
+    }
 }

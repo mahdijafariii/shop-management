@@ -7,6 +7,5 @@ public interface ICommentService
 {
     Task<Comment> AddComment(AddCommentDto request, string userId);
     Task<bool> DeleteComment(string commentId);
- 
-
+    Task<List<Comment>> GetProductComments(string productId);
 }

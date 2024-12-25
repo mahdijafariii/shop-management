@@ -32,4 +32,11 @@ public class CommentRepository : ICommentRepository
         var result = await _dbContext.Comment.FindOneAndDeleteAsync(filter);
         return result != null;
     }
+
+    public async Task<List<Comment>> GetProductCommentsAsync(string productId)
+    {
+        var filter = Builders<Comment>.Filter.Eq(c => c.ProductId, productId);
+        var result = await _dbContext.Comment.FindAsync(filter);
+        return result.ToList();
+    }
 }
