@@ -85,6 +85,7 @@ public class Startup
         services.AddScoped<INoteRepository, NoteRepository>();
         services.AddScoped<ISellerRequestRepository, SellerRequestRepository>();
         services.AddScoped<ICommentRepository, CommentRepository>();
+        services.AddScoped<ICartRepository, CartRepository>();
 
         
         
@@ -105,6 +106,7 @@ public class Startup
         services.AddScoped<INoteService,NoteService>();
         services.AddScoped<ISellerRequestService,SellerRequestService>();
         services.AddScoped<ICommentService,CommentService>();
+        services.AddScoped<ICartService,CartService>();
 
     }
 

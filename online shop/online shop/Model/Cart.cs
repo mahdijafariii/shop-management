@@ -5,6 +5,10 @@ namespace online_shop.Model;
 
 public class Cart
 {
+    [BsonId]
+    [BsonRepresentation(BsonType.ObjectId)]
+    public string Id { get; set; } 
+
     [BsonRepresentation(BsonType.ObjectId)]
     public string UserId { get; set; }
 

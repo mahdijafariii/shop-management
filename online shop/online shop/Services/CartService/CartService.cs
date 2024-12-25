@@ -56,8 +56,8 @@ public class CartService : ICartService
                 UpdatedAt = DateTime.UtcNow,
                 Items = new List<CartItem>() { cartItem }
             };
-            await _cartRepository.CreateCart(cart);
-            return cart.Items;
+            await _cartRepository.CreateCart(newCart);
+            return newCart.Items;
         }
 
         var productInCart = cart.Items.FirstOrDefault(x => x.ProductId == request.ProductId);

@@ -54,7 +54,9 @@ public class SellerRepository : ISellerRepository
     
     public async Task<Seller> GetSellerWithOutDtoAsync(string sellerId)
     {
+        Console.WriteLine(sellerId);
         var result = await _dbContext.Sellers.Find(seller => seller.Id == sellerId).FirstOrDefaultAsync();
+        Console.WriteLine(result);
         return result;
     }
 
