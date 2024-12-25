@@ -6,5 +6,6 @@ public interface ICommentRepository
 {
     Task<Comment> AddNoteAsync(Comment note);
     Task<bool> CommentExistAsync(string userId , string productId);
+    Task<bool> DeleteCommentAsync(string commentId);
 
 }

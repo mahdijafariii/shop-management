@@ -36,7 +36,9 @@ public class NoteService : INoteService
         {
             UserId = userId,
             Content = request.Content,
-            ProductId = request.ProductId
+            ProductId = request.ProductId,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow,
         };
         var noteResult = await _noteRepository.AddNoteAsync(note);
         return noteResult;

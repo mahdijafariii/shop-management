@@ -25,4 +25,11 @@ public class CommentRepository : ICommentRepository
             .FirstOrDefaultAsync();
         return result != null;
     }
+    
+    public async Task<bool> DeleteCommentAsync(string commentId)
+    {
+        var filter = Builders<Comment>.Filter.Eq(c => c.Id, commentId);
+        var result = await _dbContext.Comment.FindOneAndDeleteAsync(filter);
+        return result != null;
+    }
 }

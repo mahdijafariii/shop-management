@@ -6,5 +6,7 @@ namespace online_shop.Services;
 public interface ICommentService
 {
     Task<Comment> AddComment(AddCommentDto request, string userId);
+    Task<bool> DeleteComment(string commentId);
+ 
 
 }

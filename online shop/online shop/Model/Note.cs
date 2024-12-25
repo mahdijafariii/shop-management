@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -19,4 +20,12 @@ public class Note
     [BsonElement("content")]
     [BsonRequired]
     public string Content { get; set; }
+    
+    [BsonElement("createdAt")]
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    public DateTime CreatedAt { get; set; }
+
+    [BsonElement("updatedAt")]
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    public DateTime UpdatedAt { get; set; }
 }

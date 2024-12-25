@@ -36,9 +36,21 @@ public class CommentService : ICommentService
             UserId = userId,
             Content = request.Content,
             ProductId = request.ProductId,
-            Rating = request.Rating
+            Rating = request.Rating,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow,
         };
         var noteResult = await _commentRepository.AddNoteAsync(comment);
         return noteResult;
+    }
+
+    public async Task<bool> DeleteComment(string commentId)
+    {
+        var check = await _commentRepository.DeleteCommentAsync(commentId);
+        if (!check)
+        {
+            throw new InvalidRequestException("request was not successful", 400);
+        }
+        return check;
     }
 }
