@@ -97,5 +97,22 @@ public class CommentService : ICommentService
             throw new InvalidRequestException("Reply comment Was not deleted successfully", 400);
         }
     }
-    
+
+    public async Task UpdateComment(UpdateComment request,string userId)
+    {
+        var result = await _commentRepository.UpdateComment(request, userId);
+        if (!result)
+        {
+            throw new InvalidRequestException("Update was not successfully", 400);
+        }
+    }
+
+    public async Task UpdateReplyComment(UpdateReplyComment request,string userId)
+    {
+        var result = await _commentRepository.UpdateReplyComment(request, userId);
+        if (!result)
+        {
+            throw new InvalidRequestException("Update was not successfully", 400);
+        }
+    }
 }

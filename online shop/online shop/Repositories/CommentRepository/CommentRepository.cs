@@ -1,5 +1,7 @@
 using MongoDB.Driver;
 using online_shop.Data;
+using online_shop.DTO;
+using online_shop.Exception;
 using online_shop.Model;
 
 namespace online_shop.Repositories.CommentRepository;
@@ -83,5 +85,48 @@ public class CommentRepository : ICommentRepository
         var update = Builders<Comment>.Update.Set(c => c.Replies, result.Replies);
         var updateResult = await _dbContext.Comment.UpdateOneAsync(filter, update);
         return updateResult.ModifiedCount > 0;
+    }
+
+    public async Task<bool> UpdateReplyComment(UpdateReplyComment replyComment, string userId)
+    {
+        var filter = Builders<Comment>.Filter.Eq(c => c.Id, replyComment.CommentId);
+        var result = await _dbContext.Comment.Find(filter).FirstOrDefaultAsync();
+        if (result is null)
+        {
+            throw new NotFoundException("Comment");
+        }
+        if (result.Replies == null)
+        {
+            throw new NotFoundException("Reply Comment");
+        }
+        var found = result.Replies.FirstOrDefault(x => x.Id == replyComment.ReplyCommentId);
+        if (found == null)
+        {
+            throw new NotFoundException("Reply Comment");
+        }
+        found.Content = replyComment.NewContent;
+        var update = Builders<Comment>.Update.Set(c => c.Replies, result.Replies);
+        var updateResult = await _dbContext.Comment.UpdateOneAsync(filter, update);
+        return updateResult.ModifiedCount > 0;
+    }
+
+    public async Task<bool> UpdateComment(UpdateComment updateComment,string userId)
+    {
+        var filter = Builders<Comment>.Filter.And(
+            Builders<Comment>.Filter.Eq(s => s.Id, updateComment.CommentId),
+            Builders<Comment>.Filter.Eq(s => s.UserId, userId)
+        );
+        var updateDefinition = new List<UpdateDefinition<Comment>>();
+        if (updateComment.Rating != null)
+        {
+            updateDefinition.Add(Builders<Comment>.Update.Set(s => s.Content, updateComment.NewContent));
+        }
+        if (updateDefinition.Any())
+        {
+            var combinedUpdate = Builders<Comment>.Update.Combine(updateDefinition);
+            var result = await _dbContext.Comment.UpdateOneAsync(filter, combinedUpdate);
+            return result.ModifiedCount > 0;
+        }
+        return false;
     }
 }

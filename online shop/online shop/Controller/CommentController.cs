@@ -29,19 +29,6 @@ public class CommentController : ControllerBase
         });
     }
     
-    [HttpDelete("delete-comment")]
-    public async Task<IActionResult> DeleteCommentAsync([FromQuery] string commentId)
-    {
-        await _commentService.DeleteComment(commentId);
-        return Ok("comment deleted successfully");
-    }   
-    
-    [HttpGet("get-product-comments")]
-    public async Task<IActionResult> GetCommentOfProductAsync([FromQuery] string productId)
-    {
-        var result = await _commentService.GetProductComments(productId);
-        return Ok(result);
-    } 
     [HttpPost("add-reply-comment")]
     public async Task<IActionResult> AddReplyCommentAsync([FromBody] AddReplyCommentDto request)
     {
@@ -54,6 +41,14 @@ public class CommentController : ControllerBase
             ReplyComment = result
         });
     }
+
+    [HttpGet("get-product-comments")]
+    public async Task<IActionResult> GetCommentOfProductAsync([FromQuery] string productId)
+    {
+        var result = await _commentService.GetProductComments(productId);
+        return Ok(result);
+    } 
+    
     [HttpDelete("delete-reply-comment")]
     public async Task<IActionResult> DeleteReplyCommentAsync([FromQuery] string replyCommentId, string commentId)
     {
@@ -61,4 +56,27 @@ public class CommentController : ControllerBase
         return Ok("reply comment deleted successfully");
     }   
     
+    [HttpDelete("delete-comment")]
+    public async Task<IActionResult> DeleteCommentAsync([FromQuery] string commentId)
+    {
+        await _commentService.DeleteComment(commentId);
+        return Ok("comment deleted successfully");
+    }   
+    
+    [HttpPatch("update-comment")]
+    public async Task<IActionResult> UpdateCommentAsync([FromQuery] UpdateComment request)
+    {
+        var user = User;
+        var userId = user.FindFirstValue("userId");
+        await _commentService.UpdateComment(request,userId);
+        return Ok("Comment updated successfully");
+    } 
+    [HttpPatch("update-reply-comment")]
+    public async Task<IActionResult> UpdateReplyCommentAsync([FromQuery] UpdateReplyComment request)
+    {
+        var user = User;
+        var userId = user.FindFirstValue("userId");
+        await _commentService.UpdateReplyComment(request,userId);
+        return Ok("Reply Comment updated successfully");
+    } 
 }

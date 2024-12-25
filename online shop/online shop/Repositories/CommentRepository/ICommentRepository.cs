@@ -1,3 +1,4 @@
+using online_shop.DTO;
 using online_shop.Model;
 
 namespace online_shop.Repositories.CommentRepository;
@@ -11,6 +12,6 @@ public interface ICommentRepository
     Task<ReplyComment> AddReplyCommentAsync(ReplyComment replyComment, string commentId);
     Task<bool> CheckReplyCommentExistAsync(string replyCommentId, string commentId);
     Task<bool> DeleteReplyCommentAsync(string replyCommentId, string commentId);
-
-
+    Task<bool> UpdateReplyComment(UpdateReplyComment replyComment, string userId);
+    Task<bool> UpdateComment(UpdateComment updateComment, string userId);
 }

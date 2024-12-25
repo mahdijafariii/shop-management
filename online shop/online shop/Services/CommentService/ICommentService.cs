@@ -10,5 +10,8 @@ public interface ICommentService
     Task<List<Comment>> GetProductComments(string productId);
     Task<ReplyComment> AddReplyComment(AddReplyCommentDto request, string userId);
     Task DeleteReplyComment(string replyCommentId, string commentId);
-    
+    Task UpdateComment(UpdateComment request,string userId);
+    Task UpdateReplyComment(UpdateReplyComment request,string userId);
+
+
 }
