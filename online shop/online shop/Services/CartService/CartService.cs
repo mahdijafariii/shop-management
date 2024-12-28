@@ -97,6 +97,7 @@ public class CartService : ICartService
             throw new InvalidRequestException("This seller dose not sell this product",400);
         }
         var cart = await _cartRepository.GetCart(userId);
+        Console.WriteLine("Cart: " + (cart == null ? "null" : "not null"));
         if (cart is null)
         {
             throw new NotFoundException("Cart");

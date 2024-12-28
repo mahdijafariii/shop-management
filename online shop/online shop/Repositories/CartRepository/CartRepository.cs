@@ -44,7 +44,7 @@ public class CartRepository : ICartRepository
     }
     public async Task<List<CartItem>> DeleteProductFromCart(List<CartItem> cartItems, string userId)
     {
-        var filter = Builders<Cart>.Filter.Eq(c => c.Id, userId);
+        var filter = Builders<Cart>.Filter.Eq(c => c.UserId, userId);
         var result = await _dbContext.Cart.Find(filter).FirstOrDefaultAsync();
         if (result is null)
         {
