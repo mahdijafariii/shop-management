@@ -83,4 +83,42 @@ public class CartService : ICartService
             return newCart;
         }
     }
+
+    public async Task<List<CartItem>> DeleteFromCart(DeleteFromCartDto request, string userId)
+    {
+        var product = await _productRepository.GetProductAsync(request.ProductId);
+        if (product is null)
+        {
+            throw new NotFoundException("Product");
+        }
+        var productSeller = await _productRepository.IsProductSeller(request.ProductId, request.SellerId);
+        if (productSeller is null)
+        {
+            throw new InvalidRequestException("This seller dose not sell this product",400);
+        }
+        var cart = await _cartRepository.GetCart(userId);
+        if (cart is null)
+        {
+            throw new NotFoundException("Cart");
+        }
+        var productInCart = cart.Items.FirstOrDefault(x => x.ProductId == request.ProductId && x.SellerId == request.SellerId);
+        if (productInCart is null)
+        {
+            throw new InvalidRequestException("Not found product with this information in you repo",400);
+        }
+        var count = productInCart.Quantity;
+        productInCart.Quantity = count - 1;
+        var items = await _cartRepository.DeleteProductFromCart(cart.Items, userId);
+        return items;
+    }
+
+    public async Task<List<CartItem>> GetCart(string userId)
+    {
+        var cart = await _cartRepository.GetCart(userId);
+        if (cart is null)
+        {
+            throw new InvalidRequestException("You have not add any product in your cart yet",400);
+        }
+        return cart.Items;
+    }
 }

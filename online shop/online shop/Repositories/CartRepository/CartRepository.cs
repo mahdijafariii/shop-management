@@ -1,5 +1,7 @@
 using MongoDB.Driver;
 using online_shop.Data;
+using online_shop.DTO;
+using online_shop.Exception;
 using online_shop.Model;
 
 namespace online_shop.Repositories;
@@ -39,5 +41,17 @@ public class CartRepository : ICartRepository
         var update = Builders<Cart>.Update.Set(c => c.Items, cartItems);
         await _dbContext.Cart.UpdateOneAsync(filter, update);
         return cartItems;
+    }
+    public async Task<List<CartItem>> DeleteProductFromCart(List<CartItem> cartItems, string userId)
+    {
+        var filter = Builders<Cart>.Filter.Eq(c => c.Id, userId);
+        var result = await _dbContext.Cart.Find(filter).FirstOrDefaultAsync();
+        if (result is null)
+        {
+            throw new NotFoundException("Cart");
+        }
+        var update = Builders<Cart>.Update.Set(c => c.Items, cartItems);
+        await _dbContext.Cart.UpdateOneAsync(filter, update);
+        return cartItems;        
     }
 }

@@ -27,4 +27,26 @@ public class CartController : ControllerBase
             CartItems = result
         });
     }    
+    
+    [HttpDelete("delete-from-cart")]
+    public async Task<IActionResult> DeleteFromCartAsync([FromBody] DeleteFromCartDto request)
+    {
+        var user = User;
+        var userId = user.FindFirstValue("userId");
+        var result = await _cartService.DeleteFromCart(request,userId);
+        return Ok(new
+        {
+            Massage = "Deleted successfully",
+            CartItems = result
+        });
+    }    
+    
+    [HttpGet("get-cart")]
+    public async Task<IActionResult> GetCartAsync()
+    {
+        var user = User;
+        var userId = user.FindFirstValue("userId");
+        var result = await _cartService.GetCart(userId);
+        return Ok(result);
+    }   
 }
