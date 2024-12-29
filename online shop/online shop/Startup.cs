@@ -31,6 +31,7 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
+        services.AddHttpClient();
         services.AddControllers(); 
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
@@ -107,6 +108,8 @@ public class Startup
         services.AddScoped<ISellerRequestService,SellerRequestService>();
         services.AddScoped<ICommentService,CommentService>();
         services.AddScoped<ICartService,CartService>();
+        services.AddScoped<IZarinPalService,ZarinPalService>();
+
 
     }
 
