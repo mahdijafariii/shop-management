@@ -7,6 +7,7 @@ namespace online_shop.Services.OrderService;
 public class OrderService : IOrderService
 {
     private readonly IOrderRepository _orderRepository;
+    
 
     public OrderService(IOrderRepository orderRepository)
     {
@@ -21,7 +22,28 @@ public class OrderService : IOrderService
             throw new NotFoundException("Order");
         }
         return order;
-    }public async Task<Order> IsExistOrder(string authority)
+    }
+
+    public async Task<(List<Order>,int)> GetUserOrders(string userId, int page, int limit)
+    {
+        var orders =await _orderRepository.GetAllUserOrdersAsync(userId, page, limit);
+        var count = await _orderRepository.OrdersOfUserTotalCount(userId);
+        return (orders,count);
+    }
+
+    public async Task<(List<Order>,int)> GetAllOrders(int page, int limit)
+    {
+        var orders = await _orderRepository.GetAllOrdersAsync(page, limit);
+        if (!orders.Any())
+        {
+            throw new NotFoundException("Order");
+        }
+        
+        var totalCount = await _orderRepository.OrdersTotalCount();
+        return (orders, totalCount);
+    }
+
+    public async Task<Order> IsExistOrder(string authority)
     {
         var order = await _orderRepository.GetOrderAsync(authority);
         if (order is null)
