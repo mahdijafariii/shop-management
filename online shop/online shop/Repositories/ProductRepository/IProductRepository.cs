@@ -14,6 +14,6 @@ public interface IProductRepository
     Task<bool> UpdateProductAsync(UpdateProduct request);
     Task<ProductSeller> IsProductSeller(string productId,string sellerId);
     Task<bool> HasSufficientStock(string productId, string sellerId, int count);
-    Task<bool> DecreaseStock(List<CartItem> cartItems);
+    Task DecreaseStock(List<CartItem> cartItems);
 
 }

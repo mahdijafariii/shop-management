@@ -1,3 +1,4 @@
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -163,9 +164,20 @@ public class ProductRepository : IProductRepository
         return check;
     }
 
-    public Task<bool> DecreaseStock(List<CartItem> cartItems)
+    public async Task DecreaseStock(List<CartItem> cartItems)
     {
-        throw new NotImplementedException();
+        foreach (var product in cartItems)
+        {
+            var filter = Builders<Product>.Filter.Eq(c => c.Id, product.ProductId);
+            var result = await _dbContext.Product.Find(filter).FirstOrDefaultAsync();
+            var sellersJson = string.Join(",", result.Sellers); 
+            List<ProductSeller> sellers = JsonConvert.DeserializeObject<List<ProductSeller>>("[" + sellersJson + "]");
+            var seller = sellers.FirstOrDefault(x => x.SellerId == product.SellerId);
+            seller.Stock -= product.Quantity;
+            var sellersInJson = sellers.Select(seller => JsonConvert.SerializeObject(seller)).ToList();
+            var update = Builders<Product>.Update.Set<List<string>>(p => p.Sellers, sellersInJson);
+            await _dbContext.Product.UpdateOneAsync(filter, update);
+        }
     }
 
     public async Task<Product> AddProductAsync(Product product)

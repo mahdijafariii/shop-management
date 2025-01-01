@@ -146,7 +146,7 @@ public class ZarinPalService : IZarinPalService
                 ShippingAddress = checkout.ShippingAddress,
             };
             await _orderService.AddOrder(newOrder);
-            // decrease stock of seller 
+            await _productRepository.DecreaseStock(checkout.Items);
             // delete cart of user 
             
             return new VerifyCheckoutDto(root.GetProperty("data"));
