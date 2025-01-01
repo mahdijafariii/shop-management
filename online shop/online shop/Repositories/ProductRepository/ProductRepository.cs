@@ -163,6 +163,11 @@ public class ProductRepository : IProductRepository
         return check;
     }
 
+    public Task<bool> DecreaseStock(List<CartItem> cartItems)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<Product> AddProductAsync(Product product)
     {
         await _dbContext.Product.InsertOneAsync(product);

@@ -59,6 +59,11 @@ public class ZarinPalService : IZarinPalService
                 throw new InvalidRequestException("This seller dose not sell this product",400);
             }
             productInCart.Add(product);
+            var checkStock = await _productRepository.HasSufficientStock(product.ProductId, product.SellerId, product.Quantity);
+            if (!checkStock)
+            {
+                throw new InvalidRequestException("You can not buy this product from seller with this count", 400);
+            }
             cartPrice = cartPrice + (product.PriceAtTimeOfAdding * product.Quantity);
         }
         
@@ -141,6 +146,9 @@ public class ZarinPalService : IZarinPalService
                 ShippingAddress = checkout.ShippingAddress,
             };
             await _orderService.AddOrder(newOrder);
+            // decrease stock of seller 
+            // delete cart of user 
+            
             return new VerifyCheckoutDto(root.GetProperty("data"));
         }
         else
