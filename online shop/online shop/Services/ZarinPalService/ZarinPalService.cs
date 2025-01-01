@@ -6,6 +6,7 @@ using online_shop.Model;
 using online_shop.Repositories;
 using online_shop.Repositories.ProductRepository;
 using online_shop.Repositories.SellerRepository;
+using online_shop.Services.OrderService;
 
 namespace online_shop.Services;
 
@@ -15,13 +16,15 @@ public class ZarinPalService : IZarinPalService
     private readonly string _baseUrl;
     private readonly string _callBackUrl;
     private readonly string _merchantId;
+    private readonly string _verifyUrl;
     private readonly IUserRepository _userRepository;
     private readonly ICartRepository _cartRepository;
     private readonly IProductRepository _productRepository;
     private readonly ISellerRepository _sellerRepository;
     private readonly ICheckoutService _checkoutService;
+    private readonly IOrderService _orderService;
     
-    public ZarinPalService(HttpClient httpClient, IConfiguration configuration, IUserRepository userRepository, ICartRepository cartRepository, IProductRepository productRepository, ISellerRepository sellerRepository, ICheckoutService checkoutService)
+    public ZarinPalService(HttpClient httpClient, IConfiguration configuration, IUserRepository userRepository, ICartRepository cartRepository, IProductRepository productRepository, ISellerRepository sellerRepository, ICheckoutService checkoutService, IOrderService orderService)
     {
         _httpClient = httpClient;
         _userRepository = userRepository;
@@ -29,10 +32,12 @@ public class ZarinPalService : IZarinPalService
         _productRepository = productRepository;
         _sellerRepository = sellerRepository;
         _checkoutService = checkoutService;
+        _orderService = orderService;
         var zarinPalSettings = configuration.GetSection("ZarinPal");
         _baseUrl = zarinPalSettings["BaseUrl"];
         _callBackUrl = zarinPalSettings["CallBackUrl"];
         _merchantId = zarinPalSettings["MerchantId"];
+        _verifyUrl = zarinPalSettings["VerifyUrl"];
 
     }
 
@@ -88,6 +93,7 @@ public class ZarinPalService : IZarinPalService
             ShippingAddress = shippingAddress,
             Items = productInCart,
             Authority = authority,
+            TotalPrice = cartPrice,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
             ExpiresAt = DateTime.UtcNow.AddHours(1)
@@ -99,6 +105,37 @@ public class ZarinPalService : IZarinPalService
 
     public async Task<VerifyCheckoutDto> Verify(string status, string authority)
     {
-        return authority;
+        var order = await _orderService.IsExistOrder(authority);
+        if (order != null)
+        {
+            throw new InvalidRequestException("We have order with this information", 400);
+        }
+        
+        var checkout = await _checkoutService.GetCheckout(authority);
+        var requestBody = new
+        {
+            merchant_id = _merchantId,
+            amount = checkout.TotalPrice,
+            authority
+        };
+        var content = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
+
+        var response = await _httpClient.PostAsync(_verifyUrl, content);
+        if(!response.IsSuccessStatusCode)
+        {
+            throw new InvalidRequestException("Failed to verify payment.",400);
+        }
+        var responseContent = await response.Content.ReadAsStringAsync();
+        JsonDocument doc = JsonDocument.Parse(responseContent);
+        JsonElement root = doc.RootElement;
+        var code = root.GetProperty("data").GetProperty("code").ToString();
+        if (code.Contains("100")|| code.Contains("101"))
+        {
+            return new VerifyCheckoutDto(root.GetProperty("data"));
+        }
+        else
+        {
+            throw new InvalidRequestException("request was not successfully!!", 400);
+        }
     }
 }

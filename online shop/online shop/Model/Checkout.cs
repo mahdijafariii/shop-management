@@ -12,6 +12,7 @@ public class Checkout
     public string UserId { get; set; } 
     public List<CartItem> Items { get; set; } = new List<CartItem>();
     public ShippingAddress ShippingAddress { get; set; }
+    public double TotalPrice { get; set; }
     public string Authority { get; set; }
     [BsonElement("createdAt")]
     [DatabaseGenerated(DatabaseGeneratedOption.Computed)]

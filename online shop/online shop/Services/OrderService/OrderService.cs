@@ -21,5 +21,13 @@ public class OrderService : IOrderService
             throw new NotFoundException("Order");
         }
         return order;
+    }public async Task<Order> IsExistOrder(string authority)
+    {
+        var order = await _orderRepository.GetOrderAsync(authority);
+        if (order is null)
+        {
+            return null;
+        }
+        return order;
     }
 }

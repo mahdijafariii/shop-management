@@ -13,6 +13,7 @@ using online_shop.Repositories.SellerRepository;
 using online_shop.Repositories.SellerRequestRepository;
 using online_shop.Services;
 using online_shop.Services.CategoryService;
+using online_shop.Services.OrderService;
 using online_shop.Services.ProductService;
 using online_shop.Services.SellerService;
 using online_shop.Validator;
@@ -89,6 +90,7 @@ public class Startup
         services.AddScoped<ICommentRepository, CommentRepository>();
         services.AddScoped<ICartRepository, CartRepository>();
         services.AddScoped<ICheckoutRepository, CheckoutRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
 
         
         
@@ -112,6 +114,7 @@ public class Startup
         services.AddScoped<ICartService,CartService>();
         services.AddScoped<IZarinPalService,ZarinPalService>();
         services.AddScoped<ICheckoutService,CheckoutService>();
+        services.AddScoped<IOrderService, OrderService>();
 
 
     }

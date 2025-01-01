@@ -15,10 +15,18 @@ public class CheckoutRepository : ICheckoutRepository
 
     public async Task<Checkout> AddCheckoutAsync(Checkout checkout)
     {
-        var indexKeys = Builders<Checkout>.IndexKeys.Ascending(c => c.ExpiresAt);
-        var indexOptions = new CreateIndexOptions { ExpireAfter = TimeSpan.Zero };
-        var indexModel = new CreateIndexModel<Checkout>(indexKeys, indexOptions);
         await _dbContext.Checkout.InsertOneAsync(checkout);
         return checkout;
+    }
+
+    public async Task<Checkout> GetCheckoutAsync(string authority)
+    {
+
+        var result = await _dbContext.Checkout.Find(p => p.Authority == authority).FirstOrDefaultAsync();
+        if (result is null)
+        {
+            return null;
+        }
+        return result;
     }
 }

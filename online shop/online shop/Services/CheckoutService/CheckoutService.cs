@@ -1,3 +1,4 @@
+using online_shop.Exception;
 using online_shop.Model;
 using online_shop.Repositories;
 
@@ -14,7 +15,16 @@ public class CheckoutService : ICheckoutService
 
     public async Task<Checkout> AddCheckout(Checkout checkout)
     {
-        var noteResult = await _checkoutRepository.AddCheckoutAsync(checkout);
-        return noteResult;
+        var checkoutRes = await _checkoutRepository.AddCheckoutAsync(checkout);
+        return checkoutRes;
+    }
+    public async Task<Checkout> GetCheckout(string authority)
+    {
+        var checkout = await _checkoutRepository.GetCheckoutAsync(authority);
+        if (checkout is null)
+        {
+            throw new NotFoundException("checkout");
+        }
+        return checkout;
     }
 }
