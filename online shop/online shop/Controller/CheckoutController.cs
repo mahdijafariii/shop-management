@@ -23,4 +23,13 @@ public class CheckoutController : ControllerBase
         var result = await _zarinPalService.CreatePayment(userId,shippingAddressDto);
         return Ok(result);
     }
+    
+    [HttpGet("verify")]
+    public async Task<IActionResult> Verify([FromQuery] string Status,string Authority)
+    {
+        var user = User;
+        var userId = user.FindFirstValue("userId");
+        var result = await _zarinPalService.Verify(Status,Authority);
+        return Ok(result);
+    }
 }

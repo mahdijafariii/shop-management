@@ -25,6 +25,7 @@ public class MongoDbContext
     public IMongoCollection<Comment> Comment => _database.GetCollection<Comment>("Comment");
     public IMongoCollection<Cart> Cart => _database.GetCollection<Cart>("Cart");
     public IMongoCollection<Checkout> Checkout => _database.GetCollection<Checkout>("Checkout");
+    public IMongoCollection<Order> Order => _database.GetCollection<Order>("Order");
 
     public async Task ConfigureIndexesAsync()
     {

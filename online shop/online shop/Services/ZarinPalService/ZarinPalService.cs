@@ -96,4 +96,9 @@ public class ZarinPalService : IZarinPalService
         var paymentUrl = "https://sandbox.zarinpal.com/pg/StartPay/";
         return new PaymentResponseDto(authority, $"{paymentUrl}{authority}");
     }
+
+    public async Task<VerifyCheckoutDto> Verify(string status, string authority)
+    {
+        return authority;
+    }
 }
