@@ -151,6 +151,17 @@ public class ProductRepository : IProductRepository
         }
         return check;
     }
+    
+    public async Task<bool> HasSufficientStock(string productId, string sellerId, int count)
+    {
+        var filter = Builders<Product>.Filter.Eq(c => c.Id, productId);
+        var product = await _dbContext.Product.Find(filter).FirstOrDefaultAsync();
+        var sellersJson = string.Join(",", product.Sellers); 
+        List<ProductSeller> sellers = JsonConvert.DeserializeObject<List<ProductSeller>>("[" + sellersJson + "]");
+        var seller = sellers.FirstOrDefault(x => x.SellerId == sellerId);
+        var check = seller.Stock >= count;
+        return check;
+    }
 
     public async Task<Product> AddProductAsync(Product product)
     {

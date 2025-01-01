@@ -13,5 +13,6 @@ public interface IProductRepository
     Task<Product> GetProductWithIdentifier(string shortIdentifier);
     Task<bool> UpdateProductAsync(UpdateProduct request);
     Task<ProductSeller> IsProductSeller(string productId,string sellerId);
+    Task<bool> HasSufficientStock(string productId, string sellerId, int count);
 
 }

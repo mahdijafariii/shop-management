@@ -49,6 +49,11 @@ public class CartService : ICartService
                 PriceAtTimeOfAdding = productSeller.Price,
                 Quantity = request.Quantity
             };
+            var checkStock = await _productRepository.HasSufficientStock(product.Id, seller.Id, request.Quantity);
+            if (!checkStock)
+            {
+                throw new InvalidRequestException("You can not buy this product from seller with this count", 400);
+            }
             var newCart = new Cart()
             {
                 UserId = userId,
@@ -70,6 +75,11 @@ public class CartService : ICartService
                 PriceAtTimeOfAdding = productSeller.Price,
                 Quantity = request.Quantity
             };
+            var checkStock = await _productRepository.HasSufficientStock(product.Id, seller.Id, request.Quantity);
+            if (!checkStock)
+            {
+                throw new InvalidRequestException("You can not buy this product from seller with this count", 400);
+            }
             cart.Items.Add(cartItem);
             var newCart = await _cartRepository.AddProductToCartAsync(cart.Items, userId);
             return newCart;
@@ -79,6 +89,11 @@ public class CartService : ICartService
         {
             var count = productInCart.Quantity;
             productInCart.Quantity = count + request.Quantity;
+            var checkStock = await _productRepository.HasSufficientStock(product.Id, seller.Id, productInCart.Quantity);
+            if (!checkStock)
+            {
+                throw new InvalidRequestException("You can not buy this product from seller with this count", 400);
+            }
             var newCart = await _cartRepository.AddProductToCartAsync(cart.Items, userId);
             return newCart;
         }
