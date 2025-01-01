@@ -137,4 +137,9 @@ public class CartService : ICartService
         }
         return cart.Items;
     }
+
+    public async Task DeleteCart(string userId)
+    {
+        var check = await _cartRepository.DeleteCart(userId);
+    }
 }

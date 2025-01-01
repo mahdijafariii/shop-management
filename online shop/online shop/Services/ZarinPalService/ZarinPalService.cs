@@ -108,6 +108,9 @@ public class ZarinPalService : IZarinPalService
         return new PaymentResponseDto(authority, $"{paymentUrl}{authority}");
     }
 
+    
+    
+    
     public async Task<VerifyCheckoutDto> Verify(string status, string authority)
     {
         var order = await _orderService.IsExistOrder(authority);
@@ -147,8 +150,7 @@ public class ZarinPalService : IZarinPalService
             };
             await _orderService.AddOrder(newOrder);
             await _productRepository.DecreaseStock(checkout.Items);
-            // delete cart of user 
-            
+            await _cartRepository.DeleteCart(checkout.UserId);
             return new VerifyCheckoutDto(root.GetProperty("data"));
         }
         else

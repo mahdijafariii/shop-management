@@ -25,6 +25,14 @@ public class CartRepository : ICartRepository
         return result;
     }
 
+    public async Task<bool> DeleteCart(string userId)
+    {
+        var filter = Builders<Cart>.Filter.Eq(c => c.UserId, userId);
+        var result = await _dbContext.Cart.DeleteOneAsync(filter);
+        return result.DeletedCount > 0;
+        
+    }
+
     public async Task<Cart> CreateCart(Cart cart)
     {
         await _dbContext.Cart.InsertOneAsync(cart);
