@@ -15,7 +15,7 @@ public class CheckoutController : ControllerBase
         _zarinPalService = zarinPalService;
     }
 
-    [HttpGet("create_payment")]
+    [HttpPost("create_payment")]
     public async Task<IActionResult> CreatePayment(ShippingAddressDto shippingAddressDto)
     {
         var user = User;

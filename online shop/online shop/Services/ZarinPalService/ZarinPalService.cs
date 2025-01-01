@@ -54,7 +54,7 @@ public class ZarinPalService : IZarinPalService
                 throw new InvalidRequestException("This seller dose not sell this product",400);
             }
             productInCart.Add(product);
-            cartPrice = cartPrice + product.PriceAtTimeOfAdding;
+            cartPrice = cartPrice + (product.PriceAtTimeOfAdding * product.Quantity);
         }
         
         var requestBody = new
@@ -87,7 +87,10 @@ public class ZarinPalService : IZarinPalService
             UserId = userId,
             ShippingAddress = shippingAddress,
             Items = productInCart,
-            Authority = authority
+            Authority = authority,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow,
+            ExpiresAt = DateTime.UtcNow.AddHours(1)
         };
         await _checkoutService.AddCheckout(checkout);
         var paymentUrl = "https://sandbox.zarinpal.com/pg/StartPay/";

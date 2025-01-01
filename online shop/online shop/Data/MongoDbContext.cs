@@ -26,5 +26,12 @@ public class MongoDbContext
     public IMongoCollection<Cart> Cart => _database.GetCollection<Cart>("Cart");
     public IMongoCollection<Checkout> Checkout => _database.GetCollection<Checkout>("Checkout");
 
-    
+    public async Task ConfigureIndexesAsync()
+    {
+        var indexKeys = Builders<Checkout>.IndexKeys.Ascending(c => c.ExpiresAt);
+        var indexOptions = new CreateIndexOptions { ExpireAfter = TimeSpan.Zero };
+        var indexModel = new CreateIndexModel<Checkout>(indexKeys, indexOptions);
+
+        await Checkout.Indexes.CreateOneAsync(indexModel);
+    }
 }

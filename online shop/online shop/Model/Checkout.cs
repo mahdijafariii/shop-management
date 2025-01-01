@@ -19,4 +19,6 @@ public class Checkout
     [BsonElement("updatedAt")]
     [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
     public DateTime UpdatedAt { get; set; }
+    [BsonElement("expiresAt")]
+    public DateTime ExpiresAt { get; set; }
 }

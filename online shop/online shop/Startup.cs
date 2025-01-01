@@ -69,6 +69,7 @@ public class Startup
         });
         var redisConnection = Configuration.GetConnectionString("RedisConnection");
         services.AddScoped<MongoDbContext>();
+
         services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConnection));
         services.AddScoped<IDatabase>(sp => sp.GetRequiredService<IConnectionMultiplexer>().GetDatabase());
 
@@ -87,6 +88,7 @@ public class Startup
         services.AddScoped<ISellerRequestRepository, SellerRequestRepository>();
         services.AddScoped<ICommentRepository, CommentRepository>();
         services.AddScoped<ICartRepository, CartRepository>();
+        services.AddScoped<ICheckoutRepository, CheckoutRepository>();
 
         
         
@@ -109,6 +111,7 @@ public class Startup
         services.AddScoped<ICommentService,CommentService>();
         services.AddScoped<ICartService,CartService>();
         services.AddScoped<IZarinPalService,ZarinPalService>();
+        services.AddScoped<ICheckoutService,CheckoutService>();
 
 
     }
