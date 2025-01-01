@@ -22,4 +22,10 @@ public class OrderRepository : IOrderRepository
 
         return result;
     }
+
+    public async Task<Order> AddOrderAsync(Order order)
+    {
+        await _dbContext.Order.InsertOneAsync(order);
+        return order;
+    }
 }

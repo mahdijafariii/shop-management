@@ -131,6 +131,16 @@ public class ZarinPalService : IZarinPalService
         var code = root.GetProperty("data").GetProperty("code").ToString();
         if (code.Contains("100")|| code.Contains("101"))
         {
+            var newOrder = new Order()
+            {
+                UserId = checkout.UserId,
+                Authority = authority,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+                Items = checkout.Items,
+                ShippingAddress = checkout.ShippingAddress,
+            };
+            await _orderService.AddOrder(newOrder);
             return new VerifyCheckoutDto(root.GetProperty("data"));
         }
         else

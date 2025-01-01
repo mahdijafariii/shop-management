@@ -30,4 +30,10 @@ public class OrderService : IOrderService
         }
         return order;
     }
+
+    public async Task<Order> AddOrder(Order order)
+    {
+        var checkoutRes = await _orderRepository.AddOrderAsync(order);
+        return checkoutRes;
+    }
 }
