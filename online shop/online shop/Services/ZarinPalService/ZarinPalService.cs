@@ -19,14 +19,16 @@ public class ZarinPalService : IZarinPalService
     private readonly ICartRepository _cartRepository;
     private readonly IProductRepository _productRepository;
     private readonly ISellerRepository _sellerRepository;
+    private readonly ICheckoutService _checkoutService;
     
-    public ZarinPalService(HttpClient httpClient, IConfiguration configuration, IUserRepository userRepository, ICartRepository cartRepository, IProductRepository productRepository, ISellerRepository sellerRepository)
+    public ZarinPalService(HttpClient httpClient, IConfiguration configuration, IUserRepository userRepository, ICartRepository cartRepository, IProductRepository productRepository, ISellerRepository sellerRepository, ICheckoutService checkoutService)
     {
         _httpClient = httpClient;
         _userRepository = userRepository;
         _cartRepository = cartRepository;
         _productRepository = productRepository;
         _sellerRepository = sellerRepository;
+        _checkoutService = checkoutService;
         var zarinPalSettings = configuration.GetSection("ZarinPal");
         _baseUrl = zarinPalSettings["BaseUrl"];
         _callBackUrl = zarinPalSettings["CallBackUrl"];
@@ -87,7 +89,7 @@ public class ZarinPalService : IZarinPalService
             Items = productInCart,
             Authority = authority
         };
-        
+        await _checkoutService.AddCheckout(checkout);
         var paymentUrl = "https://sandbox.zarinpal.com/pg/StartPay/";
         return new PaymentResponseDto(authority, $"{paymentUrl}{authority}");
     }

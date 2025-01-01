@@ -24,6 +24,7 @@ public class MongoDbContext
     public IMongoCollection<SellerRequest> SellerRequest => _database.GetCollection<SellerRequest>("SellerRequest");
     public IMongoCollection<Comment> Comment => _database.GetCollection<Comment>("Comment");
     public IMongoCollection<Cart> Cart => _database.GetCollection<Cart>("Cart");
+    public IMongoCollection<Checkout> Checkout => _database.GetCollection<Checkout>("Checkout");
 
     
 }

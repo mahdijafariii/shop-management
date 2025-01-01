@@ -9,7 +9,7 @@ public class Checkout
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     public string Id { get; set; } 
-    public string User { get; set; } 
+    public string UserId { get; set; } 
     public List<CartItem> Items { get; set; } = new List<CartItem>();
     public ShippingAddress ShippingAddress { get; set; }
     public string Authority { get; set; }
