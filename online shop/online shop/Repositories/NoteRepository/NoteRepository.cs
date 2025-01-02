@@ -26,11 +26,6 @@ public class NoteRepository : INoteRepository
         return result != null;
     }
 
-    public Task DeleteNoteAsync()
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<Note> GetNoteAsync(string noteId, string userId)
     {
         var result = await _dbContext.Note.Find(p => p.Id == noteId && p.UserId == userId).FirstOrDefaultAsync();
