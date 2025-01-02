@@ -50,4 +50,19 @@ public class ProductController : ControllerBase
         await _productService.UpdateProduct(request);
         return Ok("updated successfully");
     }
+    
+      
+    [HttpGet("all-product")]
+    public async Task<IActionResult> GetAllProducts([FromQuery] ProductFilterDto filterDto)
+    {
+        try
+        {
+            var products = await _productService.GetProductsAsync(filterDto);
+            return Ok(products);
+        }
+        catch (System.Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
 }

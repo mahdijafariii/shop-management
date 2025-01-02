@@ -147,6 +147,7 @@ public class ZarinPalService : IZarinPalService
                 UpdatedAt = DateTime.UtcNow,
                 Items = checkout.Items,
                 ShippingAddress = checkout.ShippingAddress,
+                Status = OrderStatus.PROCESSING.ToString()
             };
             await _orderService.AddOrder(newOrder);
             await _productRepository.DecreaseStock(checkout.Items);
@@ -155,7 +156,7 @@ public class ZarinPalService : IZarinPalService
         }
         else
         {
-            throw new InvalidRequestException("request was not successfully!!", 400);
+            throw new InvalidRequestException("request was not successful!!", 400);
         }
     }
 }

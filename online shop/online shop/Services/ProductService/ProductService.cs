@@ -133,6 +133,10 @@ public class ProductService : IProductService
             throw new InvalidRequestException("update was not successful",400);
         }
     }
+    public async Task<List<Product>> GetProductsAsync(ProductFilterDto filterDto)
+    {
+        return await _productRepository.GetFilteredProductsAsync(filterDto);
+    }
 
     private static readonly string[] SupportedFormats =
     {

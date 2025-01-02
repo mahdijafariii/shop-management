@@ -10,4 +10,5 @@ public interface IProductService
     Task<Product> GetProduct(string productId);
     Task<Product> GetProductWithIdentifier(string shortIdentifier);
     Task UpdateProduct(UpdateProduct request);
+    Task<List<Product>> GetProductsAsync(ProductFilterDto filterDto);
 }

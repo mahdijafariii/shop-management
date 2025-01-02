@@ -76,7 +76,7 @@ public class CategoryService : ICategoryService
         var result = await _categoryRepository.UpdateCategoryAsync(categoryId,updateCategoryDto);
         if (!result)
         {
-            throw new InvalidCastException("Dose not updated successfully !!");
+            throw new InvalidCastException("Does not update successfully !!");
         }
     }
 

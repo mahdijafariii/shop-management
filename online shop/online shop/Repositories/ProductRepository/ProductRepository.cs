@@ -186,6 +186,53 @@ public class ProductRepository : IProductRepository
         return product;
     }
     
+    public async Task<List<Product>> GetFilteredProductsAsync(
+        ProductFilterDto productFilterDto)
+    {
+        var filter = Builders<Product>.Filter.Empty;
+
+        filter = Builders<Product>.Filter.Gt("sellers.stock", 0);
+
+        if (!string.IsNullOrEmpty(productFilterDto.Name))
+        {
+            filter = Builders<Product>.Filter.And(filter, Builders<Product>.Filter.Regex("name", new BsonRegularExpression(productFilterDto.Name, "i")));
+        }
+
+        if (!string.IsNullOrEmpty(productFilterDto.SubCategory))
+        {
+            filter = Builders<Product>.Filter.And(filter, Builders<Product>.Filter.Eq("subCategory", new ObjectId(productFilterDto.SubCategory)));
+        }
+
+        if (productFilterDto.MinPrice.HasValue)
+        {
+            filter = Builders<Product>.Filter.And(
+                filter,
+                Builders<Product>.Filter.Gte("sellers.price", productFilterDto.MinPrice.Value)
+            );
+        }
+
+        if (productFilterDto.MaxPrice.HasValue)
+        {
+            filter = Builders<Product>.Filter.And(filter, Builders<Product>.Filter.Lte("sellers.price", productFilterDto.MaxPrice.Value));
+        }
+
+        if (!string.IsNullOrEmpty(productFilterDto.SellerId))
+        {
+            filter = Builders<Product>.Filter.And(filter, Builders<Product>.Filter.Eq("sellers.seller", new ObjectId(productFilterDto.SellerId)));
+        }
+
+        var skip = (productFilterDto.Page - 1) * productFilterDto.Limit;
+
+        return await _dbContext.Product
+            .Find(filter)
+            .Skip(skip)
+            .Limit(productFilterDto.Limit)
+            .ToListAsync();
+    }
+    
+    
+    
+    
     public Dictionary<string, string> SetCustomFiltersFromJson(string json)
     {
         Dictionary<string, string> customFilters = new Dictionary<string, string>();
@@ -210,4 +257,5 @@ public class ProductRepository : IProductRepository
         "image/webp",
         "image/gif"
     };
+    
 }

@@ -94,7 +94,7 @@ public class CommentService : ICommentService
         var checkDeleted = await _commentRepository.DeleteReplyCommentAsync(replyCommentId, commentId);
         if (!checkDeleted)
         {
-            throw new InvalidRequestException("Reply comment Was not deleted successfully", 400);
+            throw new InvalidRequestException("The reply comment was not deleted successfully", 400);
         }
     }
 
@@ -103,7 +103,7 @@ public class CommentService : ICommentService
         var result = await _commentRepository.UpdateComment(request, userId);
         if (!result)
         {
-            throw new InvalidRequestException("Update was not successfully", 400);
+            throw new InvalidRequestException("Update was not successful", 400);
         }
     }
 
@@ -112,7 +112,7 @@ public class CommentService : ICommentService
         var result = await _commentRepository.UpdateReplyComment(request, userId);
         if (!result)
         {
-            throw new InvalidRequestException("Update was not successfully", 400);
+            throw new InvalidRequestException("Update was not successful", 400);
         }
     }
 }

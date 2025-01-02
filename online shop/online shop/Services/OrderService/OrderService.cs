@@ -1,3 +1,4 @@
+using online_shop.DTO;
 using online_shop.Exception;
 using online_shop.Model;
 using online_shop.Repositories;
@@ -57,5 +58,20 @@ public class OrderService : IOrderService
     {
         var checkoutRes = await _orderRepository.AddOrderAsync(order);
         return checkoutRes;
+    }
+
+    public async Task UpdateOrder(UpdateOrderDto request)
+    {
+        var order = await _orderRepository.GetOrderByIdAsync(request.Id);
+        if (order is null)
+        {
+            throw new NotFoundException("Order");
+        }
+
+        var check = await _orderRepository.UpdateOrderAsync(request);
+        if (!check)
+        {
+            throw new InvalidRequestException("Update was not successful!", 400);
+        }
     }
 }

@@ -23,7 +23,7 @@ public class OrderController : ControllerBase
         var result = await _orderService.GetUserOrders(userId,request.Page,request.Limit);
         return Ok(new
         {
-            result.Item1,
+            order = result.Item1,
             total_count = result.Item2,
             page = request.Page,
             limit = request.Limit
@@ -36,10 +36,17 @@ public class OrderController : ControllerBase
         var result = await _orderService.GetAllOrders(request.Page,request.Limit);
         return Ok(new
         {
-            result.Item1,
+            order = result.Item1,
             total_count = result.Item2,
             page = request.Page,
             limit = request.Limit
         });
     } 
+    [HttpPatch("update-order")]
+    public async Task<IActionResult> UpdateOrderAsync([FromQuery] UpdateOrderDto request)
+    {
+        await _orderService.UpdateOrder(request);
+        return Ok("Updated successfully");
+    } 
+  
 }

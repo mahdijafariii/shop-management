@@ -1,5 +1,6 @@
 using MongoDB.Driver;
 using online_shop.Data;
+using online_shop.DTO;
 using online_shop.Model;
 
 namespace online_shop.Repositories;
@@ -15,6 +16,17 @@ public class OrderRepository : IOrderRepository
     public async Task<Order> GetOrderAsync(string authority)
     {
         var result = await _dbContext.Order.Find(p => p.Authority == authority).FirstOrDefaultAsync();
+        if (result is null)
+        {
+            return null;
+        }
+
+        return result;
+    }
+
+    public async Task<Order> GetOrderByIdAsync(string id)
+    {
+        var result = await _dbContext.Order.Find(p => p.Id == id).FirstOrDefaultAsync();
         if (result is null)
         {
             return null;
@@ -65,4 +77,25 @@ public class OrderRepository : IOrderRepository
         var totalCount = await _dbContext.Order.CountDocumentsAsync(p => p.UserId == userId);
         return (int)totalCount;
     }
+    public async Task<bool> UpdateOrderAsync(UpdateOrderDto orderDto)
+    {
+        var filter = Builders<Order>.Filter.And(
+            Builders<Order>.Filter.Eq(s => s.Id, orderDto.Id)
+        );
+        var updateDefinition = new List<UpdateDefinition<Order>>();
+
+        if (!string.IsNullOrEmpty(orderDto.Status))
+            updateDefinition.Add(Builders<Order>.Update.Set(s => s.Status, orderDto.Status));
+        
+        if (!string.IsNullOrEmpty(orderDto.PostTrackingCode))
+            updateDefinition.Add(Builders<Order>.Update.Set(s => s.PostTrackingCode, orderDto.PostTrackingCode));
+        if (updateDefinition.Any())
+        {
+            var combinedUpdate = Builders<Order>.Update.Combine(updateDefinition);
+            var result = await _dbContext.Order.UpdateOneAsync(filter, combinedUpdate);
+            return result.ModifiedCount > 0;
+        }
+        return false;
+    }
+
 }

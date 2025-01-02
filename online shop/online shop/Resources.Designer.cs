@@ -69,7 +69,7 @@ namespace online_shop {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete wasn`t successfull !!.
+        ///   Looks up a localized string similar to Delete wasn`t successful !!.
         /// </summary>
         internal static string DeleteAddressException {
             get {
@@ -78,7 +78,7 @@ namespace online_shop {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Operation was not successfull !!.
+        ///   Looks up a localized string similar to Operation was not successful !!.
         /// </summary>
         internal static string OperationFiledException {
             get {
@@ -96,7 +96,7 @@ namespace online_shop {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Update address wasn`t successfull !!.
+        ///   Looks up a localized string similar to Update address wasn`t successful !!.
         /// </summary>
         internal static string UpdateAddressException {
             get {
@@ -105,7 +105,7 @@ namespace online_shop {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Update Seller wasn`t successfull !!.
+        ///   Looks up a localized string similar to Update Seller wasn`t successful !!.
         /// </summary>
         internal static string UpdateSellerException {
             get {

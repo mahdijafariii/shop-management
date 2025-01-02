@@ -16,7 +16,7 @@ public class Order
 
     public string PostTrackingCode { get; set; }
 
-    public OrderStatus Status { get; set; } = OrderStatus.PROCESSING;
+    public string Status { get; set; } = OrderStatus.PROCESSING.ToString();
 
     public string Authority { get; set; }
     [BsonElement("createdAt")]

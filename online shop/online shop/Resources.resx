@@ -22,18 +22,18 @@
         <value>Otp code is not valid !</value>
     </data>
     <data name="DeleteAddressException" xml:space="preserve">
-        <value>Delete wasn`t successfull !!</value>
+        <value>Delete wasn`t successful !!</value>
     </data>
     <data name="UpdateAddressException" xml:space="preserve">
-        <value>Update address wasn`t successfull !!</value>
+        <value>Update address wasn`t successful !!</value>
     </data>
     <data name="AddSellerException" xml:space="preserve">
         <value>You can just have one Seller !!</value>
     </data>
     <data name="UpdateSellerException" xml:space="preserve">
-        <value>Update Seller wasn`t successfull !!</value>
+        <value>Update Seller wasn`t successful !!</value>
     </data>
     <data name="OperationFiledException" xml:space="preserve">
-        <value>Operation was not successfull !!</value>
+        <value>Operation was not successful !!</value>
     </data>
 </root>

@@ -1,4 +1,5 @@
 
+using online_shop.DTO;
 using online_shop.Model;
 
 namespace online_shop.Services.OrderService;
@@ -10,4 +11,5 @@ public interface IOrderService
     Task<(List<Order>, int)> GetAllOrders(int page, int limit);
     Task<Order> IsExistOrder(string authority);
     Task<Order> AddOrder(Order order);
+    Task UpdateOrder(UpdateOrderDto request);
 }
